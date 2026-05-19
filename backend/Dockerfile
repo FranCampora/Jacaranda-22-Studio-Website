@@ -1,5 +1,5 @@
 # Stage 1: Construcción (build de dependencias y código)
-#FROM node:20-alpine AS build
+FROM node:20-alpine AS build
 WORKDIR /app
 
 # Copiamos solo los archivos de dependencias para aprovechar la caché
@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Metadatos OCI de la imagen
 LABEL org.opencontainers.image.source="https://github.com/FranCampora/Jacaranda-22-Studio-Website" \
-    org.opencontainers.image.description="Jacaranda Backend - ... API" \
+    org.opencontainers.image.description="Jacaranda Backend - Node.js API" \
     org.opencontainers.image.authors="Francisco Campora" \
     org.opencontainers.image.licenses="MIT"
 
@@ -39,7 +39,7 @@ RUN npm cache clean --force
 #    PORT=4000
 
 # Damos permisos al usuario 'node' sobre la app
-#RUN chown -R node:node /app
+RUN chown -R node:node /app
 
 # Ejecutamos la app con usuario sin privilegios
 USER node
@@ -48,4 +48,4 @@ USER node
 EXPOSE 4000
 
 # Comando de inicio del servidor
-#CMD ["node", "server.js"]
+CMD ["node", "server.js"]
