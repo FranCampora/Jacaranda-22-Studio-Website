@@ -1,0 +1,15 @@
+# Archivos de logs
+*.log
+
+# Variables de entorno
+.env
+
+# Archivos compilados
+*.o
+*.exe
+
+# Configuración de VS Code
+.vscode/
+
+# Archivos temporales
+*.tmp
