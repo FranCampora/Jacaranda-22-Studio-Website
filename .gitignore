@@ -2,7 +2,6 @@
 .vscode/
 # Archivos temporales
 *.tmp
-.DS_Store
 # Archivos de logs
 *.log
 # Variables de entorno
@@ -10,6 +9,8 @@
 # Archivos compilados
 *.o
 *.exe
-
+#Archivos del SO
+.DS_Store
+Thumbs.db
 #Archivos de node
 node_modules/
