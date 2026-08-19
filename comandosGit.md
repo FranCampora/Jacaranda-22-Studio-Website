@@ -14,7 +14,7 @@
 
 ### Subir los commits al repo
 `git push origin <branch>` -> Sube los cambios de la rama al repo  
-
+`git push -u origin <name>` -> Sube por primera vez la rama al repo
 
 ## Merge rama main
 `git checkout main` -> me muevo a la main  
