@@ -1,15 +1,16 @@
+# Configuración de VS Code
+.vscode/
+# Archivos temporales
+*.tmp
 # Archivos de logs
 *.log
-
 # Variables de entorno
 .env
-
 # Archivos compilados
 *.o
 *.exe
-
-# Configuración de VS Code
-.vscode/
-
-# Archivos temporales
-*.tmp
+#Archivos del SO
+.DS_Store
+Thumbs.db
+#Archivos de node
+node_modules/
