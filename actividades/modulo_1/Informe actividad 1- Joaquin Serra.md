@@ -6,8 +6,8 @@
 
 El proyecto “Jacaranda 22” va a estar orientado a ser una futura pagina web funcional para un estudio de producción musical, lo vamos a desarrollar con mi compañero Francisco Campora.  
 
-Esta actividad se encuentra en el directorio de actividades/modulo_1, en la rama “dev_j”  
-Link: https://github.com/FranCampora/Jacaranda-22-Studio-Website/tree/dev_j/actividades/modulo_1
+Esta actividad se encuentra en el directorio de actividades/modulo_1, en la rama "actividades-serra”  
+Link: https://github.com/FranCampora/Jacaranda-22-Studio-Website/tree/actividades-serra/actividades/modulo_1
 
 El servidor fue levantado en un contenedor de Docker mediante el Dockerfile, se utiliza la imagen node:lts-alpine que es significativamente más liviana.
 La dificultad que tuve fue principalmente relacionada al lenguaje JavaScript, hacía unos cuantos años que no lo tocaba y tuve que volver a repasar la sintaxis. Además que nunca había trabajado con node por lo que consultar con Gemini me fue de gran ayuda, principalmente para comprender que es lo que hace cada sección del codigo.  
