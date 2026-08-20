@@ -1,0 +1,11 @@
+{
+	"name": "actividad-1",
+	"author": "Joaquin Serra",
+	"description": "Actividad del modulo 1, primera con node.js",
+	"main": "server.js",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"start": "node server.js"
+	}
+}

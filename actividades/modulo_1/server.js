@@ -1,4 +1,4 @@
-const http = require('node:http');
+import http from 'node:http';
 const PORT = 3000;
 
 
