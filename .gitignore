@@ -14,3 +14,7 @@
 Thumbs.db
 #Archivos de node
 node_modules/
+
+
+#Archivos
+notas.txt
