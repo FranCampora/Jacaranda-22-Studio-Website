@@ -1,0 +1,19 @@
+{
+	"name": "app1",
+	"author": "Joaquin Serra",
+	"description": "Server backend Jacaranda 22 app",
+	"main": "server.js",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "nodemon -L server.js"
+	},
+	"license": "ISC",
+	"devDependencies": {
+		"nodemon": "3.1.10"
+	},
+	"dependencies": {
+		"express": "^5.2.1"
+	}
+}
