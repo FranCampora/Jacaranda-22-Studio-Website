@@ -1,0 +1,136 @@
+openapi: 3.0.3
+
+info:
+  title: API del Estudio
+  description: API para la gestión de proyectos, servicios, integrantes y reportes del estudio.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4000
+    description: Servidor local
+
+tags:
+  - name: Proyectos
+    description: Operaciones relacionadas con proyectos
+  - name: Servicios
+    description: Servicios ofrecidos por el estudio
+  - name: Integrantes
+    description: Miembros del equipo
+  - name: Reportes
+    description: Reportes y estadísticas
+
+
+paths:
+
+  /api/proyectos:
+
+    get:
+      tags:
+        - Proyectos
+      summary: Obtener todos los proyectos
+      description: Lista todos los proyectos realizados.
+      responses:
+        '200':
+          description: Lista de proyectos obtenida correctamente
+
+    post:
+      tags:
+        - Proyectos
+      summary: Crear un nuevo proyecto
+      description: Crea un nuevo proyecto.
+      responses:
+        '201':
+          description: Proyecto creado correctamente
+
+
+  /api/proyectos/{id}:
+
+    get:
+      tags:
+        - Proyectos
+      summary: Obtener un proyecto
+      description: Obtiene el detalle de un proyecto específico.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del proyecto
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proyecto obtenido correctamente
+        '404':
+          description: Proyecto no encontrado
+
+    put:
+      tags:
+        - Proyectos
+      summary: Modificar un proyecto
+      description: Modifica un proyecto existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del proyecto
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proyecto modificado correctamente
+        '404':
+          description: Proyecto no encontrado
+
+    delete:
+      tags:
+        - Proyectos
+      summary: Eliminar un proyecto
+      description: Elimina un proyecto.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del proyecto
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Proyecto eliminado correctamente
+        '404':
+          description: Proyecto no encontrado
+
+
+  /api/servicios:
+
+    get:
+      tags:
+        - Servicios
+      summary: Obtener servicios
+      description: Lista los servicios ofrecidos por el estudio.
+      responses:
+        '200':
+          description: Lista de servicios obtenida correctamente
+
+
+  /api/integrantes:
+
+    get:
+      tags:
+        - Integrantes
+      summary: Obtener integrantes
+      description: Lista los miembros del equipo del estudio.
+      responses:
+        '200':
+          description: Lista de integrantes obtenida correctamente
+
+
+  /api/reportes/proyectos-estado:
+
+    get:
+      tags:
+        - Reportes
+      summary: Obtener reporte de proyectos por estado
+      description: Obtiene la cantidad de proyectos agrupados por estado.
+      responses:
+        '200':
+          description: Reporte obtenido correctamente
