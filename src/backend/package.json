@@ -1,0 +1,24 @@
+{
+  "name": "jacaranda-22-studio-website",
+  "version": "1.0.0",
+  "description": "Pagina web para Jacaranda 22 Studios. Estudio de produccion musical",
+  "main": "Apuntes_JS.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FranCampora/Jacaranda-22-Studio-Website.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/FranCampora/Jacaranda-22-Studio-Website/issues"
+  },
+  "homepage": "https://github.com/FranCampora/Jacaranda-22-Studio-Website#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
