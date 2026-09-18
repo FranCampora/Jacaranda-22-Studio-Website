@@ -2,12 +2,17 @@ openapi: 3.0.3
 
 info:
   title: API del Estudio
-  description: API para la gestión de proyectos, servicios, integrantes y reportes del estudio.
+  description: >
+    API para la gestión de proyectos, servicios, integrantes y reportes del estudio.
+    Implementa nivel 3 de Richardson (HATEOAS): las respuestas incluyen enlaces (_links)
+    a las acciones/recursos disponibles desde el estado actual del recurso.
   version: 1.0.0
 
 servers:
-  - url: http://localhost:4000
-    description: Servidor local
+  - url: http://localhost:4000/api/v1
+    description: Servidor local (v1)
+    # El versionado se maneja acá, en la URL base, en vez de repetirlo en cada path.
+    # Si en el futuro hay una v2, se agrega otra entrada acá sin tocar los paths.
 
 tags:
   - name: Proyectos
@@ -19,10 +24,12 @@ tags:
   - name: Reportes
     description: Reportes y estadísticas
 
-
 paths:
 
-  /api/proyectos:
+  # ---------------------------------------------------------------------
+  # PROYECTOS (colección)
+  # ---------------------------------------------------------------------
+  /proyectos:
 
     get:
       tags:
@@ -32,18 +39,155 @@ paths:
       responses:
         '200':
           description: Lista de proyectos obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nombres_artistas:
+                      type: string
+                    nombre_cancion:
+                      type: string
+                    nombre_album:
+                      type: string
+                      nullable: true
+                    fecha_inicio:
+                      type: string
+                      format: date
+                    fecha_fin:
+                      type: string
+                      format: date
+                      nullable: true
+                    estado:
+                      type: string
+                      enum:
+                        - pendiente
+                        - en_progreso
+                        - finalizado
+                    descripcion:
+                      type: string
+                    # HATEOAS: cada proyecto en la lista trae su propio link de detalle,
+                    # así el cliente no arma la URL a mano ("/proyectos/" + id).
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /proyectos/1
 
     post:
       tags:
         - Proyectos
       summary: Crear un nuevo proyecto
       description: Crea un nuevo proyecto.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombres_artistas:
+                  type: string
+                nombre_cancion:
+                  type: string
+                nombre_album:
+                  type: string
+                  nullable: true
+                fecha_inicio:
+                  type: string
+                  format: date
+                fecha_fin:
+                  type: string
+                  format: date
+                  nullable: true
+                estado:
+                  type: string
+                  enum:
+                    - pendiente
+                    - en_progreso
+                    - finalizado
+                descripcion:
+                  type: string
+              required:
+                - nombres_artistas
+                - nombre_cancion
+                - fecha_inicio
+                - estado
       responses:
         '201':
           description: Proyecto creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nombres_artistas:
+                    type: string
+                  nombre_cancion:
+                    type: string
+                  nombre_album:
+                    type: string
+                    nullable: true
+                  fecha_inicio:
+                    type: string
+                    format: date
+                  fecha_fin:
+                    type: string
+                    format: date
+                    nullable: true
+                  estado:
+                    type: string
+                    enum:
+                      - pendiente
+                      - en_progreso
+                      - finalizado
+                  descripcion:
+                    type: string
+                  # HATEOAS: al crear el recurso, se informa cómo verlo, editarlo o borrarlo.
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                      update:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: PUT
+                      delete:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: DELETE
+        '400':
+          description: Datos inválidos en el body de la solicitud
 
-
-  /api/proyectos/{id}:
+  # ---------------------------------------------------------------------
+  # PROYECTOS (recurso individual)
+  # ---------------------------------------------------------------------
+  /proyectos/{id}:
 
     get:
       tags:
@@ -60,6 +204,70 @@ paths:
       responses:
         '200':
           description: Proyecto obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nombres_artistas:
+                    type: string
+                  nombre_cancion:
+                    type: string
+                  nombre_album:
+                    type: string
+                    nullable: true
+                  fecha_inicio:
+                    type: string
+                    format: date
+                  fecha_fin:
+                    type: string
+                    format: date
+                    nullable: true
+                  estado:
+                    type: string
+                    enum:
+                      - pendiente
+                      - en_progreso
+                      - finalizado
+                  descripcion:
+                    type: string
+                  # HATEOAS: desde el detalle, el cliente descubre qué puede hacer
+                  # con este recurso sin necesidad de conocer la API de antemano.
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                      update:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: PUT
+                      delete:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: DELETE
+                      collection:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos
         '404':
           description: Proyecto no encontrado
 
@@ -75,11 +283,100 @@ paths:
           description: ID del proyecto
           schema:
             type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombres_artistas:
+                  type: string
+                nombre_cancion:
+                  type: string
+                nombre_album:
+                  type: string
+                  nullable: true
+                fecha_inicio:
+                  type: string
+                  format: date
+                fecha_fin:
+                  type: string
+                  format: date
+                  nullable: true
+                estado:
+                  type: string
+                  enum:
+                    - pendiente
+                    - en_progreso
+                    - finalizado
+                descripcion:
+                  type: string
+              required:
+                - nombres_artistas
+                - nombre_cancion
+                - fecha_inicio
+                - estado
       responses:
         '200':
           description: Proyecto modificado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nombres_artistas:
+                    type: string
+                  nombre_cancion:
+                    type: string
+                  nombre_album:
+                    type: string
+                    nullable: true
+                  fecha_inicio:
+                    type: string
+                    format: date
+                  fecha_fin:
+                    type: string
+                    format: date
+                    nullable: true
+                  estado:
+                    type: string
+                    enum:
+                      - pendiente
+                      - en_progreso
+                      - finalizado
+                  descripcion:
+                    type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                      delete:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: DELETE
+                      collection:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos
         '404':
           description: Proyecto no encontrado
+        '400':
+          description: Datos inválidos en el body de la solicitud
 
     delete:
       tags:
@@ -96,11 +393,15 @@ paths:
       responses:
         '204':
           description: Proyecto eliminado correctamente
+          # 204 No Content: no lleva body, por eso no tiene _links.
+          # El cliente ya sabe volver a /proyectos (la colección) por su cuenta.
         '404':
           description: Proyecto no encontrado
 
-
-  /api/servicios:
+  # ---------------------------------------------------------------------
+  # SERVICIOS
+  # ---------------------------------------------------------------------
+  /servicios:
 
     get:
       tags:
@@ -110,9 +411,36 @@ paths:
       responses:
         '200':
           description: Lista de servicios obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nombre:
+                      type: string
+                    precio:
+                      type: number
+                      format: float
+                    descripcion:
+                      type: string
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /servicios/1
 
-
-  /api/integrantes:
+  # ---------------------------------------------------------------------
+  # INTEGRANTES
+  # ---------------------------------------------------------------------
+  /integrantes:
 
     get:
       tags:
@@ -122,9 +450,36 @@ paths:
       responses:
         '200':
           description: Lista de integrantes obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nombre:
+                      type: string
+                    rol:
+                      type: string
+                    email:
+                      type: string
+                      format: email
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /integrantes/1
 
-
-  /api/reportes/proyectos-estado:
+  # ---------------------------------------------------------------------
+  # REPORTES
+  # ---------------------------------------------------------------------
+  /reportes/proyectos-estado:
 
     get:
       tags:
@@ -134,3 +489,20 @@ paths:
       responses:
         '200':
           description: Reporte obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    estado:
+                      type: string
+                      enum:
+                        - pendiente
+                        - en_progreso
+                        - finalizado
+                    cantidad:
+                      type: integer
+                # No lleva _links: es un dato agregado/calculado, no un recurso navegable
+                # (no tiene sentido un "self" para "4 proyectos en estado pendiente").
