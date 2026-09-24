@@ -4,15 +4,12 @@ info:
   title: API del Estudio
   description: >
     API para la gestión de proyectos, servicios, integrantes y reportes del estudio.
-    Implementa nivel 3 de Richardson (HATEOAS): las respuestas incluyen enlaces (_links)
-    a las acciones/recursos disponibles desde el estado actual del recurso.
   version: 1.0.0
 
 servers:
   - url: http://localhost:4000/api/v1
     description: Servidor local (v1)
-    # El versionado se maneja acá, en la URL base, en vez de repetirlo en cada path.
-    # Si en el futuro hay una v2, se agrega otra entrada acá sin tocar los paths.
+
 
 tags:
   - name: Proyectos
@@ -70,8 +67,7 @@ paths:
                         - finalizado
                     descripcion:
                       type: string
-                    # HATEOAS: cada proyecto en la lista trae su propio link de detalle,
-                    # así el cliente no arma la URL a mano ("/proyectos/" + id).
+
                     _links:
                       type: object
                       properties:
@@ -153,7 +149,7 @@ paths:
                       - finalizado
                   descripcion:
                     type: string
-                  # HATEOAS: al crear el recurso, se informa cómo verlo, editarlo o borrarlo.
+                 
                   _links:
                     type: object
                     properties:
@@ -233,8 +229,6 @@ paths:
                       - finalizado
                   descripcion:
                     type: string
-                  # HATEOAS: desde el detalle, el cliente descubre qué puede hacer
-                  # con este recurso sin necesidad de conocer la API de antemano.
                   _links:
                     type: object
                     properties:
@@ -392,9 +386,7 @@ paths:
             type: integer
       responses:
         '204':
-          description: Proyecto eliminado correctamente
-          # 204 No Content: no lleva body, por eso no tiene _links.
-          # El cliente ya sabe volver a /proyectos (la colección) por su cuenta.
+          description: Proyecto eliminado correctamente.
         '404':
           description: Proyecto no encontrado
 
