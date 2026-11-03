@@ -1,0 +1,3 @@
+Esta carpeta tiene varios files
+Cuando llegan los requests, elige el codigo de estado y manda el response
+No hay datos ni logica
