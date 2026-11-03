@@ -13,4 +13,5 @@ router.get('/', (req, res) => {
     res.status(200).json(reporte);
 });
 
+/*agregar mas endpoints de reportes x parametro*/ 
 module.exports = router;

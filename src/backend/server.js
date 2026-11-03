@@ -24,9 +24,6 @@ app.use('/api/proyectos', proyectosRouter);
 app.use('/api/integrantes', integrantesRouter);
 app.use('/api/reportes', reportesRouter);
 
-// frontend compilado de Vue (src/frontend/dist), servido por este mismo servidor
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
-
 
 
 // manejo de errores: JSON mal formado -> 400, cualquier otro error -> 500

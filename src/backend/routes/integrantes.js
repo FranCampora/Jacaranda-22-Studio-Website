@@ -8,6 +8,7 @@ router.get('/', (req, res) => {
 });
 
 //POST - crear un nuevo integrante
+//chekear la barra sola
 router.post('/', (req, res) => {
     const errores = integrantesService.validar(req.body);
     if (errores.length > 0) {
