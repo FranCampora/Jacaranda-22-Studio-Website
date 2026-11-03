@@ -1,24 +1,12 @@
-const integrantes = [
-    {
-        id: 1,
-        nombre: 'Francisco Campora',
-        aka: 'Skinny Rees',
-        rol: 'Productor',
-        mail: 'camporafran@gmail.com',
-        instagram: 'https://www.instagram.com/skinnyrees/'
-    },
-    {
-        id: 2,
-        nombre: 'Joaquin Serra',
-        aka: 'Serra',
-        rol: 'Che Pibe',
-        mail: 'joahserra@gmail.com',
-        instagram: 'https://www.instagram.com/joahserra/'
-    }
-];
+const integrantesModel = require('../models/integrantesModel');
+
+const ROLES = ['artista', 'feat', 'productor', 'banda', 'sesionista'];
+
+function validar(body) { /* nombre y rol obligatorios, email con formato válido */ }
 
 function obtenerTodos() {
-    return integrantes;
+    return integrantesModel.obtenerTodos();
 }
+// + obtenerPorId, crear, actualizar, eliminar
 
 module.exports = { obtenerTodos };

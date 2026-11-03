@@ -1,12 +1,13 @@
 const proyectosService = require('./proyectosService');
 
 // para saber cuantos proyectos hay en cada estado
-function proyectosPorEstado() {
-    const proyectos = proyectosService.obtenerTodos();
-    return proyectosService.ESTADOS.map(estado => ({
-        estado,
-        cantidad: proyectos.filter(p => p.estado === estado).length
-    }));
+const TIPOS_REPORTE = ['estado', 'genero'];
+
+// devuelve el reporte, o undefined si el tipo no es válido
+function generarProyecto(tipo) {
+    // 'estado' -> cuenta por estado (siempre salen los 5, aunque tengan 0)
+    // 'genero' -> cuenta por género
+    return { tipo, total, datos };
 }
 
-module.exports = { proyectosPorEstado };
+module.exports = { generarProyecto };

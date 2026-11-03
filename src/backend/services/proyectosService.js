@@ -1,53 +1,27 @@
-/*por ahora hay datos const para evitar uso de BBDD y seguir laburando la funcionalidad*/
-const ESTADOS = ['Activo', 'Inactivo', 'Pendiente', 'Completado', 'Cancelado', 'En progreso'];
+const proyectosModel = require('../models/proyectosModel');
 
-let proyectos = [
-    {
-        id: 1,
-        nombres_artistas: 'Artista 1',
-        nombre_cancion: 'Canción 1',
-        nombre_album: 'Álbum 1',
-        fecha_inicio: '2026-01-01',
-        fecha_fin: '2026-01-31',
-        estado: 'Activo',
-        descripcion: 'Descripción del proyecto 1',
-        genero: 'Rap',
-        subgenero: 'Boombap'
+const TIPOS = ['disco', 'single', 'EP', 'prueba', 'beat'];
+const ESTADOS = ['nuevo', 'grabacion', 'maqueta', 'listo', 'mezcla'];
+
+// devuelve una lista de errores (vacía si todo está bien)
+function validar(body) {
+    const errores = [];
+    if (!body.nombre || typeof body.nombre !== 'string') {
+        errores.push('nombre es obligatorio');
     }
-];
-let nextId = 2;
-
-// ---- Validación simple ----
-function datosValidos(body) {
-    return (
-        body &&
-        body.nombres_artistas &&
-        body.nombre_cancion &&
-        body.fecha_inicio &&
-        ESTADOS.includes(body.estado)
-    );
+    if (!TIPOS.includes(body.tipo)) {
+        errores.push(`tipo debe ser uno de: ${TIPOS.join(', ')}`);
+    }
+    // ... estado y fechas (YYYY-MM-DD)
+    return errores;
 }
 
-function armarProyecto(id, body) {
-    return {
-        id,
-        nombres_artistas: body.nombres_artistas,
-        nombre_cancion: body.nombre_cancion,
-        nombre_album: body.nombre_album ?? null,
-        fecha_inicio: body.fecha_inicio,
-        fecha_fin: body.fecha_fin ?? null,
-        estado: body.estado,
-        descripcion: body.descripcion ?? ''
-    };
-}
-
-// ---- Operaciones ----
 function obtenerTodos() {
-    return proyectos;
+    return proyectosModel.obtenerTodos();
 }
 
 function obtenerPorId(id) {
-    return proyectos.find(p => p.id === Number(id));
+    return proyectosModel.obtenerPorId(Number(id));
 }
 
 function crear(body) {
@@ -78,7 +52,8 @@ function eliminar(id) {
 
 module.exports = {
     ESTADOS,
-    datosValidos,
+    TIPOS,
+    validar,
     obtenerTodos,
     obtenerPorId,
     crear,

@@ -9,8 +9,9 @@ router.get('/', (req, res) => {
 
 //POST - crear un nuevo proyecto
 router.post('/', (req, res) => {
-    if (!proyectosService.datosValidos(req.body)) {
-        return res.status(400).json({ error: 'Datos inválidos' });
+    const errores = proyectosService.validar(req.body);
+    if (errores.length > 0) {
+        return res.status(400).json({ error: 'Datos inválidos', detalles: errores });
     }
     const nuevoProyecto = proyectosService.crear(req.body);
     res.status(201).location(`/api/v1/proyectos/${nuevoProyecto.id}`).json(nuevoProyecto);
