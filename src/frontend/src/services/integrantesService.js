@@ -1,5 +1,13 @@
+// ============================================================================
+// Servicio: Integrantes
+// Este módulo centraliza las peticiones HTTP a la API RESTful para el recurso
+// 'integrantes'. Funciones declaradas de manera explícita sin abreviaciones.
+// ============================================================================
+
 const BASE_URL = 'http://localhost:3000/api/v1/integrantes';
 
+// GET /api/v1/integrantes
+// Recupera la lista de todos los integrantes registrados.
 async function obtenerTodos() {
     const respuesta = await fetch(BASE_URL);
     if (!respuesta.ok) {
@@ -8,6 +16,8 @@ async function obtenerTodos() {
     return await respuesta.json();
 }
 
+// GET /api/v1/integrantes/:id
+// Recupera un integrante por su ID, incluyendo los proyectos en los que colabora.
 async function obtenerPorId(id) {
     const respuesta = await fetch(`${BASE_URL}/${id}`);
     if (!respuesta.ok) {
@@ -16,6 +26,8 @@ async function obtenerPorId(id) {
     return await respuesta.json();
 }
 
+// POST /api/v1/integrantes
+// Da de alta un nuevo integrante construyendo el payload explícitamente.
 async function crear(datos) {
     const cuerpoPeticion = {
         nombre: datos.nombre,
@@ -41,6 +53,8 @@ async function crear(datos) {
     return resultado;
 }
 
+// PUT /api/v1/integrantes/:id
+// Actualiza la información de un integrante existente.
 async function actualizar(id, datos) {
     const cuerpoPeticion = {
         nombre: datos.nombre,
@@ -66,6 +80,8 @@ async function actualizar(id, datos) {
     return resultado;
 }
 
+// DELETE /api/v1/integrantes/:id
+// Elimina al integrante de la base de datos (204 No Content).
 async function eliminar(id) {
     const respuesta = await fetch(`${BASE_URL}/${id}`, {
         method: 'DELETE'

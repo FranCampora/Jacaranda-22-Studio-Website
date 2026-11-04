@@ -1,5 +1,14 @@
+// ============================================================================
+// Servicio: Proyectos
+// Este módulo centraliza las peticiones HTTP a la API RESTful para el recurso
+// 'proyectos'. Cada función es completamente explícita (sin abreviaciones)
+// para facilitar la explicación técnica durante la defensa del proyecto.
+// ============================================================================
+
 const BASE_URL = 'http://localhost:3000/api/v1/proyectos';
 
+// GET /api/v1/proyectos
+// Recupera la lista completa de proyectos.
 async function obtenerTodos() {
     const respuesta = await fetch(BASE_URL);
     if (!respuesta.ok) {
@@ -8,6 +17,8 @@ async function obtenerTodos() {
     return await respuesta.json();
 }
 
+// GET /api/v1/proyectos/:id
+// Recupera un único proyecto por su identificador numérico, con sus integrantes asignados.
 async function obtenerPorId(id) {
     const respuesta = await fetch(`${BASE_URL}/${id}`);
     if (!respuesta.ok) {
@@ -16,6 +27,9 @@ async function obtenerPorId(id) {
     return await respuesta.json();
 }
 
+// POST /api/v1/proyectos
+// Crea un nuevo proyecto. Arma el objeto explícitamente campo por campo para garantizar
+// el tipado numérico y el formateo de nulos esperado por el backend.
 async function crear(datos) {
     const cuerpoPeticion = {
         nombre: datos.nombre,
@@ -47,6 +61,8 @@ async function crear(datos) {
     return resultado;
 }
 
+// PUT /api/v1/proyectos/:id
+// Modifica los datos de un proyecto existente.
 async function actualizar(id, datos) {
     const cuerpoPeticion = {
         nombre: datos.nombre,
@@ -78,6 +94,8 @@ async function actualizar(id, datos) {
     return resultado;
 }
 
+// DELETE /api/v1/proyectos/:id
+// Elimina un proyecto por su ID. La respuesta REST de éxito es 204 No Content.
 async function eliminar(id) {
     const respuesta = await fetch(`${BASE_URL}/${id}`, {
         method: 'DELETE'
@@ -90,6 +108,8 @@ async function eliminar(id) {
     return true;
 }
 
+// GET /api/v1/proyectos/:id/integrantes
+// Relación Many-to-Many: Obtiene la lista de integrantes vinculados al proyecto.
 async function obtenerIntegrantes(proyectoId) {
     const respuesta = await fetch(`${BASE_URL}/${proyectoId}/integrantes`);
     if (!respuesta.ok) {
@@ -98,6 +118,8 @@ async function obtenerIntegrantes(proyectoId) {
     return await respuesta.json();
 }
 
+// POST /api/v1/proyectos/:id/integrantes
+// Relación Many-to-Many: Vincula un integrante al proyecto con un rol específico.
 async function asignarIntegrante(proyectoId, integranteId, rolEnProyecto) {
     const cuerpoPeticion = {
         integrante_id: Number(integranteId),
@@ -120,6 +142,8 @@ async function asignarIntegrante(proyectoId, integranteId, rolEnProyecto) {
     return resultado;
 }
 
+// DELETE /api/v1/proyectos/:id/integrantes/:integranteId
+// Relación Many-to-Many: Desvincula un integrante del proyecto (204 No Content).
 async function desvincularIntegrante(proyectoId, integranteId) {
     const respuesta = await fetch(`${BASE_URL}/${proyectoId}/integrantes/${integranteId}`, {
         method: 'DELETE'

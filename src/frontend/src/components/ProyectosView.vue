@@ -3,13 +3,17 @@ import { ref, onMounted } from 'vue';
 import { proyectosService } from '../services/proyectosService';
 import { integrantesService } from '../services/integrantesService';
 
+// ============================================================================
+// Estados Reactivos
+// Cada variable representa explícitamente una parte del estado de la interfaz.
+// ============================================================================
 const listaProyectos = ref([]);
 const listaIntegrantesDisponibles = ref([]);
 const cargando = ref(false);
 const mensajeExito = ref('');
 const mensajeError = ref('');
 
-// Estado del formulario
+// Control del formulario (modo creación o edición según editandoId)
 const editandoId = ref(null);
 const formulario = ref({
   nombre: '',
@@ -24,11 +28,16 @@ const formulario = ref({
   cantidad_horas: 0
 });
 
-// Estado de visualización de detalle / integrantes
+// Panel de detalle e integrantes vinculados
 const proyectoSeleccionado = ref(null);
 const nuevoIntegranteId = ref('');
 const nuevoRolEnProyecto = ref('');
 
+// ============================================================================
+// Funciones Explícitas del Ciclo de Vida y CRUD
+// ============================================================================
+
+// Carga la lista inicial de proyectos desde la API
 async function cargarProyectos() {
   cargando.value = true;
   mensajeError.value = '';
@@ -42,6 +51,7 @@ async function cargarProyectos() {
   }
 }
 
+// Carga los integrantes para el selector de asignación
 async function cargarIntegrantesDisponibles() {
   try {
     const datos = await integrantesService.obtenerTodos();
@@ -51,6 +61,7 @@ async function cargarIntegrantesDisponibles() {
   }
 }
 
+// Limpia el formulario y resetea el modo edición
 function limpiarFormulario() {
   editandoId.value = null;
   formulario.value = {
@@ -67,6 +78,7 @@ function limpiarFormulario() {
   };
 }
 
+// Carga los datos de una fila en el formulario para editar
 function seleccionarParaEditar(proyecto) {
   editandoId.value = proyecto.id;
   formulario.value = {
@@ -85,6 +97,7 @@ function seleccionarParaEditar(proyecto) {
   mensajeExito.value = '';
 }
 
+// Guarda (crea o actualiza) un proyecto construyendo el payload explícitamente
 async function guardarProyecto() {
   mensajeError.value = '';
   mensajeExito.value = '';
@@ -117,6 +130,7 @@ async function guardarProyecto() {
   }
 }
 
+// Elimina un proyecto previa confirmación
 async function borrarProyecto(id) {
   const confirmacion = window.confirm(`¿Estás seguro de que deseas eliminar el proyecto ID ${id}?`);
   if (!confirmacion) return;
@@ -136,6 +150,7 @@ async function borrarProyecto(id) {
   }
 }
 
+// Abre el detalle de un proyecto y consulta sus integrantes relacionados
 async function verDetalle(id) {
   mensajeError.value = '';
   try {
@@ -153,6 +168,7 @@ function cerrarDetalle() {
   nuevoRolEnProyecto.value = '';
 }
 
+// Vincula un integrante al proyecto seleccionado (POST a la tabla intermedia)
 async function asignarNuevoIntegrante() {
   if (!nuevoIntegranteId.value) {
     mensajeError.value = 'Debes seleccionar un integrante para asignar';
@@ -168,13 +184,13 @@ async function asignarNuevoIntegrante() {
     );
     nuevoIntegranteId.value = '';
     nuevoRolEnProyecto.value = '';
-    // Recargamos el detalle para reflejar los cambios
     await verDetalle(proyectoSeleccionado.value.id);
   } catch (error) {
     mensajeError.value = error.message;
   }
 }
 
+// Desvincula al integrante del proyecto (DELETE en tabla intermedia)
 async function desvincularIntegrante(integranteId) {
   const confirmacion = window.confirm('¿Deseas desvincular a este integrante del proyecto?');
   if (!confirmacion) return;
@@ -197,6 +213,10 @@ onMounted(() => {
   <section>
     <h2>Gestión de Proyectos</h2>
 
+    <!-- NOTA ARQUITECTURA WEB:
+         v-if inserta y remueve elementos del árbol DOM. Al cambiar la condición,
+         el navegador recalcula geometría y posiciones (Reflow o Layout)
+         y posteriormente redibuja los píxeles en pantalla (Repaint). -->
     <div v-if="mensajeExito" class="alerta alerta-exito">
       {{ mensajeExito }}
     </div>
@@ -204,14 +224,14 @@ onMounted(() => {
       {{ mensajeError }}
     </div>
 
-    <!-- Formulario Crear/Editar -->
+    <!-- Formulario para Alta y Modificación de Proyectos -->
     <form @submit.prevent="guardarProyecto">
       <h3>{{ editandoId ? 'Editar Proyecto (ID: ' + editandoId + ')' : 'Nuevo Proyecto' }}</h3>
 
       <div class="fila-formulario">
         <div class="campo">
           <label for="nombre">Nombre *</label>
-          <input id="nombre" v-model="formulario.nombre" type="text" required placeholder="Ej: Album Acústico" />
+          <input id="nombre" v-model="formulario.nombre" type="text" required placeholder="Ej: Álbum Acústico" />
         </div>
 
         <div class="campo">
@@ -227,17 +247,17 @@ onMounted(() => {
 
       <div class="fila-formulario">
         <div class="campo">
-          <label for="fecha_inicio">Fecha Inicio (YYYY-MM-DD) *</label>
+          <label for="fecha_inicio">Fecha Inicio *</label>
           <input id="fecha_inicio" v-model="formulario.fecha_inicio" type="date" required />
         </div>
 
         <div class="campo">
-          <label for="fecha_fin_estimada">Fecha Estimada (YYYY-MM-DD)</label>
+          <label for="fecha_fin_estimada">Fecha Estimada</label>
           <input id="fecha_fin_estimada" v-model="formulario.fecha_fin_estimada" type="date" />
         </div>
 
         <div class="campo">
-          <label for="fecha_fin">Fecha Fin Real (YYYY-MM-DD)</label>
+          <label for="fecha_fin">Fecha Fin Real</label>
           <input id="fecha_fin" v-model="formulario.fecha_fin" type="date" />
         </div>
       </div>
@@ -276,16 +296,19 @@ onMounted(() => {
       </div>
     </form>
 
-    <!-- Panel de Detalle de Proyecto seleccionado -->
+    <!-- NOTA ARQUITECTURA WEB:
+         El panel de detalle se inserta dinámicamente con v-if="proyectoSeleccionado".
+         Su aparición o cierre provoca un Reflow (redimensionamiento del contenedor principal)
+         seguido del Repaint de todos los nuevos nodos en pantalla. -->
     <article v-if="proyectoSeleccionado" class="panel-detalle">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3>Detalle de Proyecto: {{ proyectoSeleccionado.nombre }} (ID: {{ proyectoSeleccionado.id }})</h3>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <h3 style="margin: 0;">Detalle: {{ proyectoSeleccionado.nombre }} (ID: {{ proyectoSeleccionado.id }})</h3>
         <button type="button" @click="cerrarDetalle" class="boton-secundario">Cerrar Detalle</button>
       </div>
 
       <p><strong>Tipo:</strong> {{ proyectoSeleccionado.tipo }} | <strong>Estado:</strong> {{ proyectoSeleccionado.estado }} | <strong>Género:</strong> {{ proyectoSeleccionado.genero || '-' }}</p>
       <p><strong>Fechas:</strong> Inicio: {{ proyectoSeleccionado.fecha_inicio }} | Estimada: {{ proyectoSeleccionado.fecha_fin_estimada || '-' }} | Fin: {{ proyectoSeleccionado.fecha_fin || '-' }}</p>
-      <p><strong>Presupuesto:</strong> {{ proyectoSeleccionado.cantidad_horas }} horas a ${{ proyectoSeleccionado.precio_por_hora }}/h (Total estimado: ${{ proyectoSeleccionado.cantidad_horas * proyectoSeleccionado.precio_por_hora }})</p>
+      <p><strong>Presupuesto:</strong> {{ proyectoSeleccionado.cantidad_horas }} h a ${{ proyectoSeleccionado.precio_por_hora }}/h (Total estimado: ${{ proyectoSeleccionado.cantidad_horas * proyectoSeleccionado.precio_por_hora }})</p>
       <p><strong>Descripción:</strong> {{ proyectoSeleccionado.descripcion || 'Sin descripción' }}</p>
 
       <h4>Integrantes Asignados</h4>
@@ -319,7 +342,7 @@ onMounted(() => {
         </table>
       </div>
 
-      <!-- Asignar nuevo integrante -->
+      <!-- Asignación de Integrante al Proyecto -->
       <form @submit.prevent="asignarNuevoIntegrante" style="margin-top: 1rem; background-color: #fafafa;">
         <h4 style="margin-top: 0;">Asignar Integrante al Proyecto</h4>
         <div class="fila-formulario">
@@ -334,14 +357,14 @@ onMounted(() => {
           </div>
           <div class="campo">
             <label for="rol-proyecto">Rol específico en este proyecto</label>
-            <input id="rol-proyecto" v-model="nuevoRolEnProyecto" type="text" placeholder="Ej: Grabación de voz, Mezcla, Guitarra" />
+            <input id="rol-proyecto" v-model="nuevoRolEnProyecto" type="text" placeholder="Ej: Grabación de voz, Mezcla" />
           </div>
         </div>
         <button type="submit" class="boton-primario">Asignar Integrante</button>
       </form>
     </article>
 
-    <!-- Listado de Proyectos -->
+    <!-- Tabla Principal de Proyectos -->
     <h3>Listado de Proyectos</h3>
     <p v-if="cargando">Cargando proyectos...</p>
     <div v-else class="contenedor-tabla">

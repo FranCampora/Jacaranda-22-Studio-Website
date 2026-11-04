@@ -2,12 +2,15 @@
 import { ref, onMounted } from 'vue';
 import { integrantesService } from '../services/integrantesService';
 
+// ============================================================================
+// Estados Reactivos
+// ============================================================================
 const listaIntegrantes = ref([]);
 const cargando = ref(false);
 const mensajeExito = ref('');
 const mensajeError = ref('');
 
-// Estado del formulario
+// Estado del formulario (modo creación o edición según editandoId)
 const editandoId = ref(null);
 const formulario = ref({
   nombre: '',
@@ -16,9 +19,14 @@ const formulario = ref({
   telefono: ''
 });
 
-// Detalle del integrante (con proyectos vinculados)
+// Detalle del integrante con sus proyectos vinculados
 const integranteSeleccionado = ref(null);
 
+// ============================================================================
+// Funciones Explícitas del Ciclo de Vida y CRUD
+// ============================================================================
+
+// Carga la lista de integrantes desde el endpoint GET /api/v1/integrantes
 async function cargarIntegrantes() {
   cargando.value = true;
   mensajeError.value = '';
@@ -32,6 +40,7 @@ async function cargarIntegrantes() {
   }
 }
 
+// Resetea los campos del formulario y el modo de edición
 function limpiarFormulario() {
   editandoId.value = null;
   formulario.value = {
@@ -42,6 +51,7 @@ function limpiarFormulario() {
   };
 }
 
+// Toma un integrante de la tabla y carga sus valores en el formulario
 function seleccionarParaEditar(integrante) {
   editandoId.value = integrante.id;
   formulario.value = {
@@ -54,6 +64,7 @@ function seleccionarParaEditar(integrante) {
   mensajeExito.value = '';
 }
 
+// Envía la petición POST o PUT construyendo el objeto explícitamente
 async function guardarIntegrante() {
   mensajeError.value = '';
   mensajeExito.value = '';
@@ -80,6 +91,7 @@ async function guardarIntegrante() {
   }
 }
 
+// Elimina un integrante mediante petición DELETE
 async function borrarIntegrante(id) {
   const confirmacion = window.confirm(`¿Estás seguro de que deseas eliminar al integrante ID ${id}?`);
   if (!confirmacion) return;
@@ -99,6 +111,7 @@ async function borrarIntegrante(id) {
   }
 }
 
+// Abre el panel de detalle trayendo los proyectos asignados a este integrante
 async function verDetalle(id) {
   mensajeError.value = '';
   try {
@@ -122,6 +135,9 @@ onMounted(() => {
   <section>
     <h2>Gestión de Integrantes</h2>
 
+    <!-- NOTA ARQUITECTURA WEB:
+         La visualización reactiva de alertas mediante v-if altera el flujo normal del DOM.
+         Produce un Reflow (Layout) al desplazar los elementos inferiores y luego un Repaint. -->
     <div v-if="mensajeExito" class="alerta alerta-exito">
       {{ mensajeExito }}
     </div>
@@ -129,7 +145,7 @@ onMounted(() => {
       {{ mensajeError }}
     </div>
 
-    <!-- Formulario Crear/Editar -->
+    <!-- Formulario de Integrantes -->
     <form @submit.prevent="guardarIntegrante">
       <h3>{{ editandoId ? 'Editar Integrante (ID: ' + editandoId + ')' : 'Nuevo Integrante' }}</h3>
 
@@ -167,10 +183,12 @@ onMounted(() => {
       </div>
     </form>
 
-    <!-- Panel de detalle del integrante con sus proyectos -->
+    <!-- NOTA ARQUITECTURA WEB:
+         La inserción condicional de este panel de detalle mediante v-if desencadena
+         un Reflow al insertar una tabla entera y recalcular dimensiones, seguido de su Repaint. -->
     <article v-if="integranteSeleccionado" class="panel-detalle">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h3>Proyectos en los que participa: {{ integranteSeleccionado.nombre }} (ID: {{ integranteSeleccionado.id }})</h3>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <h3 style="margin: 0;">Proyectos de: {{ integranteSeleccionado.nombre }} (ID: {{ integranteSeleccionado.id }})</h3>
         <button type="button" @click="cerrarDetalle" class="boton-secundario">Cerrar Detalle</button>
       </div>
 

@@ -2,11 +2,17 @@
 import { ref, onMounted } from 'vue';
 import { reportesService } from '../services/reportesService';
 
+// ============================================================================
+// Estados Reactivos
+// ============================================================================
 const tipoSeleccionado = ref('general');
 const reporte = ref(null);
 const cargando = ref(false);
 const mensajeError = ref('');
 
+// ============================================================================
+// Funciones Explícitas de Consulta de Reportes
+// ============================================================================
 async function cargarReporte(tipo) {
   tipoSeleccionado.value = tipo;
   cargando.value = true;
@@ -31,6 +37,7 @@ onMounted(() => {
   <section>
     <h2>Reportes del Estudio Jacarandá 22</h2>
 
+    <!-- Selector de tipo de reporte -->
     <div style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
       <button
         type="button"
@@ -66,10 +73,14 @@ onMounted(() => {
       {{ mensajeError }}
     </div>
 
+    <!-- NOTA ARQUITECTURA WEB:
+         La transición entre "Cargando..." y la renderización del reporte mediante v-if / v-else
+         sustituye nodos en el DOM. Esto desencadena un ciclo de Reflow (el navegador calcula el
+         espacio de las tarjetas y tablas) y de Repaint (dibuja textos, bordes y fondos). -->
     <p v-if="cargando">Generando reporte...</p>
 
     <div v-else-if="reporte">
-      <!-- Reporte Financiero o sección de finanzas en General -->
+      <!-- Tarjetas de Métricas Financieras -->
       <article v-if="reporte.finanzas || reporte.tipo === 'financiero'" class="panel-detalle">
         <h3>Métricas Financieras y de Carga Horaria</h3>
         <div class="tarjetas-resumen">
@@ -100,7 +111,7 @@ onMounted(() => {
         </div>
       </article>
 
-      <!-- Distribución por Estado -->
+      <!-- Tabla de Proyectos por Estado -->
       <article v-if="reporte.distribucionEstados || reporte.tipo === 'estado'" class="panel-detalle">
         <h3>Distribución de Proyectos por Estado</h3>
         <p v-if="reporte.totalProyectos !== undefined">
@@ -124,7 +135,7 @@ onMounted(() => {
         </div>
       </article>
 
-      <!-- Distribución por Género -->
+      <!-- Tabla de Proyectos por Género -->
       <article v-if="reporte.distribucionGeneros || reporte.tipo === 'genero'" class="panel-detalle">
         <h3>Distribución de Proyectos por Género Musical</h3>
         <p v-if="reporte.totalProyectos !== undefined">
