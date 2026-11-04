@@ -1,0 +1,17 @@
+{
+  "name": "jacaranda-22-studio-website",
+  "version": "1.0.0",
+  "description": "Pagina web para Jacaranda 22 Studios. Estudio de produccion musical",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

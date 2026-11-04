@@ -1,0 +1,295 @@
+/* Reseteo básico y tipografía limpia */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    background-color: #fcfcfc;
+    line-height: 1.4;
+    font-size: 14px;
+}
+
+/* Encabezado */
+.barra-superior {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e5e5e5;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.titulo-sitio {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: -0.2px;
+}
+
+/* Navegación sobria por pestañas */
+.navegacion {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.pestana {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    padding: 0.5rem 0.9rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555555;
+    cursor: pointer;
+}
+
+.pestana:hover {
+    color: #000000;
+    background: #f5f5f5;
+}
+
+.pestana.activa {
+    color: #000000;
+    border-bottom-color: #000000;
+    font-weight: 600;
+    background: transparent;
+}
+
+/* Contenedor principal */
+.contenido-principal {
+    max-width: 1040px;
+    margin: 1.5rem auto;
+    padding: 0 1rem;
+}
+
+h2 {
+    font-size: 1.25rem;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+    color: #111111;
+}
+
+h3 {
+    font-size: 1rem;
+    margin: 0 0 0.75rem 0;
+    font-weight: 600;
+    color: #222222;
+}
+
+h4 {
+    font-size: 0.9rem;
+    margin: 1rem 0 0.5rem 0;
+    font-weight: 600;
+    color: #333333;
+}
+
+/* Avisos */
+.alerta {
+    padding: 0.6rem 0.85rem;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    border: 1px solid transparent;
+}
+
+.alerta-exito {
+    background-color: #f0fdf4;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.alerta-error {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+/* Formularios simples */
+form {
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.fila-formulario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.campo {
+    flex: 1 1 180px;
+    display: flex;
+    flex-direction: column;
+}
+
+.campo label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 0.25rem;
+    color: #666666;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    padding: 0.4rem 0.55rem;
+    border: 1px solid #cccccc;
+    font-size: 0.85rem;
+    font-family: inherit;
+    background: #ffffff;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: #000000;
+}
+
+.acciones-formulario {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+/* Botones estándar de herramientas */
+button {
+    font-family: inherit;
+    font-size: 0.8rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid #cccccc;
+    background-color: #ffffff;
+    color: #222222;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #f0f0f0;
+}
+
+button.boton-primario {
+    background-color: #111111;
+    color: #ffffff;
+    border-color: #111111;
+}
+
+button.boton-primario:hover {
+    background-color: #333333;
+}
+
+button.boton-secundario {
+    background-color: #ffffff;
+    color: #555555;
+    border-color: #cccccc;
+}
+
+button.boton-secundario:hover {
+    background-color: #f5f5f5;
+    color: #111111;
+}
+
+button.boton-peligro {
+    background-color: #ffffff;
+    color: #b91c1c;
+    border-color: #fca5a5;
+}
+
+button.boton-peligro:hover {
+    background-color: #fee2e2;
+}
+
+/* Tablas densas estilo administración */
+.contenedor-tabla {
+    overflow-x: auto;
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 1.5rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+th, td {
+    padding: 0.5rem 0.65rem;
+    text-align: left;
+    border-bottom: 1px solid #eeeeee;
+}
+
+th {
+    background-color: #fafafa;
+    font-weight: 600;
+    color: #444444;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+tr:hover {
+    background-color: #fcfcfc;
+}
+
+.acciones-tabla {
+    display: flex;
+    gap: 0.3rem;
+}
+
+/* Detalle / inspección */
+.panel-detalle {
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Reportes */
+.tarjetas-resumen {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+.tarjeta {
+    flex: 1 1 180px;
+    background-color: #ffffff;
+    border: 1px solid #e5e5e5;
+    padding: 0.75rem;
+}
+
+.tarjeta > div:first-child {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #777777;
+}
+
+.tarjeta-valor {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #111111;
+    margin-top: 0.25rem;
+}

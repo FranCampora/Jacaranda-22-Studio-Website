@@ -1,0 +1,5 @@
+Tiene los datos y la logica
+Hasta que no se creé la BBDD los datos const (constantes) estan aca
+y todos los arrays
+
+reportesServices.js : cuenta los proyectos por el estado que tienen
