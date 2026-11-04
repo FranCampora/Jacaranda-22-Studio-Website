@@ -1,0 +1,342 @@
+{
+  "info": {
+    "_postman_id": "c8e2350a-f91c-4e89-a541-e9bb495a639b",
+    "name": "Jacaranda 22 Studio - API RESTful",
+    "description": "Colección completa de pruebas para la API RESTful de Jacarandá 22 Studio (Arquitectura Web). Incluye carpetas para Proyectos (CRUD y relación N:M), Integrantes (CRUD) y Reportes.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api/v1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Proyectos",
+      "description": "Endpoints para la gestión de proyectos y asignación de integrantes.",
+      "item": [
+        {
+          "name": "1. Listar todos los proyectos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/proyectos",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos"]
+            },
+            "description": "Retorna la lista de todos los proyectos registrados."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Obtener proyecto por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/proyectos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos", "1"]
+            },
+            "description": "Retorna el proyecto con ID 1 incluyendo su listado de integrantes vinculados."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Crear nuevo proyecto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Single Jacaranda Feat\",\n  \"tipo\": \"single\",\n  \"estado\": \"nuevo\",\n  \"fecha_inicio\": \"2026-03-01\",\n  \"fecha_fin_estimada\": \"2026-04-15\",\n  \"genero\": \"Trap / R&B\",\n  \"descripcion\": \"Producción completa y masterización\",\n  \"precio_por_hora\": 3500,\n  \"cantidad_horas\": 12\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/proyectos",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos"]
+            },
+            "description": "Crea un nuevo proyecto en la base de datos."
+          },
+          "response": []
+        },
+        {
+          "name": "4. Actualizar proyecto existente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"grabacion\",\n  \"cantidad_horas\": 16\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/proyectos/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos", "1"]
+            },
+            "description": "Actualiza parcialmente los datos de un proyecto existente."
+          },
+          "response": []
+        },
+        {
+          "name": "5. Obtener integrantes de un proyecto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/proyectos/1/integrantes",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos", "1", "integrantes"]
+            },
+            "description": "Retorna los integrantes asignados al proyecto 1 junto con su rol_en_proyecto."
+          },
+          "response": []
+        },
+        {
+          "name": "6. Asignar integrante al proyecto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"integrante_id\": 3,\n  \"rol_en_proyecto\": \"Coros y arreglos vocales\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/proyectos/1/integrantes",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos", "1", "integrantes"]
+            },
+            "description": "Vincula al integrante 3 al proyecto 1 especificando su rol."
+          },
+          "response": []
+        },
+        {
+          "name": "7. Desvincular integrante del proyecto",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/proyectos/1/integrantes/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos", "1", "integrantes", "3"]
+            },
+            "description": "Desvincula al integrante 3 del proyecto 1."
+          },
+          "response": []
+        },
+        {
+          "name": "8. Eliminar proyecto",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/proyectos/6",
+              "host": ["{{baseUrl}}"],
+              "path": ["proyectos", "6"]
+            },
+            "description": "Elimina el proyecto con ID 6 (o el creado durante las pruebas)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Integrantes",
+      "description": "Endpoints para el ABM completo de integrantes del estudio y artistas.",
+      "item": [
+        {
+          "name": "1. Listar todos los integrantes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integrantes",
+              "host": ["{{baseUrl}}"],
+              "path": ["integrantes"]
+            },
+            "description": "Retorna la lista de todos los integrantes registrados."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Obtener integrante por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integrantes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["integrantes", "1"]
+            },
+            "description": "Retorna el integrante con ID 1 y la lista de proyectos en los que participa."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Crear nuevo integrante",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Mariana López\",\n  \"rol\": \"Ingeniera de sonido / Sesionista\",\n  \"email\": \"mariana@jacaranda22.com\",\n  \"telefono\": \"+54 11 5544-3322\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/integrantes",
+              "host": ["{{baseUrl}}"],
+              "path": ["integrantes"]
+            },
+            "description": "Crea un nuevo integrante en la base de datos."
+          },
+          "response": []
+        },
+        {
+          "name": "4. Actualizar integrante existente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"telefono\": \"+54 11 9988-7766\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/integrantes/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["integrantes", "1"]
+            },
+            "description": "Actualiza los datos del integrante especificado."
+          },
+          "response": []
+        },
+        {
+          "name": "5. Eliminar integrante",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/integrantes/5",
+              "host": ["{{baseUrl}}"],
+              "path": ["integrantes", "5"]
+            },
+            "description": "Elimina el integrante con ID 5."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reportes",
+      "description": "Endpoints para la visualización de métricas financieras, estados y géneros del estudio.",
+      "item": [
+        {
+          "name": "1. Reporte General (Ejecutivo)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reportes?tipo=general",
+              "host": ["{{baseUrl}}"],
+              "path": ["reportes"],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "general"
+                }
+              ]
+            },
+            "description": "Retorna el consolidado general: métricas financieras, distribución por estados y distribución por género."
+          },
+          "response": []
+        },
+        {
+          "name": "2. Reporte Financiero y Carga Horaria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reportes?tipo=financiero",
+              "host": ["{{baseUrl}}"],
+              "path": ["reportes"],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "financiero"
+                }
+              ]
+            },
+            "description": "Retorna totales de proyectos, horas facturadas, estimación económica y precio medio por hora."
+          },
+          "response": []
+        },
+        {
+          "name": "3. Reporte de Distribución por Estado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reportes?tipo=estado",
+              "host": ["{{baseUrl}}"],
+              "path": ["reportes"],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "estado"
+                }
+              ]
+            },
+            "description": "Retorna la cantidad de proyectos agrupados por cada estado."
+          },
+          "response": []
+        },
+        {
+          "name": "4. Reporte de Distribución por Género Musical",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/reportes?tipo=genero",
+              "host": ["{{baseUrl}}"],
+              "path": ["reportes"],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "genero"
+                }
+              ]
+            },
+            "description": "Retorna la cantidad de proyectos agrupados por género musical."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
