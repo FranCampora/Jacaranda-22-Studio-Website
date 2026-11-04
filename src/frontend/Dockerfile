@@ -9,8 +9,10 @@ RUN npm ci
 
 #copio el resto del code
 COPY . .
-RUN npm run build
 
-EXPOSE 80
+EXPOSE 5173
+
+# Levantar con --host para permitir conexiones fuera del contenedor
+CMD ["npm", "run", "dev", "--", "--host"]
 
 #falta terminar este dockerfile

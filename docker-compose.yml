@@ -1,14 +1,4 @@
 services:
-  # frontend:
-  #   build:
-  #     context: ./src/frontend
-  #     dockerfile: Dockerfile
-  #   container_name: jacaranda-frontend
-  #   ports:
-  #     - "8080:80"
-  #   depends_on:
-  #     - backend
-
   backend:
     build:
       context: ./src/backend
@@ -22,6 +12,23 @@ services:
     volumes:
       # Persistencia de la base de datos SQLite en el host
       - ./src/backend/data:/app/data
+
+  frontend:
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+    container_name: jacaranda-frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      # Sincroniza cambios locales en tiempo real
+      - ./src/frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
 
 networks:
   default:
