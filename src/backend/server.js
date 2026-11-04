@@ -15,6 +15,12 @@ const reportesRouter = require('./routes/reportes');
 app.use(cors());
 app.use(express.json());
 
+// Log de peticiones
+app.use((req, res, next) => {
+    console.log(`¨[HTTP] ${req.method}: ${req.url} - ${new Date().toISOString()}`);
+    next();
+});
+
 // Servir frontend compilado si existe (para producción integrada)
 const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
 app.use(express.static(frontendDistPath));
@@ -70,4 +76,3 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
-
