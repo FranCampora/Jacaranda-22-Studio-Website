@@ -1,0 +1,7 @@
+Es la capa HTTP del back.
+Tiene todas las funciones, donde lee los requests (accediendo a varios datos, dependiendo de la funcion)
+decide el codigo de respuesta.
+
+No accede a la BBDD.
+
+Dentro de las funciones llama los service

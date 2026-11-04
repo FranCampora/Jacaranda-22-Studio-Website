@@ -1,5 +1,6 @@
 Tiene los datos y la logica
-Hasta que no se creé la BBDD los datos const (constantes) estan aca
-y todos los arrays
+Valida todos los datos y arma los objetos.
+
+Se conecta con varios models que acceden a la BBDD para las validaciones y todas las logicas.
 
 reportesServices.js : cuenta los proyectos por el estado que tienen

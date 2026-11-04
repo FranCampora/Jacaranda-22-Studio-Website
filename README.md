@@ -53,7 +53,6 @@ Los lenguajes, frameworks y librerias utilizadas:
 * Postman para la documentacion de la API REST.
 * Docker para la contenedorizacion de la aplicacion y su despliegue en un servidor local.
 
-Aclaracion: Se utilizo la IA principalmente para el frontend y generar datos para la BBDD.
 
 
 # Mejoras para nuevas versiones

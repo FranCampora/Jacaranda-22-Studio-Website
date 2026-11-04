@@ -4,8 +4,11 @@ const integrantesModel = require('../models/integrantesModel');
 
 
 
-const REGEX_FECHA = /^\d{4}-\d{2}-\d{2}$/;
+const REGEX_FECHA = /^\d{4}-\d{2}-\d{2}$/;//Año, mes, dia. Valida.
 
+//Se implementa logica, validadicones y reglas
+//Checke todos los errores posibles y los junta en el array errores. 
+// Si hay errores, devuelve un 400 con los errores y corta la ejecucion de la funcion. Si no hay errores, continua con la creacion del proyecto
 function validar(body, esActualizacion = false) {
     const errores = [];
 
@@ -59,11 +62,11 @@ function validar(body, esActualizacion = false) {
         }
     }
 
-    return errores;
+    return errores;//tiene todos los errores q saltaron, sino queda vacio
 }
 
 function obtenerTodos() {
-    return proyectosModel.obtenerTodos();
+    return proyectosModel.obtenerTodos();//se conecta con el model (osea la bbdd)
 }
 
 function obtenerPorId(id) {
@@ -103,7 +106,7 @@ function crear(datos) {
         cantidad_horas: Number(datos.cantidad_horas || 0)
     };
 
-    return proyectosModel.crear(nuevoProyecto);
+    return proyectosModel.crear(nuevoProyecto);//le paso el objeto del proyecto con todos los datos
 }
 
 function actualizar(id, datos) {

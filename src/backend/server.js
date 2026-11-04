@@ -6,16 +6,18 @@ const app = express();
 app.set('etag', false);
 const PORT = process.env.PORT || 3000;
 
+/*Solo en arranque*/
 // Importación de routers
 const proyectosRouter = require('./routes/proyectos');
 const integrantesRouter = require('./routes/integrantes');
 const reportesRouter = require('./routes/reportes');
 
 // Middlewares globales
-app.use(cors());
-app.use(express.json());
+app.use(cors());/*Sin cors el browser rompe. El frontend con puerto 5173 tiene que llamar al 
+backend que está en puerto distinto (3000). El cors permite hacer esto*/
+app.use(express.json());/*Convierte el JSON en un objeto de JavaScript y en req.body*/
 
-// Log de peticiones para la consola
+// Log de peticiones para la consola, para que vaya mostrando que va ahaciendo
 app.use((req, res, next) => {
     console.log(`¨[HTTP] ${req.method}: ${req.url} - ${new Date().toISOString()}`);
     next();
@@ -38,11 +40,14 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Rutas de la API versionada
+// Rutas de la API versionada - endpoints
+//Aca se va redirigiendo en las peticiones a los distintos routers de la API, que estan en la carpeta routes
 app.use('/api/v1/proyectos', proyectosRouter);
 app.use('/api/v1/integrantes', integrantesRouter);
 app.use('/api/v1/reportes', reportesRouter);
 
+//si no entro en ningun router, empieza a chekear errores. 
+// Primero el 404 y luego el 500. Si no entra en ninguno de estos, es que todo esta bien y se ejecuta la peticion
 
 // Error por endpoint no encontrado - 404
 app.use((req, res, next) => {

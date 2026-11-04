@@ -18,7 +18,7 @@ function crear(datos) {
             fecha_fin, genero, descripcion, precio_por_hora, cantidad_horas
         )
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `);
+    `);//evita inyeccion sql, pone valores default y depues los posta
 
     const info = stmt.run(
         datos.nombre,

@@ -1,1 +1,2 @@
 Esta subcarpeta es la encargada de hablar con la BBDD
+el file db tambien incializa la BBDD con datos

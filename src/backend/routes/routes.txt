@@ -1,3 +1,5 @@
 Esta carpeta tiene varios files
-Cuando llegan los requests, elige el codigo de estado y manda el response
-No hay datos ni logica
+Un archivo por recurso osea 3
+
+Desarolla los endpoints de cada recurso.
+Llama  y mapea las funciones de los controladores. No tiene logica propia, sino que "rutea".

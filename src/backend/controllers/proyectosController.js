@@ -17,7 +17,9 @@ function obtenerPorId(req, res) {
 }
 
 function crear(req, res) {
-    const errores = proyectosService.validar(req.body, false);
+    const errores = proyectosService.validar(req.body, false);//llama a la funcion validar del service, le pasa el body de la request y un booleano que indica si es una actualizacion o no
+    //guarda la data en la variable
+    // si hay errores, devuelve un 400 con los errores y corta la ejecucion de la funcion. Si no hay errores, continua con la creacion del proyecto
     if (errores.length > 0) {
         return res.status(400).json({
             status: 'Error',
@@ -25,7 +27,7 @@ function crear(req, res) {
             detalles: errores
         });
     }
-
+    //si el array de erorres esta vacio, crea el proyecto
     const nuevoProyecto = proyectosService.crear(req.body);
     return res
         .status(201)
