@@ -2,15 +2,13 @@
 import { ref, onMounted } from 'vue';
 import { integrantesService } from '../services/integrantesService';
 
-// ============================================================================
-// Estados Reactivos
-// ============================================================================
+
 const listaIntegrantes = ref([]);
 const cargando = ref(false);
 const mensajeExito = ref('');
 const mensajeError = ref('');
 
-// Estado del formulario (modo creación o edición según editandoId)
+// Estado del formulario 
 const editandoId = ref(null);
 const formulario = ref({
   nombre: '',
@@ -22,9 +20,7 @@ const formulario = ref({
 // Detalle del integrante con sus proyectos vinculados
 const integranteSeleccionado = ref(null);
 
-// ============================================================================
-// Funciones Explícitas del Ciclo de Vida y CRUD
-// ============================================================================
+//funciones CRUD
 
 // Carga la lista de integrantes desde el endpoint GET /api/v1/integrantes
 async function cargarIntegrantes() {
@@ -129,15 +125,14 @@ function cerrarDetalle() {
 onMounted(() => {
   cargarIntegrantes();
 });
+//las alertas por v-if producen reflow y repaint. 
+// v-show se usa para elementos que se muestran/ocultan frecuentemente sin alterar la estructura del DOM.
 </script>
 
 <template>
   <section>
     <h2>Gestión de Integrantes</h2>
 
-    <!-- NOTA ARQUITECTURA WEB:
-         La visualización reactiva de alertas mediante v-if altera el flujo normal del DOM.
-         Produce un Reflow (Layout) al desplazar los elementos inferiores y luego un Repaint. -->
     <div v-if="mensajeExito" class="alerta alerta-exito">
       {{ mensajeExito }}
     </div>
@@ -183,9 +178,6 @@ onMounted(() => {
       </div>
     </form>
 
-    <!-- NOTA ARQUITECTURA WEB:
-         La inserción condicional de este panel de detalle mediante v-if desencadena
-         un Reflow al insertar una tabla entera y recalcular dimensiones, seguido de su Repaint. -->
     <article v-if="integranteSeleccionado" class="panel-detalle">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
         <h3 style="margin: 0;">Proyectos de: {{ integranteSeleccionado.nombre }} (ID: {{ integranteSeleccionado.id }})</h3>

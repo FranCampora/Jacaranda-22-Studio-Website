@@ -18,7 +18,7 @@
       "description": "Endpoints para la gestión de proyectos y asignación de integrantes.",
       "item": [
         {
-          "name": "1. Listar todos los proyectos",
+          "name": "Listar todos los proyectos",
           "request": {
             "method": "GET",
             "header": [],
@@ -32,7 +32,7 @@
           "response": []
         },
         {
-          "name": "2. Obtener proyecto por ID",
+          "name": "Obtener proyecto por ID",
           "request": {
             "method": "GET",
             "header": [],
@@ -46,7 +46,7 @@
           "response": []
         },
         {
-          "name": "3. Crear nuevo proyecto",
+          "name": "Crear nuevo proyecto",
           "request": {
             "method": "POST",
             "header": [
@@ -69,7 +69,7 @@
           "response": []
         },
         {
-          "name": "4. Actualizar proyecto existente",
+          "name": "Actualizar proyecto existente",
           "request": {
             "method": "PUT",
             "header": [
@@ -92,7 +92,7 @@
           "response": []
         },
         {
-          "name": "5. Obtener integrantes de un proyecto",
+          "name": "Obtener integrantes de un proyecto",
           "request": {
             "method": "GET",
             "header": [],
@@ -106,7 +106,7 @@
           "response": []
         },
         {
-          "name": "6. Asignar integrante al proyecto",
+          "name": "Asignar integrante al proyecto",
           "request": {
             "method": "POST",
             "header": [
@@ -129,7 +129,7 @@
           "response": []
         },
         {
-          "name": "7. Desvincular integrante del proyecto",
+          "name": "Desvincular integrante del proyecto",
           "request": {
             "method": "DELETE",
             "header": [],
@@ -143,7 +143,7 @@
           "response": []
         },
         {
-          "name": "8. Eliminar proyecto",
+          "name": "Eliminar proyecto",
           "request": {
             "method": "DELETE",
             "header": [],

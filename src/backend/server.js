@@ -15,7 +15,7 @@ const reportesRouter = require('./routes/reportes');
 app.use(cors());
 app.use(express.json());
 
-// Log de peticiones
+// Log de peticiones para la consola
 app.use((req, res, next) => {
     console.log(`¨[HTTP] ${req.method}: ${req.url} - ${new Date().toISOString()}`);
     next();
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 const frontendDistPath = path.join(__dirname, '..', 'frontend', 'dist');
 app.use(express.static(frontendDistPath));
 
-// Rutas informativas
+// Rutas raiz, para chekear que funcione el back
 app.get('/', (req, res) => {
     res.status(200).send('Servidor backend de Jacaranda 22 Studios funcionando correctamente');
 });
@@ -38,14 +38,13 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Rutas de la API versionada (v1)
+// Rutas de la API versionada
 app.use('/api/v1/proyectos', proyectosRouter);
 app.use('/api/v1/integrantes', integrantesRouter);
 app.use('/api/v1/reportes', reportesRouter);
 
-// ---- Manejo Centralizado de Errores ----
 
-// 1. Endpoint no encontrado (404)
+// Error por endpoint no encontrado - 404
 app.use((req, res, next) => {
     res.status(404).json({
         status: 'Error',
@@ -55,7 +54,7 @@ app.use((req, res, next) => {
     });
 });
 
-// 2. Errores de parsing o del servidor (400 / 500)
+// Error del server - 500
 app.use((err, req, res, next) => {
     if (err.type === 'entity.parse.failed' || err.status === 400) {
         return res.status(400).json({

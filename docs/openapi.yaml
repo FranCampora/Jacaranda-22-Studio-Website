@@ -23,9 +23,7 @@ tags:
 
 paths:
 
-  # ---------------------------------------------------------------------
-  # PROYECTOS (colección)
-  # ---------------------------------------------------------------------
+ 
   /proyectos:
 
     get:
@@ -149,7 +147,7 @@ paths:
                       - finalizado
                   descripcion:
                     type: string
-                 
+              
                   _links:
                     type: object
                     properties:
@@ -180,9 +178,6 @@ paths:
         '400':
           description: Datos inválidos en el body de la solicitud
 
-  # ---------------------------------------------------------------------
-  # PROYECTOS (recurso individual)
-  # ---------------------------------------------------------------------
   /proyectos/{id}:
 
     get:
@@ -390,9 +385,6 @@ paths:
         '404':
           description: Proyecto no encontrado
 
-  # ---------------------------------------------------------------------
-  # SERVICIOS
-  # ---------------------------------------------------------------------
   /servicios:
 
     get:
@@ -429,9 +421,7 @@ paths:
                               type: string
                               example: /servicios/1
 
-  # ---------------------------------------------------------------------
-  # INTEGRANTES
-  # ---------------------------------------------------------------------
+
   /integrantes:
 
     get:
@@ -468,9 +458,6 @@ paths:
                               type: string
                               example: /integrantes/1
 
-  # ---------------------------------------------------------------------
-  # REPORTES
-  # ---------------------------------------------------------------------
   /reportes/proyectos-estado:
 
     get:
@@ -496,5 +483,4 @@ paths:
                         - finalizado
                     cantidad:
                       type: integer
-                # No lleva _links: es un dato agregado/calculado, no un recurso navegable
-                # (no tiene sentido un "self" para "4 proyectos en estado pendiente").
+

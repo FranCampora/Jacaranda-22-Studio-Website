@@ -3,17 +3,14 @@ import { ref, onMounted } from 'vue';
 import { proyectosService } from '../services/proyectosService';
 import { integrantesService } from '../services/integrantesService';
 
-// ============================================================================
-// Estados Reactivos
-// Cada variable representa explícitamente una parte del estado de la interfaz.
-// ============================================================================
+
 const listaProyectos = ref([]);
 const listaIntegrantesDisponibles = ref([]);
 const cargando = ref(false);
 const mensajeExito = ref('');
 const mensajeError = ref('');
 
-// Control del formulario (modo creación o edición según editandoId)
+// Control del formulario
 const editandoId = ref(null);
 const formulario = ref({
   nombre: '',
@@ -33,9 +30,7 @@ const proyectoSeleccionado = ref(null);
 const nuevoIntegranteId = ref('');
 const nuevoRolEnProyecto = ref('');
 
-// ============================================================================
-// Funciones Explícitas del Ciclo de Vida y CRUD
-// ============================================================================
+//funciones CRUD
 
 // Carga la lista inicial de proyectos desde la API
 async function cargarProyectos() {
@@ -97,7 +92,7 @@ function seleccionarParaEditar(proyecto) {
   mensajeExito.value = '';
 }
 
-// Guarda (crea o actualiza) un proyecto construyendo el payload explícitamente
+// Guarda o crea o actualiza un proyecto construyendo el payload explícitamente
 async function guardarProyecto() {
   mensajeError.value = '';
   mensajeExito.value = '';
@@ -118,10 +113,10 @@ async function guardarProyecto() {
   try {
     if (editandoId.value) {
       await proyectosService.actualizar(editandoId.value, datosAEnviar);
-      mensajeExito.value = 'Proyecto actualizado con éxito';
+      mensajeExito.value = 'Proyecto actualizado correctamente';
     } else {
       await proyectosService.crear(datosAEnviar);
-      mensajeExito.value = 'Proyecto creado con éxito';
+      mensajeExito.value = 'Proyecto creado correctamente';
     }
     limpiarFormulario();
     await cargarProyectos();
@@ -140,7 +135,7 @@ async function borrarProyecto(id) {
 
   try {
     await proyectosService.eliminar(id);
-    mensajeExito.value = 'Proyecto eliminado con éxito';
+    mensajeExito.value = 'Se eliminó el proyecto correctamente';
     if (proyectoSeleccionado.value && proyectoSeleccionado.value.id === id) {
       proyectoSeleccionado.value = null;
     }
@@ -171,7 +166,7 @@ function cerrarDetalle() {
 // Vincula un integrante al proyecto seleccionado (POST a la tabla intermedia)
 async function asignarNuevoIntegrante() {
   if (!nuevoIntegranteId.value) {
-    mensajeError.value = 'Debes seleccionar un integrante para asignar';
+    mensajeError.value = 'Tenes que seleccionar un integrante para asignar';
     return;
   }
 
@@ -192,7 +187,7 @@ async function asignarNuevoIntegrante() {
 
 // Desvincula al integrante del proyecto (DELETE en tabla intermedia)
 async function desvincularIntegrante(integranteId) {
-  const confirmacion = window.confirm('¿Deseas desvincular a este integrante del proyecto?');
+  const confirmacion = window.confirm('Queres desvincular a este integrante del proyecto?');
   if (!confirmacion) return;
 
   mensajeError.value = '';
@@ -213,10 +208,7 @@ onMounted(() => {
   <section>
     <h2>Gestión de Proyectos</h2>
 
-    <!-- NOTA ARQUITECTURA WEB:
-         v-if inserta y remueve elementos del árbol DOM. Al cambiar la condición,
-         el navegador recalcula geometría y posiciones (Reflow o Layout)
-         y posteriormente redibuja los píxeles en pantalla (Repaint). -->
+    
     <div v-if="mensajeExito" class="alerta alerta-exito">
       {{ mensajeExito }}
     </div>
@@ -296,10 +288,7 @@ onMounted(() => {
       </div>
     </form>
 
-    <!-- NOTA ARQUITECTURA WEB:
-         El panel de detalle se inserta dinámicamente con v-if="proyectoSeleccionado".
-         Su aparición o cierre provoca un Reflow (redimensionamiento del contenedor principal)
-         seguido del Repaint de todos los nuevos nodos en pantalla. -->
+    
     <article v-if="proyectoSeleccionado" class="panel-detalle">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
         <h3 style="margin: 0;">Detalle: {{ proyectoSeleccionado.nombre }} (ID: {{ proyectoSeleccionado.id }})</h3>

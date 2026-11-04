@@ -13,14 +13,14 @@ function validar(body, esActualizacion = false) {
         }
     }
 
-    // Validar rol (ahora es libre: cualquier texto no vacío)
+    // Validar rol
     if (!esActualizacion || body.rol !== undefined) {
         if (!body.rol || typeof body.rol !== 'string' || body.rol.trim() === '') {
             errores.push('El campo "rol" es obligatorio y debe ser una cadena no vacía (ej: artista, productor, sesionista, apoyo moral, etc.).');
         }
     }
 
-    // Validar email si fue provisto
+    // Validar email
     if (body.email !== undefined && body.email !== null && body.email.trim() !== '') {
         if (!REGEX_EMAIL.test(body.email.trim())) {
             errores.push('El campo "email" tiene un formato inválido.');
@@ -52,7 +52,7 @@ function obtenerPorId(id) {
 }
 
 function crear(datos) {
-    // Objeto explícito para guardar en base de datos
+    //guardar en base de datos
     const nuevoIntegrante = {
         nombre: datos.nombre.trim(),
         rol: datos.rol.trim(),
@@ -67,7 +67,6 @@ function actualizar(id, datos) {
     const integranteActual = integrantesModel.obtenerPorId(id);
     if (!integranteActual) return null;
 
-    // Objeto explícito: si vino un dato nuevo lo usamos, sino mantenemos el que ya tenía
     const integranteModificado = {
         nombre: (datos.nombre !== undefined && datos.nombre !== null) ? datos.nombre.trim() : integranteActual.nombre,
         rol: (datos.rol !== undefined && datos.rol !== null) ? datos.rol.trim() : integranteActual.rol,

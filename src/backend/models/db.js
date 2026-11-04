@@ -8,10 +8,9 @@ fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
 const db = new DatabaseSync(DB_PATH);
 
-// Activar soporte de claves foráneas
 db.exec('PRAGMA foreign_keys = ON;');
 
-// Crear tablas si no existen
+// Si no hay tablas, crearlas
 db.exec(`
     CREATE TABLE IF NOT EXISTS proyectos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -57,7 +56,7 @@ try {
     console.error('Aviso en verificación de columnas:', err.message);
 }
 
-// ---- Datos de prueba ----
+//datos de prueba
 function sembrarDatosIniciales() {
     const countProyectos = db.prepare('SELECT COUNT(*) AS total FROM proyectos').get().total;
 

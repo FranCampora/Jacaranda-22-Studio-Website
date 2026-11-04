@@ -72,7 +72,7 @@ function obtenerPorId(id) {
 
     const integrantes = proyectoIntegrantesModel.obtenerIntegrantesDeProyecto(proyecto.id);
 
-    // Retorno explícito campo por campo
+    // Retorno campo por campo
     return {
         id: proyecto.id,
         nombre: proyecto.nombre,
@@ -90,7 +90,6 @@ function obtenerPorId(id) {
 }
 
 function crear(datos) {
-    // Objeto explícito para guardar
     const nuevoProyecto = {
         nombre: datos.nombre.trim(),
         tipo: datos.tipo,
@@ -111,7 +110,7 @@ function actualizar(id, datos) {
     const actual = proyectosModel.obtenerPorId(id);
     if (!actual) return null;
 
-    // Objeto explícito: reemplaza los datos modificados y preserva los existentes
+    // reemplaza los datos modificados y deja a los existentes
     const proyectoActualizado = {
         nombre: datos.nombre ? datos.nombre.trim() : actual.nombre,
         tipo: datos.tipo ? datos.tipo : actual.tipo,
