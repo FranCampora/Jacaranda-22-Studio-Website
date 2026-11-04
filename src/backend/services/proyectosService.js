@@ -2,8 +2,8 @@ const proyectosModel = require('../models/proyectosModel');
 const proyectoIntegrantesModel = require('../models/proyectoIntegrantesModel');
 const integrantesModel = require('../models/integrantesModel');
 
-const TIPOS = ['disco', 'single', 'EP', 'prueba', 'beat'];
-const ESTADOS = ['nuevo', 'grabacion', 'maqueta', 'listo', 'mezcla'];
+
+
 const REGEX_FECHA = /^\d{4}-\d{2}-\d{2}$/;
 
 function validar(body, esActualizacion = false) {
@@ -16,14 +16,14 @@ function validar(body, esActualizacion = false) {
     }
 
     if (!esActualizacion || body.tipo !== undefined) {
-        if (!body.tipo || !TIPOS.includes(body.tipo)) {
-            errores.push(`El campo "tipo" es obligatorio y debe ser uno de: ${TIPOS.join(', ')}.`);
+        if (!body.tipo || typeof body.tipo !== "string" || body.tipo.trim() === "") {
+            errores.push('El campo "tipo" es obligatorio y debe ser una cadena no vacía.');
         }
     }
 
     if (!esActualizacion || body.estado !== undefined) {
-        if (!body.estado || !ESTADOS.includes(body.estado)) {
-            errores.push(`El campo "estado" es obligatorio y debe ser uno de: ${ESTADOS.join(', ')}.`);
+        if (!body.estado || typeof body.estado !== "string" || body.estado.trim() === "") {
+            errores.push('El campo "estado" es obligatorio y debe ser una cadena no vacía.');
         }
     }
 
@@ -168,8 +168,6 @@ function desvincularIntegrante(proyectoId, integranteId) {
 }
 
 module.exports = {
-    TIPOS,
-    ESTADOS,
     validar,
     obtenerTodos,
     obtenerPorId,
@@ -180,3 +178,4 @@ module.exports = {
     asignarIntegrante,
     desvincularIntegrante
 };
+

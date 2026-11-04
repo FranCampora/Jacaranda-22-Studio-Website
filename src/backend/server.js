@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
+app.set('etag', false);
 const PORT = process.env.PORT || 3000;
 
 // Importación de routers
@@ -69,3 +70,4 @@ app.listen(PORT, () => {
 });
 
 module.exports = app;
+
