@@ -1,0 +1,500 @@
+openapi: 3.0.3
+
+info:
+  title: API del Estudio
+  description: >
+    API para la gestión de proyectos, servicios, integrantes y reportes del estudio.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4000/api/v1
+    description: Servidor local (v1)
+
+
+tags:
+  - name: Proyectos
+    description: Operaciones relacionadas con proyectos
+  - name: Servicios
+    description: Servicios ofrecidos por el estudio
+  - name: Integrantes
+    description: Miembros del equipo
+  - name: Reportes
+    description: Reportes y estadísticas
+
+paths:
+
+  # ---------------------------------------------------------------------
+  # PROYECTOS (colección)
+  # ---------------------------------------------------------------------
+  /proyectos:
+
+    get:
+      tags:
+        - Proyectos
+      summary: Obtener todos los proyectos
+      description: Lista todos los proyectos realizados.
+      responses:
+        '200':
+          description: Lista de proyectos obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nombres_artistas:
+                      type: string
+                    nombre_cancion:
+                      type: string
+                    nombre_album:
+                      type: string
+                      nullable: true
+                    fecha_inicio:
+                      type: string
+                      format: date
+                    fecha_fin:
+                      type: string
+                      format: date
+                      nullable: true
+                    estado:
+                      type: string
+                      enum:
+                        - pendiente
+                        - en_progreso
+                        - finalizado
+                    descripcion:
+                      type: string
+
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /proyectos/1
+
+    post:
+      tags:
+        - Proyectos
+      summary: Crear un nuevo proyecto
+      description: Crea un nuevo proyecto.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombres_artistas:
+                  type: string
+                nombre_cancion:
+                  type: string
+                nombre_album:
+                  type: string
+                  nullable: true
+                fecha_inicio:
+                  type: string
+                  format: date
+                fecha_fin:
+                  type: string
+                  format: date
+                  nullable: true
+                estado:
+                  type: string
+                  enum:
+                    - pendiente
+                    - en_progreso
+                    - finalizado
+                descripcion:
+                  type: string
+              required:
+                - nombres_artistas
+                - nombre_cancion
+                - fecha_inicio
+                - estado
+      responses:
+        '201':
+          description: Proyecto creado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nombres_artistas:
+                    type: string
+                  nombre_cancion:
+                    type: string
+                  nombre_album:
+                    type: string
+                    nullable: true
+                  fecha_inicio:
+                    type: string
+                    format: date
+                  fecha_fin:
+                    type: string
+                    format: date
+                    nullable: true
+                  estado:
+                    type: string
+                    enum:
+                      - pendiente
+                      - en_progreso
+                      - finalizado
+                  descripcion:
+                    type: string
+                 
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                      update:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: PUT
+                      delete:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: DELETE
+        '400':
+          description: Datos inválidos en el body de la solicitud
+
+  # ---------------------------------------------------------------------
+  # PROYECTOS (recurso individual)
+  # ---------------------------------------------------------------------
+  /proyectos/{id}:
+
+    get:
+      tags:
+        - Proyectos
+      summary: Obtener un proyecto
+      description: Obtiene el detalle de un proyecto específico.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del proyecto
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Proyecto obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nombres_artistas:
+                    type: string
+                  nombre_cancion:
+                    type: string
+                  nombre_album:
+                    type: string
+                    nullable: true
+                  fecha_inicio:
+                    type: string
+                    format: date
+                  fecha_fin:
+                    type: string
+                    format: date
+                    nullable: true
+                  estado:
+                    type: string
+                    enum:
+                      - pendiente
+                      - en_progreso
+                      - finalizado
+                  descripcion:
+                    type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                      update:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: PUT
+                      delete:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: DELETE
+                      collection:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos
+        '404':
+          description: Proyecto no encontrado
+
+    put:
+      tags:
+        - Proyectos
+      summary: Modificar un proyecto
+      description: Modifica un proyecto existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del proyecto
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombres_artistas:
+                  type: string
+                nombre_cancion:
+                  type: string
+                nombre_album:
+                  type: string
+                  nullable: true
+                fecha_inicio:
+                  type: string
+                  format: date
+                fecha_fin:
+                  type: string
+                  format: date
+                  nullable: true
+                estado:
+                  type: string
+                  enum:
+                    - pendiente
+                    - en_progreso
+                    - finalizado
+                descripcion:
+                  type: string
+              required:
+                - nombres_artistas
+                - nombre_cancion
+                - fecha_inicio
+                - estado
+      responses:
+        '200':
+          description: Proyecto modificado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  nombres_artistas:
+                    type: string
+                  nombre_cancion:
+                    type: string
+                  nombre_album:
+                    type: string
+                    nullable: true
+                  fecha_inicio:
+                    type: string
+                    format: date
+                  fecha_fin:
+                    type: string
+                    format: date
+                    nullable: true
+                  estado:
+                    type: string
+                    enum:
+                      - pendiente
+                      - en_progreso
+                      - finalizado
+                  descripcion:
+                    type: string
+                  _links:
+                    type: object
+                    properties:
+                      self:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                      delete:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos/1
+                          method:
+                            type: string
+                            example: DELETE
+                      collection:
+                        type: object
+                        properties:
+                          href:
+                            type: string
+                            example: /proyectos
+        '404':
+          description: Proyecto no encontrado
+        '400':
+          description: Datos inválidos en el body de la solicitud
+
+    delete:
+      tags:
+        - Proyectos
+      summary: Eliminar un proyecto
+      description: Elimina un proyecto.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del proyecto
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Proyecto eliminado correctamente.
+        '404':
+          description: Proyecto no encontrado
+
+  # ---------------------------------------------------------------------
+  # SERVICIOS
+  # ---------------------------------------------------------------------
+  /servicios:
+
+    get:
+      tags:
+        - Servicios
+      summary: Obtener servicios
+      description: Lista los servicios ofrecidos por el estudio.
+      responses:
+        '200':
+          description: Lista de servicios obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nombre:
+                      type: string
+                    precio:
+                      type: number
+                      format: float
+                    descripcion:
+                      type: string
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /servicios/1
+
+  # ---------------------------------------------------------------------
+  # INTEGRANTES
+  # ---------------------------------------------------------------------
+  /integrantes:
+
+    get:
+      tags:
+        - Integrantes
+      summary: Obtener integrantes
+      description: Lista los miembros del equipo del estudio.
+      responses:
+        '200':
+          description: Lista de integrantes obtenida correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nombre:
+                      type: string
+                    rol:
+                      type: string
+                    email:
+                      type: string
+                      format: email
+                    _links:
+                      type: object
+                      properties:
+                        self:
+                          type: object
+                          properties:
+                            href:
+                              type: string
+                              example: /integrantes/1
+
+  # ---------------------------------------------------------------------
+  # REPORTES
+  # ---------------------------------------------------------------------
+  /reportes/proyectos-estado:
+
+    get:
+      tags:
+        - Reportes
+      summary: Obtener reporte de proyectos por estado
+      description: Obtiene la cantidad de proyectos agrupados por estado.
+      responses:
+        '200':
+          description: Reporte obtenido correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    estado:
+                      type: string
+                      enum:
+                        - pendiente
+                        - en_progreso
+                        - finalizado
+                    cantidad:
+                      type: integer
+                # No lleva _links: es un dato agregado/calculado, no un recurso navegable
+                # (no tiene sentido un "self" para "4 proyectos en estado pendiente").

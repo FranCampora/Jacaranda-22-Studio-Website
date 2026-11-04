@@ -1,20 +1,33 @@
-# Configuración de VS Code
+# Configuración de VS Code y editores
 .vscode/
-# Archivos temporales
+.idea/
+
+# Archivos temporales y logs
 *.tmp
-# Archivos de logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de base de datos temporales
+*.db-journal
+*.db-wal
+*.db-shm
+
 # Variables de entorno
 .env
-# Archivos compilados
+.env.local
+
+# Archivos compilados y del SO
 *.o
 *.exe
-#Archivos del SO
 .DS_Store
 Thumbs.db
-#Archivos de node
+
+# Dependencias de Node
 node_modules/
+**/node_modules/
 
-
-#Archivos
-notas.txt
+# Builds de frontend
+**/dist/
+**/build/

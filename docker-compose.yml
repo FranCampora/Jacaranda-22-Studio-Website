@@ -1,0 +1,28 @@
+services:
+  # frontend:
+  #   build:
+  #     context: ./src/frontend
+  #     dockerfile: Dockerfile
+  #   container_name: jacaranda-frontend
+  #   ports:
+  #     - "8080:80"
+  #   depends_on:
+  #     - backend
+
+  backend:
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+    container_name: jacaranda-backend
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DB_PATH=/app/data/jacaranda.db
+    volumes:
+      # Persistencia de la base de datos SQLite en el host
+      - ./src/backend/data:/app/data
+
+networks:
+  default:
+    name: jacaranda-network
