@@ -44,16 +44,17 @@ Metodos de los recursos del backend:
 - Alternativa sin Docker, tener instalado Node.js y npm en el sistema operativo.
 
 ## Paso a paso para ejecutar el proyecto con Docker
-1. Clonar el repositorio del proyecto en la computadora local ó descargar el proyecto en formato ZIP y descomprimirlo ¡IMPORTANTE LA BRANCH MAIN!.
-2. Abrir una terminal y navegar hasta la carpeta raiz del proyecto, donde se encuentra el archivo docker-compose.yml.
-3. Correr el Docker Desktop y tener el engine funcionando
-4. Para construir y levantar los contenedores ejecutar el comando: `docker compose up --build`
-5. Esperar a que se complete la construcción de los contenedores y la inicialización.
 
-6.1. Una vez que los contenedores estan levantados, abrir un navegador web y acceder a la siguiente URL: http://localhost:5173 para ver la interfaz de usuario del proyecto. Aclaracion [5173] es el puerto por default que utiliza Vue 3 al instalarlo con Vite, si se cambia el puerto en el archivo docker-compose.yml, se debe acceder a la URL con el puerto correspondiente.
-6.2. Para comprobar el correcto funcionamiento del backend se puede acceder a la siguiente URL: http://localhost:3000.
+1. Clonar el repositorio del proyecto en la computadora local o descargar el proyecto en formato ZIP y descomprimirlo. ¡IMPORTANTE: utilizar la branch `main`!
+2. Abrir una terminal y navegar hasta la carpeta raíz del proyecto, donde se encuentra el archivo `docker-compose.yml`.
+3. Ejecutar Docker Desktop y asegurarse de que el engine esté funcionando.
+4. Para construir y levantar los contenedores, ejecutar el comando: `docker compose up --build`.
+5. Esperar a que se complete la construcción de los contenedores y la inicialización.
+6. Una vez que los contenedores estén levantados:
+   6.1. Abrir un navegador web y acceder a la siguiente URL: http://localhost:5173 para ver la interfaz de usuario del proyecto. Aclaración: `5173` es el puerto por defecto que utiliza Vue 3 al instalarlo con Vite. Si se cambia el puerto en el archivo `docker-compose.yml`, se debe acceder a la URL con el puerto correspondiente.
+   6.2. Para comprobar el correcto funcionamiento del backend, se puede acceder a la siguiente URL: http://localhost:3000.
 7. Utilizar la interfaz web y/o Postman para probar los endpoints de la API REST.
-8. Para detener los contenedores de Docker, presionar Ctrl+C en la terminal y ejecutar el comando: `docker compose down`.
+8. Para detener los contenedores de Docker, presionar `Ctrl+C` en la terminal y ejecutar el comando: `docker compose down`.
 
 ---
 ### Base de datos
