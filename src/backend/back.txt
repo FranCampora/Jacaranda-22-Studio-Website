@@ -1,1 +1,1 @@
-asd
+El backend mantiene los metodos HTTP, los codes status, la logica, la persitencia de los datos y mas
