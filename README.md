@@ -10,7 +10,7 @@ Profesor: Diego Marafetti
 Horario: Jueves 19:00hs a 22:00hs, sincronica
 
 # Estructura del proyecto
------------------------------------------------
+
 El proyecto esta compuesto por 2 partes, el backend y el frontend dentro de una carptea llamada "src". 
 - backend: Contiene una API REST de nivel 2 de Richardson desarrollada en Express, la BBDD y la logica.
 - frontend: Contiene la interfaz de usuario desarrollada en Vue.
@@ -28,13 +28,13 @@ Metodos de los recursos:
 - Reportes: GET (pasando parametro tipo=estado|genero|financiero|general)
 
 # Ejecutar el proyecto
------------------------------------------------
+
 ## Pre-requisitos
 - Tener instalado Docker y Docker Compose en el sistema operativo.
 - Si no se quiere (o puede ) utilizar Docker, tener instalado Node.js y npm en el sistema operativo.
 
 ## Paso a paso para ejecutar el proyecto con Docker
------------------------------------------------------------
+
 1. Clonar el repositorio del proyecto en la computadora local ó descargar el proyecto en formato ZIP y descomprimirlo ¡IMPORTANTE LA BRANCH MAIN!.
 2. Abrir una terminal y navegar hasta la carpeta del proyecto, visualizando el archivo docker-compose.yml.
 3. Ejecutar el siguiente comando para construir y levantar los contenedores de Docker: docker-compose up --build
@@ -46,11 +46,11 @@ Metodos de los recursos:
 Eso es todo jeje 
 
 ## Base de datos
---------------------------------------------
+
 Se utilizo SQLite como base de datos relacional para almacenar la información de los proyectos y sus integrantes. La base de datos ya viene incluida en el proyecto y se inicializa automáticamente al ejecutar el contenedor de Docker. No es necesario realizar ninguna configuración adicional para la base de datos, pero si se quiere se puede modficar el archivo db ó buscar otra ruta y cambiarla en el docker-compose.yml, en el archivo server.js del backend y db.js
 
 ## Herramientas utilizadas
--------------------------------------------------
+
 Los lenguajes, frameworks y librerias utilizadas:
 * Para este proyecto se utilizo Express como framework de backend de Javascript.
 * Vue como framework de frontend de Javascript.
@@ -63,10 +63,13 @@ Los lenguajes, frameworks y librerias utilizadas:
 
 
 # Mejoras para nuevas versiones
------------------------------------------------
+
 - Utilizar worfklows de Github para automatizar el despliegue del proyecto en un servidor remoto.
 - Agregar logins y roles de usuario para la gestion de proyectos e integrantes. Que cada usuario tenga su propio proyecto y pueda invitar a otros usuarios a participar en el proyecto y que los usuarios puedan ver los proyectos en los que participan y sus integrantes.
 - Carga de archivos de audio .wav y .mp3 en la mejor calidad posible a 44.1 khz y a 48khz.
 - Agregar un reproductor de audio para escuchar los archivos de audio cargados en la pagina web.
 
+# Explicacion de las branches
 
+El proyecto fue realizado por dos personas (Francisco y Joaquin), ambos tiene su propia branch (dev_Fran y dev_j) dedicadas al TP de entrega final de la materia. Tambien hay dos branchs más que fueron dedicadas a pequeñas practicas de la materia (aunque no todas fueron subidas a el repositorio).
+La mayor parte del trabajo fue realizada de manera presencial, mergeando la branch al main y luego trabajando directamente en el main.
