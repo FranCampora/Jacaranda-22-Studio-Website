@@ -1,0 +1,7 @@
+Los componentes en Vue son instancias que se pueden usar en el HTML.
+Un componente es como un ladrillo para la pared del HTML.
+
+Hay un componente para cada recurso:
+* IntegranteView
+* ProyectosView
+* ReportesView

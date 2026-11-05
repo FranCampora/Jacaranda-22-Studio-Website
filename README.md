@@ -12,8 +12,8 @@ Horario: Jueves 19:00hs a 22:00hs, sincronica
 # Estructura del proyecto
 
 El proyecto esta compuesto por 2 partes, el backend y el frontend dentro de una carptea llamada "src". 
-- backend: Contiene una API REST de nivel 2 de Richardson desarrollada en Express, la BBDD y la logica.
-- frontend: Contiene la interfaz de usuario desarrollada en Vue.
+- backend: Contiene una API REST de nivel 2 de Richardson desarrollada en Express, la BBDD y la logica. Siendo el archivo main del backend el server.js
+- frontend: Contiene la interfaz de usuario desarrollada en Vue.Siendo el archivo main del backend el App.vue
 
 La documentacion y test de la API está en la carpeta "docs". Dentro hay un archivo llamado "openapi.yaml" que contiene la documentacion de la API en formato OpenAPI 3.0. Tambien hay un archivo llamado "postman_collection.json" que contiene la coleccion de Postman para probar los endpoints de la API.
 
@@ -22,7 +22,7 @@ Los recursos principale de uso son:
 - Integrantes: Permite asignar y desvincular integrantes a los proyectos musicales. Osea los musicos, productores, etc. Cada integrante tiene un nombre, rol, email y telefono
 - Reportes: Informacion clave. Se dividen por tipo que se pasan por parametro. hay reporte de estado de los proyectos, reporte de los generos musciales, reportes financieros y general.
 
-Metodos de los recursos:
+Metodos de los recursos del backend:
 - Proyectos: GET (listando todos los proyectos y proyecto por id), POST, PUT, DELETE. GET, POST y DELETE (pasando ID del integrante) de integrantes de un proyecto por id de proyecto. 
 - Integrantes: GET (listando todos los integrantes y integrante por id), POST, PUT, DELETE
 - Reportes: GET (pasando parametro tipo=estado|genero|financiero|general)

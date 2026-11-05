@@ -1,6 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { integrantesService } from '../services/integrantesService';
+import { integrantesService } from '../services/integrantesService';/*Trae el file del service*/
 
 
 const listaIntegrantes = ref([]);
