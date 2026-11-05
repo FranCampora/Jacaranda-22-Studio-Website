@@ -50,7 +50,7 @@ Metodos de los recursos:
 5.1 Una vez que los contenedores estan levantados, abrir un navegador web y acceder a la siguiente URL: http://localhost:5173 para ver la interfaz de usuario del proyecto. Aclaracion [5173] es el puerto por default que utiliza Vue 3 al instalarlo con Vite, si se cambia el puerto en el archivo docker-compose.yml, se debe acceder a la URL con el puerto correspondiente.
 5.2 Para comprobar el correcto funcionamiento del backend se puede acceder a la siguiente URL: http://localhost:3000.
 6. Utilizar la interfaz web y/o Postman para probar los endpoints de la API REST.
-7. Para detener los contenedores de Docker, presionar Ctrl+C en la terminal y ejecutar el comando: `docker compose down.
+7. Para detener los contenedores de Docker, presionar Ctrl+C en la terminal y ejecutar el comando: `docker compose down`.
 
 ---
 ### Base de datos
