@@ -76,21 +76,50 @@ function eliminar(id) {
 
 // Consultas para reportes
 function contarPorEstado() {
-    return db.prepare(`
-        SELECT estado, COUNT(*) AS cantidad
-        FROM proyectos
-        GROUP BY estado
-        ORDER BY cantidad DESC
-    `).all();
+    const proyectos = db.prepare('SELECT estado FROM proyectos').all();
+    const conteo = {};
+
+    for (const p of proyectos) {
+        const estado = (p.estado || 'sin estado').trim().toLowerCase();
+        conteo[estado] = (conteo[estado] || 0) + 1;
+    }
+
+    return Object.entries(conteo)
+        .map(([estado, cantidad]) => ({ estado, cantidad }))
+        .sort((a, b) => b.cantidad - a.cantidad || a.estado.localeCompare(b.estado));
+}
+
+function normalizarGenero(genero) {
+    if (!genero || typeof genero !== 'string') return 'Sin género';
+    const g = genero.trim();
+    if (!g) return 'Sin género';
+
+    const lower = g.toLowerCase();
+
+    // Trap y variantes como "Trap / R&B" se unifican en la categoría Trap
+    if (lower === 'trap' || lower.startsWith('trap') || lower.includes('trap')) {
+        return 'Trap';
+    }
+
+    // Capitalizar adecuadamente para unificar mayúsculas y minúsculas (ej: "rock" y "Rock" -> "Rock")
+    return g.split(/\s+/).map(palabra => {
+        if (!palabra) return '';
+        return palabra.charAt(0).toUpperCase() + palabra.slice(1).toLowerCase();
+    }).join(' ');
 }
 
 function contarPorGenero() {
-    return db.prepare(`
-        SELECT COALESCE(genero, 'Sin género') AS genero, COUNT(*) AS cantidad
-        FROM proyectos
-        GROUP BY COALESCE(genero, 'Sin género')
-        ORDER BY cantidad DESC
-    `).all();
+    const proyectos = db.prepare('SELECT genero FROM proyectos').all();
+    const conteo = {};
+
+    for (const p of proyectos) {
+        const genero = normalizarGenero(p.genero);
+        conteo[genero] = (conteo[genero] || 0) + 1;
+    }
+
+    return Object.entries(conteo)
+        .map(([genero, cantidad]) => ({ genero, cantidad }))
+        .sort((a, b) => b.cantidad - a.cantidad || a.genero.localeCompare(b.genero));
 }
 
 function resumenFinanciero() {
