@@ -34,7 +34,7 @@ node_modules/
 
 # files que no se necestian en el repo y en la entrega final
 (OLD)requirements.md
-comandoGit.md
+comandosGit.md
 notas.md
 requirements.md
 server-ejemplo1.js
