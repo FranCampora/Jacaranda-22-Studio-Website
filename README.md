@@ -46,12 +46,14 @@ Metodos de los recursos del backend:
 ## Paso a paso para ejecutar el proyecto con Docker
 1. Clonar el repositorio del proyecto en la computadora local ó descargar el proyecto en formato ZIP y descomprimirlo ¡IMPORTANTE LA BRANCH MAIN!.
 2. Abrir una terminal y navegar hasta la carpeta raiz del proyecto, donde se encuentra el archivo docker-compose.yml.
-3. Para construir y levantar los contenedores ejecutar el comando: `docker compose up --build`
-4. Esperar a que se complete la construcción de los contenedores y la inicialización.
-5.1 Una vez que los contenedores estan levantados, abrir un navegador web y acceder a la siguiente URL: http://localhost:5173 para ver la interfaz de usuario del proyecto. Aclaracion [5173] es el puerto por default que utiliza Vue 3 al instalarlo con Vite, si se cambia el puerto en el archivo docker-compose.yml, se debe acceder a la URL con el puerto correspondiente.
-5.2 Para comprobar el correcto funcionamiento del backend se puede acceder a la siguiente URL: http://localhost:3000.
-6. Utilizar la interfaz web y/o Postman para probar los endpoints de la API REST.
-7. Para detener los contenedores de Docker, presionar Ctrl+C en la terminal y ejecutar el comando: `docker compose down`.
+3. Correr el Docker Desktop y tener el engine funcionando
+4. Para construir y levantar los contenedores ejecutar el comando: `docker compose up --build`
+5. Esperar a que se complete la construcción de los contenedores y la inicialización.
+
+6.1. Una vez que los contenedores estan levantados, abrir un navegador web y acceder a la siguiente URL: http://localhost:5173 para ver la interfaz de usuario del proyecto. Aclaracion [5173] es el puerto por default que utiliza Vue 3 al instalarlo con Vite, si se cambia el puerto en el archivo docker-compose.yml, se debe acceder a la URL con el puerto correspondiente.
+6.2. Para comprobar el correcto funcionamiento del backend se puede acceder a la siguiente URL: http://localhost:3000.
+7. Utilizar la interfaz web y/o Postman para probar los endpoints de la API REST.
+8. Para detener los contenedores de Docker, presionar Ctrl+C en la terminal y ejecutar el comando: `docker compose down`.
 
 ---
 ### Base de datos
@@ -76,5 +78,6 @@ Los lenguajes, frameworks y librerias utilizadas:
 - Carga de archivos de audio .wav y .mp3 en la mejor calidad posible a 44.1 khz y a 48khz.
 - Agregar un reproductor de audio para escuchar los archivos de audio cargados en la pagina web.
 
+## Aclaracion sobre branches
 El proyecto fue realizado por dos personas (Francisco y Joaquin), ambos tiene su propia branch (dev_Fran y dev_j) dedicadas al TP de entrega final de la materia. Tambien hay dos branchs más que fueron dedicadas a pequeñas practicas de la materia (aunque no todas fueron subidas a el repositorio).
 La mayor parte del trabajo fue realizada de manera presencial, mergeando la branch al main y luego trabajando directamente en el main.
