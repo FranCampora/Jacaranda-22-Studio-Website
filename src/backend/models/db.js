@@ -5,10 +5,10 @@ const fs = require('fs');/*modulo de file de node*/
 // Ruta de la base de datos (configurable por variable de entorno para Docker)
 /*
 
-primero intentra leer la variabe DB_PATH, si no existe sube la carpeta y entra a jacaranda.db dentro de la carpeta data
+primero intenta leer la variabe DB_PATH, si no existe sube la carpeta y entra a jacaranda.db dentro de la carpeta data
 
 */
-const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', 'data', 'jacaranda.db');
+const DB_PATH = path.join(__dirname, '..', 'data', 'jacaranda.db');
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
 const db = new DatabaseSync(DB_PATH);//abre la conexion con la bbdd y crea la var db
@@ -49,17 +49,6 @@ db.exec(`
     );
 `);
 
-try {
-    const columnsProyectos = db.prepare("PRAGMA table_info(proyectos)").all().map(c => c.name);
-    if (!columnsProyectos.includes('precio_por_hora')) {
-        db.exec("ALTER TABLE proyectos ADD COLUMN precio_por_hora REAL NOT NULL DEFAULT 0;");
-    }
-    if (!columnsProyectos.includes('cantidad_horas')) {
-        db.exec("ALTER TABLE proyectos ADD COLUMN cantidad_horas REAL NOT NULL DEFAULT 0;");
-    }
-} catch (err) {
-    console.error('Aviso en verificación de columnas:', err.message);
-}
 
 //datos de prueba
 function sembrarDatosIniciales() {
@@ -75,22 +64,12 @@ function sembrarDatosIniciales() {
             ['Proyecto 1', 'single', 'nuevo', '2026-01-05', '2026-02-10', null, 'Rap', 'Single de prueba 1', 2500, 10],
             ['Proyecto 2', 'disco', 'grabacion', '2026-01-15', '2026-06-30', null, 'Trap', 'Disco de prueba', 3200, 45],
             ['Proyecto 3', 'EP', 'maqueta', '2026-02-01', '2026-04-15', null, 'Rock', 'EP de prueba', 2800, 20],
-            ['Proyecto 4', 'beat', 'listo', '2026-02-20', '2026-03-01', '2026-02-28', 'Rap', 'Beat terminado', 2000, 8],
+            ['Proyecto 4', 'beat', 'listo', '2026-02-20', '2026-03-01', '2026-02-28', 'Rap', 'Beat terminado prueba', 2000, 8],
             ['Proyecto 5', 'prueba', 'mezcla', '2026-03-10', '2026-03-25', null, 'Pop', 'Prueba de mezcla', 2500, 15],
             ['Proyecto 6', 'single', 'grabacion', '2026-03-18', '2026-05-01', null, 'Trap', 'Single de prueba 2', 3000, 12]
         ];
 
         proyectosSeed.forEach(p => insertarProyecto.run(...p));
-    } else {
-        // Si ya existían proyectos pero con horas o precio en 0, asignamos valores de prueba realistas
-        db.exec(`
-            UPDATE proyectos SET precio_por_hora = 2500, cantidad_horas = 10 WHERE id = 1 AND precio_por_hora = 0;
-            UPDATE proyectos SET precio_por_hora = 3200, cantidad_horas = 45 WHERE id = 2 AND precio_por_hora = 0;
-            UPDATE proyectos SET precio_por_hora = 2800, cantidad_horas = 20 WHERE id = 3 AND precio_por_hora = 0;
-            UPDATE proyectos SET precio_por_hora = 2000, cantidad_horas = 8  WHERE id = 4 AND precio_por_hora = 0;
-            UPDATE proyectos SET precio_por_hora = 2500, cantidad_horas = 15 WHERE id = 5 AND precio_por_hora = 0;
-            UPDATE proyectos SET precio_por_hora = 3000, cantidad_horas = 12 WHERE id = 6 AND precio_por_hora = 0;
-        `);
     }
 
     const countIntegrantes = db.prepare('SELECT COUNT(*) AS total FROM integrantes').get().total;
