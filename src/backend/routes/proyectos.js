@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const proyectosController = require('../controllers/proyectosController');//antes de llamar a las funciones del controlador, necesita conectarse con el contrador
 
+//mas endpoints pero unicamente de los proyectos. 
+
 // Rutas CRUD de Proyectos. El verbo lo leé de la request que le llegó del server.js
 //Dependiendo del metodo HTTP (GET, POST, PUT, DELETE) y de la ruta, se ejecuta la funcion correspondiente del controller
 router.get('/', proyectosController.listar);

@@ -40,7 +40,7 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Rutas de la API versionada - endpoints
+// Rutas de la API versionada - endpoints de los recursos
 //Aca se va redirigiendo en las peticiones a los distintos routers de la API, que estan en la carpeta routes
 app.use('/api/v1/proyectos', proyectosRouter);
 app.use('/api/v1/integrantes', integrantesRouter);

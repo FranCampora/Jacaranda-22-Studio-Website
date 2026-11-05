@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const integrantesController = require('../controllers/integrantesController');
 
-// Rutas CRUD de Integrantes
+//mas endpoints pero unicamente de los integrantes. 
 router.get('/', integrantesController.listar);
 router.post('/', integrantesController.crear);
 router.get('/:id', integrantesController.obtenerPorId);
