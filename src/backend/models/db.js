@@ -8,7 +8,7 @@ const fs = require('fs');/*modulo de file de node*/
 primero intenta leer la variabe DB_PATH, si no existe sube la carpeta y entra a jacaranda.db dentro de la carpeta data
 
 */
-const DB_PATH = path.join(__dirname, '..', 'data', 'jacaranda.db');
+const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', 'data', 'jacaranda.db');
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
 const db = new DatabaseSync(DB_PATH);//abre la conexion con la bbdd y crea la var db
