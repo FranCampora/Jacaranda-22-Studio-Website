@@ -2,6 +2,7 @@
 ### Francisco Campora -- Joaquin Serra
 
 ## Contexto del proyecto
+
 Esta es una pagina web pensada para el estudio musical ameteur llamado "Jacaranda 22 Studios". Desarrolada por 2 estudiantes de la Univerdad de Palermo.
 
 Proyecto para materia de Arquitectura WEB
@@ -19,8 +20,8 @@ Utilizamos una estructura dividida en capas:
 * Routes -> Mapeo de los endpoints
 * Controllers -> Recibe peticiones HTTP, responde con status codes y llama a los services
 * Services -> Lógica de negocio y validaciones
-* Models -> Tablas de la Base de datos SQLite, y contiene el archivo de iniciación con datos de prueba
-    
+* Models -> Ejecuta consultas SQL directamente en la base de datos. Además contiene el archivo de iniciación con datos de prueba.
+
 ### Frontend
 Interfaz de usuario desarrollada utilizando el framework Vue 3, consume la API del backend.
 
@@ -29,32 +30,65 @@ La documentación y prueba de la API se encuentra en el directorio docs/.
 * "postman_collection.json" Es la coleccion lista para importar en Postman para probar los endpoints de la API.
 
 ### Recursos
-- Proyectos: Permite crear, listar, actualizar y eliminar proyectos musicales. Osea las cancciones, albumes, etc. Cada proyecto tiene un nombre, tipo, estado, fecha de inicio, fecha fin estimada, fecha fin del proyecto, genero musical, una descripcion, precio por hora y cantidad de horas
-- Integrantes: Permite asignar y desvincular integrantes a los proyectos musicales. Osea los musicos, productores, etc. Cada integrante tiene un nombre, rol, email y telefono
-- Reportes: Informacion clave. Se dividen por tipo que se pasan por parametro. hay reporte de estado de los proyectos, reporte de los generos musciales, reportes financieros y general.
+* **Proyecto:** Datos de los proyectos musicales (`id`, `nombre`, `tipo`, `estado`, `fecha_inicio`, `fecha_fin_estimada`, `fecha_fin`, `genero`, `descripcion`, `precio_por_hora`, `cantidad_horas`).
+* **Integrante:** Datos de los integrantes o colaboradores (`id`, `nombre`, `rol`, `email`, `telefono`).
+* **Proyecto_Integrantes (Relación N:M):** Asignación de integrantes a proyectos (`proyecto_id`, `integrante_id`, `rol_en_proyecto`).
+* **Reportes:** Resúmenes y métricas derivados de los proyectos (`tipo`, `titulo`, `datos` / `finanzas` / `distribucionEstados` / `distribucionGeneros`).
+
 
 Metodos de los recursos del backend:
-- Proyectos: GET (listando todos los proyectos y proyecto por id), POST, PUT, DELETE. GET, POST y DELETE (pasando ID del integrante) de integrantes de un proyecto por id de proyecto. 
-- Integrantes: GET (listando todos los integrantes y integrante por id), POST, PUT, DELETE
-- Reportes: GET (pasando parametro tipo=estado|genero|financiero|general)
+- **Proyectos**: GET (listando todos los proyectos y proyecto por id), POST, PUT, DELETE. GET, POST y DELETE (pasando ID del integrante) de integrantes de un proyecto por id de proyecto. 
+- **Integrantes**: GET (listando todos los integrantes y integrante por id), POST, PUT, DELETE
+- **Reportes**: GET (pasando parametro tipo=estado|genero|financiero|general)
+
+* **Documentación complementaria:**
+	- Colección de Postman: [`docs/Jacaranda22_Postman_collection.json`](docs/Jacaranda22_Postman_collection.json)
+	- Endpoints en Markdown: [`docs/ENDPOINTS.md`](docs/ENDPOINTS.md)
+
+---
+
 
 # Ejecutar el proyecto
 ### Pre-requisitos
 - Tener instalado Docker y Docker Compose en el sistema operativo.
 - Alternativa sin Docker, tener instalado Node.js y npm en el sistema operativo.
 
-## Paso a paso para ejecutar el proyecto con Docker
 
-1. Clonar el repositorio del proyecto en la computadora local o descargar el proyecto en formato ZIP y descomprimirlo. ¡IMPORTANTE: utilizar la branch `main`!
-2. Abrir una terminal y navegar hasta la carpeta raíz del proyecto, donde se encuentra el archivo `docker-compose.yml`.
-3. Ejecutar Docker Desktop y asegurarse de que el engine esté funcionando.
-4. Para construir y levantar los contenedores, ejecutar el comando: `docker compose up --build`.
-5. Esperar a que se complete la construcción de los contenedores y la inicialización.
-6. Una vez que los contenedores estén levantados:
-   6.1. Abrir un navegador web y acceder a la siguiente URL: http://localhost:5173 para ver la interfaz de usuario del proyecto. Aclaración: `5173` es el puerto por defecto que utiliza Vue 3 al instalarlo con Vite. Si se cambia el puerto en el archivo `docker-compose.yml`, se debe acceder a la URL con el puerto correspondiente.
-   6.2. Para comprobar el correcto funcionamiento del backend, se puede acceder a la siguiente URL: http://localhost:3000.
-7. Utilizar la interfaz web y/o Postman para probar los endpoints de la API REST.
-8. Para detener los contenedores de Docker, presionar `Ctrl+C` en la terminal y ejecutar el comando: `docker compose down`.
+### Opción 1: Con Docker
+(Puerto Backend: 3000 | Puerto Frontend: 5173)
+
+1. Clonar el repositorio y situarse en la raíz del proyecto (donde se encuentra `docker-compose.yml`).
+2. Asegurarse de tener Docker Desktop iniciado.
+3. Construir y levantar los contenedores:
+	```bash
+	docker compose up --build
+	```
+4. Acceso a los servicios:
+	- **Frontend (Web UI):** [http://localhost:5173](http://localhost:5173)
+	- **Backend API:** [http://localhost:3000](http://localhost:3000)
+	- **Health Check:** [http://localhost:3000/health](http://localhost:3000/health)
+5. Para detener los contenedores: `Ctrl + C` y luego `docker compose down`.
+
+### Opción 2: Sin Docker (Local con Node.js y npm)
+
+1. **Iniciar Backend:**
+	```bash
+	cd src/backend
+	npm install
+	npm run dev
+	```
+	- El servidor backend estará corriendo en: [http://localhost:3000](http://localhost:3000)
+
+2. **Iniciar Frontend (en otra terminal):**
+	```bash
+	cd src/frontend
+	npm install
+	npm run dev
+	```
+	- El frontend estará corriendo en: [http://localhost:5173](http://localhost:5173)
+
+
+
 
 ---
 ### Base de datos
@@ -72,13 +106,13 @@ Los lenguajes, frameworks y librerias utilizadas:
 * Docker para la contenerización de la aplicacion y su despliegue en un servidor local.
 
 
-
 ## Mejoras para nuevas versiones
 - Utilizar worfklows de Github para automatizar el despliegue del proyecto en un servidor remoto.
 - Agregar logins y roles de usuario para la gestion de proyectos e integrantes. Que cada usuario tenga su propio proyecto y pueda invitar a otros usuarios a participar en el proyecto y que los usuarios puedan ver los proyectos en los que participan y sus integrantes.
 - Carga de archivos de audio .wav y .mp3 en la mejor calidad posible a 44.1 khz y a 48khz.
 - Agregar un reproductor de audio para escuchar los archivos de audio cargados en la pagina web.
 
+
 ## Aclaracion sobre branches
 El proyecto fue realizado por dos personas (Francisco y Joaquin), ambos tiene su propia branch (dev_Fran y dev_j) dedicadas al TP de entrega final de la materia. Tambien hay dos branchs más que fueron dedicadas a pequeñas practicas de la materia (aunque no todas fueron subidas a el repositorio).
-La mayor parte del trabajo fue realizada de manera presencial, mergeando la branch al main y luego trabajando directamente en el main.
+La mayor parte del trabajo fue realizada de forma presencial en conjunto, uniendo las ramas al main y luego trabajando directamente en el main.
