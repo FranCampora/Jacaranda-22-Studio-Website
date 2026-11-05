@@ -1,6 +1,9 @@
 const integrantesModel = require('../models/integrantesModel');
 const proyectoIntegrantesModel = require('../models/proyectoIntegrantesModel');
 
+/*Expresion regular para validar que el mail ingresado sea correcto
+[caracteres] + @ + [caracteres] + . + [caracteres]
+*/
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function validar(body, esActualizacion = false) {

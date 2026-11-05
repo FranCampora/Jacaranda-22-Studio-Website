@@ -6,7 +6,6 @@ const app = express();
 app.set('etag', false);
 const PORT = process.env.PORT || 3000;
 
-/*Solo en arranque*/
 // Importación de routers
 const proyectosRouter = require('./routes/proyectos');
 const integrantesRouter = require('./routes/integrantes');
