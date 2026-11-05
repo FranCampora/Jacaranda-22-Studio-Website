@@ -1,14 +1,19 @@
-const { DatabaseSync } = require('node:sqlite');
+const { DatabaseSync } = require('node:sqlite');/*uso sqlite que ya viene en node. databasessync abre la bbdd*/
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs');/*modulo de file de node*/
 
 // Ruta de la base de datos (configurable por variable de entorno para Docker)
+/*
+
+primero intentra leer la variabe DB_PATH, si no existe sube la carpeta y entra a jacaranda.db dentro de la carpeta data
+
+*/
 const DB_PATH = process.env.DB_PATH || path.join(__dirname, '..', 'data', 'jacaranda.db');
 fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
-const db = new DatabaseSync(DB_PATH);
+const db = new DatabaseSync(DB_PATH);//abre la conexion con la bbdd y crea la var db
 
-db.exec('PRAGMA foreign_keys = ON;');
+db.exec('PRAGMA foreign_keys = ON;');//habilita la fk porque daba problemas
 
 // Si no hay tablas, crearlas
 db.exec(`

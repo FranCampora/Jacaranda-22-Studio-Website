@@ -15,8 +15,9 @@ El proyecto esta dividido en backend y frontend, dentro del directorio src/
 ### Backend 
 Contiene la API REST de nivel 2 según Richardson, desarrollada en JavaScript utilizando le framework Express.js
 Utilizamos una estructura dividida en capas:
-* Controllers -> Recibe peticiones HTTP, responde con status codes y llama a los services
+
 * Routes -> Mapeo de los endpoints
+* Controllers -> Recibe peticiones HTTP, responde con status codes y llama a los services
 * Services -> Lógica de negocio y validaciones
 * Models -> Tablas de la Base de datos SQLite, y contiene el archivo de iniciación con datos de prueba
     
