@@ -1,8 +1,7 @@
-// ============================================================================
+
 // Servicio: Integrantes
 // Este módulo centraliza las peticiones HTTP a la API RESTful para el recurso
-// 'integrantes'. Funciones declaradas de manera explícita sin abreviaciones.
-// ============================================================================
+// 'integrantes'.
 
 const BASE_URL = 'http://localhost:3000/api/v1/integrantes';
 

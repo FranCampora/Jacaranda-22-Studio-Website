@@ -8,7 +8,7 @@ const REGEX_FECHA = /^\d{4}-\d{2}-\d{2}$/;//Año, mes, dia. Valida.
 
 //Se implementa logica, validadicones y reglas
 //Checke todos los errores posibles y los junta en el array errores. 
-// Si hay errores, devuelve un 400 con los errores y corta la ejecucion de la funcion. Si no hay errores, continua con la creacion del proyecto
+// Si hay errores, devuelve un 400 con los errores y corta la ejecucion de la funcion. Si no hay errores, continua 
 function validar(body, esActualizacion = false) {
     const errores = [];
 

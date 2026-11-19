@@ -1,9 +1,7 @@
-// ============================================================================
+
 // Servicio: Proyectos
 // Este módulo centraliza las peticiones HTTP a la API RESTful para el recurso
-// 'proyectos'. Cada función es completamente explícita (sin abreviaciones)
-// para facilitar la explicación técnica durante la defensa del proyecto.
-// ============================================================================
+// 'proyectos'.
 
 const BASE_URL = 'http://localhost:3000/api/v1/proyectos';
 

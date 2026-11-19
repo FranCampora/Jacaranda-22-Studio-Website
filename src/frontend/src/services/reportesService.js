@@ -1,7 +1,6 @@
-// ============================================================================
+
 // Servicio: Reportes
 // Este módulo centraliza las consultas de reportes derivados de los datos.
-// ============================================================================
 
 const BASE_URL = 'http://localhost:3000/api/v1/reportes';
 
