@@ -3,7 +3,7 @@ const path = require('path');
 const cors = require('cors');
 
 const app = express();
-app.set('etag', false);
+app.set('etag', false); /* Desactiva las Etags que lee el navegador para ver si un recurso cambió*/
 const PORT = process.env.PORT || 3000;
 
 // Importación de routers
@@ -58,7 +58,6 @@ app.use((req, res, next) => {
     });
 });
 
-// Error del server - 500
 app.use((err, req, res, next) => {
     if (err.type === 'entity.parse.failed' || err.status === 400) {
         return res.status(400).json({
@@ -66,7 +65,7 @@ app.use((err, req, res, next) => {
             error: 'JSON inválido en el cuerpo de la petición'
         });
     }
-
+// Error del server - 500
     console.error('Error no controlado en el servidor:', err);
     return res.status(500).json({
         status: 'Error',

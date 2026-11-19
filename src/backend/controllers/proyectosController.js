@@ -29,10 +29,7 @@ function crear(req, res) {
     }
     //si el array de erorres esta vacio, crea el proyecto
     const nuevoProyecto = proyectosService.crear(req.body);
-    return res
-        .status(201)
-        .location(`/api/v1/proyectos/${nuevoProyecto.id}`)
-        .json(nuevoProyecto);
+    return res.status(201).location(`/api/v1/proyectos/${nuevoProyecto.id}`).json(nuevoProyecto);
 }
 
 function actualizar(req, res) {
