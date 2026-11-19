@@ -74,7 +74,6 @@
     ```
 
 * **POST `/api/v1/proyectos`** -> Crea un nuevo proyecto. Campos obligatorios: `nombre`, `tipo`, `estado`, `fecha_inicio`.
-  - **Header:** `Location: /api/v1/proyectos/:id`
   - **Body ejemplo:**
     ```json
     {
@@ -146,7 +145,7 @@
   - **Error 404:** Proyecto no encontrado
 
 * **DELETE `/api/v1/proyectos/:id`** -> Elimina un proyecto por ID y elimina automáticamente todas las asignaciones de integrantes vinculadas a él.
-  - **Respuesta 204:** Proyecto eliminado (sin contenido)
+  - **Respuesta 204:** Proyecto eliminado
   - **Error 404:** Proyecto no encontrado
 
 ---
@@ -188,14 +187,14 @@
   - **Error 404:** Proyecto no encontrado o Integrante no encontrado
 
 * **DELETE `/api/v1/proyectos/:id/integrantes/:integranteId`** -> Desvincula a un integrante del proyecto (no borra al integrante del sistema).
-  - **Respuesta 204:** Integrante desvinculado (sin contenido)
+  - **Respuesta 204:** Integrante desvinculado
   - **Error 404:** Proyecto no encontrado o el integrante no estaba asignado al proyecto
 
 ---
 
 ## Integrantes (`/api/v1/integrantes`)
 
-* **GET `/api/v1/integrantes`** -> Devuelve la lista completa de integrantes, ordenados del más nuevo al más viejo por ID.
+* **GET `/api/v1/integrantes`** -> Devuelve la lista completa de integrantes, ordenados por ID.
   - **Respuesta 200:**
     ```json
     [
@@ -239,7 +238,6 @@
   - **Error 404:** Integrante no encontrado
 
 * **POST `/api/v1/integrantes`** -> Crea un nuevo integrante. Campos obligatorios: `nombre`, `rol`.
-  - **Header:** `Location: /api/v1/integrantes/:id`
   - **Body ejemplo:**
     ```json
     {
@@ -292,7 +290,7 @@
   - **Error 404:** Integrante no encontrado
 
 * **DELETE `/api/v1/integrantes/:id`** -> Elimina un integrante por su ID (también elimina sus asignaciones en proyectos).
-  - **Respuesta 204:** Integrante eliminado (sin contenido)
+  - **Respuesta 204:** Integrante eliminado
   - **Error 404:** Integrante no encontrado
 
 ---
