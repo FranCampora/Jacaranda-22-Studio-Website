@@ -25,9 +25,9 @@ Utilizamos una estructura dividida en capas:
 ### Frontend
 Interfaz de usuario desarrollada utilizando el framework Vue 3, consume la API del backend.
 
-La documentación y prueba de la API se encuentra en el directorio docs/. 
-* "openapi.yaml" contiene un swagger de la API. 
-* "postman_collection.json" Es la coleccion lista para importar en Postman para probar los endpoints de la API.
+### Base de datos
+Se utilizo SQLite como base de datos relacional para almacenar la información de los proyectos y sus integrantes. La base de datos se inicializa automáticamente con algunos datos de prueba. No es necesario realizar ninguna configuración adicional para la base de datos.
+
 
 ### Recursos
 * **Proyecto:** Datos de los proyectos musicales (`id`, `nombre`, `tipo`, `estado`, `fecha_inicio`, `fecha_fin_estimada`, `fecha_fin`, `genero`, `descripcion`, `precio_por_hora`, `cantidad_horas`).
@@ -57,17 +57,18 @@ Metodos de los recursos del backend:
 ### Opción 1: Con Docker
 (Puerto Backend: 3000 | Puerto Frontend: 5173)
 
-1. Clonar el repositorio y situarse en la raíz del proyecto (donde se encuentra `docker-compose.yml`).
+1. Clonar el repositorio.
 2. Asegurarse de tener Docker Desktop iniciado.
-3. Construir y levantar los contenedores:
+3. Abrir una terminal, situandose en la raíz del proyecto (donde se encuentra `docker-compose.yml`)
+4. Ejecutar el comando para construir y levantar los contenedores:
 	```bash
 	docker compose up --build
 	```
-4. Acceso a los servicios:
+5. Acceso a los servicios:
 	- **Frontend (Web UI):** [http://localhost:5173](http://localhost:5173)
 	- **Backend API:** [http://localhost:3000](http://localhost:3000)
 	- **Health Check:** [http://localhost:3000/health](http://localhost:3000/health)
-5. Para detener los contenedores: `Ctrl + C` y luego `docker compose down`.
+6. Para detener los contenedores: `Ctrl + C` y luego `docker compose down`.
 
 ### Opción 2: Sin Docker (Local con Node.js y npm)
 
@@ -91,9 +92,6 @@ Metodos de los recursos del backend:
 
 
 ---
-### Base de datos
-Se utilizo SQLite como base de datos relacional para almacenar la información de los proyectos y sus integrantes. La base de datos se inicializa automáticamente con algunos datos de prueba. No es necesario realizar ninguna configuración adicional para la base de datos.
-
 
 ### Herramientas utilizadas
 Los lenguajes, frameworks y librerias utilizadas:
@@ -108,11 +106,11 @@ Los lenguajes, frameworks y librerias utilizadas:
 
 ## Mejoras para nuevas versiones
 - Utilizar worfklows de Github para automatizar el despliegue del proyecto en un servidor remoto.
-- Agregar logins y roles de usuario para la gestion de proyectos e integrantes. Que cada usuario tenga su propio proyecto y pueda invitar a otros usuarios a participar en el proyecto y que los usuarios puedan ver los proyectos en los que participan y sus integrantes.
+- Agregar logins y roles de usuario para la gestion de proyectos e integrantes. Que cada usuario tenga su propio proyecto, pueda invitar a otros usuarios a participar en el proyecto, que los usuarios puedan ver los proyectos en los que participan y sus integrantes.
 - Carga de archivos de audio .wav y .mp3 en la mejor calidad posible a 44.1 khz y a 48khz.
 - Agregar un reproductor de audio para escuchar los archivos de audio cargados en la pagina web.
 
 
-## Aclaracion sobre branches
+## Aclaracion sobre las ramas
 El proyecto fue realizado por dos personas (Francisco y Joaquin), ambos tiene su propia branch (dev_Fran y dev_j) dedicadas al TP de entrega final de la materia. Tambien hay dos branchs más que fueron dedicadas a pequeñas practicas de la materia (aunque no todas fueron subidas a el repositorio).
 La mayor parte del trabajo fue realizada de forma presencial en conjunto, uniendo las ramas al main y luego trabajando directamente en el main.
