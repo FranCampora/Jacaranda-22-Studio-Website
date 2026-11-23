@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * TESTS DE INTEGRACIÓN + UNITARIOS — Integrantes (/api/v1/integrantes)
+ * TESTS DE INTEGRACIÓN + UNITARIOS — Integrantes (/api/v2/integrantes)
  * =============================================================================
  *
  * Tests de integración: flujo completo HTTP con supertest.
@@ -73,18 +73,18 @@ describe('[Unitario] integrantesService.validar()', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TESTS DE INTEGRACIÓN — /api/v1/integrantes
+// TESTS DE INTEGRACIÓN — /api/v2/integrantes
 // ─────────────────────────────────────────────────────────────────────────────
-describe('[Integración] GET /api/v1/integrantes', () => {
+describe('[Integración] GET /api/v2/integrantes', () => {
 
     test('Devuelve 200 y un array', async () => {
-        const res = await request(app).get('/api/v1/integrantes');
+        const res = await request(app).get('/api/v2/integrantes');
         expect(res.statusCode).toBe(200);
         expect(Array.isArray(res.body)).toBe(true);
     });
 
     test('Cada integrante tiene los campos esperados', async () => {
-        const res = await request(app).get('/api/v1/integrantes');
+        const res = await request(app).get('/api/v2/integrantes');
         if (res.body.length > 0) {
             const i = res.body[0];
             expect(i).toHaveProperty('id');
@@ -94,20 +94,20 @@ describe('[Integración] GET /api/v1/integrantes', () => {
     });
 });
 
-describe('[Integración] GET /api/v1/integrantes/:id', () => {
+describe('[Integración] GET /api/v2/integrantes/:id', () => {
 
     test('Devuelve 404 para un ID inexistente', async () => {
-        const res = await request(app).get('/api/v1/integrantes/999999');
+        const res = await request(app).get('/api/v2/integrantes/999999');
         expect(res.statusCode).toBe(404);
         expect(res.body).toHaveProperty('error', 'Integrante no encontrado');
     });
 
     test('Devuelve 200 con el integrante y su lista de proyectos', async () => {
-        const created = await request(app).post('/api/v1/integrantes').send({
+        const created = await request(app).post('/api/v2/integrantes').send({
             nombre: 'Martina GET', rol: 'productora'
         });
         const id = created.body.id;
-        const res = await request(app).get(`/api/v1/integrantes/${id}`);
+        const res = await request(app).get(`/api/v2/integrantes/${id}`);
         expect(res.statusCode).toBe(200);
         expect(res.body.id).toBe(id);
         expect(res.body).toHaveProperty('proyectos');
@@ -115,10 +115,10 @@ describe('[Integración] GET /api/v1/integrantes/:id', () => {
     });
 });
 
-describe('[Integración] POST /api/v1/integrantes', () => {
+describe('[Integración] POST /api/v2/integrantes', () => {
 
     test('Crea un integrante con todos los campos y devuelve 201', async () => {
-        const res = await request(app).post('/api/v1/integrantes').send({
+        const res = await request(app).post('/api/v2/integrantes').send({
             nombre: 'Sofía Test',
             rol: 'sesionista',
             email: 'sofia@jacaranda.com',
@@ -131,7 +131,7 @@ describe('[Integración] POST /api/v1/integrantes', () => {
     });
 
     test('Crea un integrante solo con campos obligatorios (sin email ni teléfono)', async () => {
-        const res = await request(app).post('/api/v1/integrantes').send({
+        const res = await request(app).post('/api/v2/integrantes').send({
             nombre: 'Solo Obligatorios', rol: 'artista'
         });
         expect(res.statusCode).toBe(201);
@@ -140,13 +140,13 @@ describe('[Integración] POST /api/v1/integrantes', () => {
     });
 
     test('Devuelve 400 si falta "nombre"', async () => {
-        const res = await request(app).post('/api/v1/integrantes').send({ rol: 'artista' });
+        const res = await request(app).post('/api/v2/integrantes').send({ rol: 'artista' });
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('detalles');
     });
 
     test('Devuelve 400 si "email" tiene formato inválido', async () => {
-        const res = await request(app).post('/api/v1/integrantes').send({
+        const res = await request(app).post('/api/v2/integrantes').send({
             nombre: 'Test Email', rol: 'artista', email: 'no-arroba'
         });
         expect(res.statusCode).toBe(400);
@@ -154,14 +154,14 @@ describe('[Integración] POST /api/v1/integrantes', () => {
     });
 });
 
-describe('[Integración] PUT /api/v1/integrantes/:id', () => {
+describe('[Integración] PUT /api/v2/integrantes/:id', () => {
 
     test('Actualiza campos parcialmente y devuelve 200', async () => {
-        const created = await request(app).post('/api/v1/integrantes').send({
+        const created = await request(app).post('/api/v2/integrantes').send({
             nombre: 'Integrante para actualizar', rol: 'artista'
         });
         const id = created.body.id;
-        const res = await request(app).put(`/api/v1/integrantes/${id}`).send({
+        const res = await request(app).put(`/api/v2/integrantes/${id}`).send({
             rol: 'productor general', telefono: '1100000099'
         });
         expect(res.statusCode).toBe(200);
@@ -171,79 +171,79 @@ describe('[Integración] PUT /api/v1/integrantes/:id', () => {
     });
 
     test('Devuelve 404 para ID inexistente', async () => {
-        const res = await request(app).put('/api/v1/integrantes/999999').send({ rol: 'nuevo rol' });
+        const res = await request(app).put('/api/v2/integrantes/999999').send({ rol: 'nuevo rol' });
         expect(res.statusCode).toBe(404);
     });
 
     test('Devuelve 400 si el email enviado en la actualización es inválido', async () => {
-        const created = await request(app).post('/api/v1/integrantes').send({
+        const created = await request(app).post('/api/v2/integrantes').send({
             nombre: 'PUT Email Test', rol: 'artista'
         });
         const id = created.body.id;
-        const res = await request(app).put(`/api/v1/integrantes/${id}`).send({ email: 'mail-invalido' });
+        const res = await request(app).put(`/api/v2/integrantes/${id}`).send({ email: 'mail-invalido' });
         expect(res.statusCode).toBe(400);
     });
 });
 
-describe('[Integración] DELETE /api/v1/integrantes/:id', () => {
+describe('[Integración] DELETE /api/v2/integrantes/:id', () => {
 
     test('Elimina un integrante existente y devuelve 204', async () => {
-        const created = await request(app).post('/api/v1/integrantes').send({
+        const created = await request(app).post('/api/v2/integrantes').send({
             nombre: 'Integrante a eliminar', rol: 'feat'
         });
         const id = created.body.id;
-        const res = await request(app).delete(`/api/v1/integrantes/${id}`);
+        const res = await request(app).delete(`/api/v2/integrantes/${id}`);
         expect(res.statusCode).toBe(204);
     });
 
     test('Después de eliminar, GET por ese ID devuelve 404', async () => {
-        const created = await request(app).post('/api/v1/integrantes').send({
+        const created = await request(app).post('/api/v2/integrantes').send({
             nombre: 'Verificar eliminación', rol: 'banda'
         });
         const id = created.body.id;
-        await request(app).delete(`/api/v1/integrantes/${id}`);
-        const res = await request(app).get(`/api/v1/integrantes/${id}`);
+        await request(app).delete(`/api/v2/integrantes/${id}`);
+        const res = await request(app).get(`/api/v2/integrantes/${id}`);
         expect(res.statusCode).toBe(404);
     });
 
     test('Devuelve 404 para ID inexistente', async () => {
-        const res = await request(app).delete('/api/v1/integrantes/999999');
+        const res = await request(app).delete('/api/v2/integrantes/999999');
         expect(res.statusCode).toBe(404);
     });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TESTS DE SEGURIDAD BÁSICA — /api/v1/integrantes
+// TESTS DE SEGURIDAD BÁSICA — /api/v2/integrantes
 // ─────────────────────────────────────────────────────────────────────────────
-describe('[Seguridad] /api/v1/integrantes', () => {
+describe('[Seguridad] /api/v2/integrantes', () => {
 
     test('Nombre muy largo no rompe el servidor (devuelve 400 o 201)', async () => {
         const nombreLargo = 'B'.repeat(10000);
-        const res = await request(app).post('/api/v1/integrantes').send({
+        const res = await request(app).post('/api/v2/integrantes').send({
             nombre: nombreLargo, rol: 'artista'
         });
         expect(res.statusCode).not.toBe(500);
     });
 
     test('Intento de SQL injection en email no rompe el servidor', async () => {
-        const res = await request(app).post('/api/v1/integrantes').send({
+        const res = await request(app).post('/api/v2/integrantes').send({
             nombre: 'SQL Test', rol: 'artista',
             email: "' OR '1'='1"
         });
         // Email inválido → 400, pero NO 500
         expect(res.statusCode).not.toBe(500);
         // La tabla integrantes debe seguir funcionando
-        const lista = await request(app).get('/api/v1/integrantes');
+        const lista = await request(app).get('/api/v2/integrantes');
         expect(lista.statusCode).toBe(200);
     });
 
     test('Body completamente vacío devuelve 400 y no 500', async () => {
-        const res = await request(app).post('/api/v1/integrantes').send({});
+        const res = await request(app).post('/api/v2/integrantes').send({});
         expect(res.statusCode).toBe(400);
     });
 
     test('ID con texto devuelve 404 y no 500', async () => {
-        const res = await request(app).get('/api/v1/integrantes/no-soy-un-id');
+        const res = await request(app).get('/api/v2/integrantes/no-soy-un-id');
         expect(res.statusCode).toBe(404);
     });
 });

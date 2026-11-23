@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * TESTS DE INTEGRACIÓN + UNITARIOS — Proyectos (/api/v1/proyectos)
+ * TESTS DE INTEGRACIÓN + UNITARIOS — Proyectos (/api/v2/proyectos)
  * =============================================================================
  *
  * Tests de integración: usan supertest para hacer requests HTTP reales contra
@@ -99,18 +99,18 @@ describe('[Unitario] proyectosService.validar()', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TESTS DE INTEGRACIÓN — /api/v1/proyectos
+// TESTS DE INTEGRACIÓN — /api/v2/proyectos
 // ─────────────────────────────────────────────────────────────────────────────
-describe('[Integración] GET /api/v1/proyectos', () => {
+describe('[Integración] GET /api/v2/proyectos', () => {
 
     test('Devuelve 200 y un array', async () => {
-        const res = await request(app).get('/api/v1/proyectos');
+        const res = await request(app).get('/api/v2/proyectos');
         expect(res.statusCode).toBe(200);
         expect(Array.isArray(res.body)).toBe(true);
     });
 
     test('Cada proyecto tiene los campos esperados', async () => {
-        const res = await request(app).get('/api/v1/proyectos');
+        const res = await request(app).get('/api/v2/proyectos');
         // La DB de test empieza vacía, solo verificamos si hay elementos que tengan la forma correcta
         if (res.body.length > 0) {
             const p = res.body[0];
@@ -122,21 +122,21 @@ describe('[Integración] GET /api/v1/proyectos', () => {
     });
 });
 
-describe('[Integración] GET /api/v1/proyectos/:id', () => {
+describe('[Integración] GET /api/v2/proyectos/:id', () => {
 
     test('Devuelve 404 con formato correcto para ID inexistente', async () => {
-        const res = await request(app).get('/api/v1/proyectos/999999');
+        const res = await request(app).get('/api/v2/proyectos/999999');
         expect(res.statusCode).toBe(404);
         expect(res.body).toHaveProperty('error', 'Proyecto no encontrado');
     });
 
     test('Devuelve 200 y el proyecto con sus integrantes para un ID existente', async () => {
         // Primero creamos un proyecto para tener un ID válido
-        const created = await request(app).post('/api/v1/proyectos').send({
+        const created = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Proyecto Test GET', tipo: 'single', estado: 'nuevo', fecha_inicio: '2026-01-01'
         });
         const id = created.body.id;
-        const res = await request(app).get(`/api/v1/proyectos/${id}`);
+        const res = await request(app).get(`/api/v2/proyectos/${id}`);
         expect(res.statusCode).toBe(200);
         expect(res.body.id).toBe(id);
         expect(res.body).toHaveProperty('integrantes');
@@ -144,10 +144,10 @@ describe('[Integración] GET /api/v1/proyectos/:id', () => {
     });
 });
 
-describe('[Integración] POST /api/v1/proyectos', () => {
+describe('[Integración] POST /api/v2/proyectos', () => {
 
     test('Crea un proyecto con todos los campos y devuelve 201', async () => {
-        const res = await request(app).post('/api/v1/proyectos').send({
+        const res = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Álbum Nuevo',
             tipo: 'disco',
             estado: 'grabacion',
@@ -165,7 +165,7 @@ describe('[Integración] POST /api/v1/proyectos', () => {
     });
 
     test('Devuelve 400 si falta el campo "nombre"', async () => {
-        const res = await request(app).post('/api/v1/proyectos').send({
+        const res = await request(app).post('/api/v2/proyectos').send({
             tipo: 'single', estado: 'nuevo', fecha_inicio: '2026-01-01'
         });
         expect(res.statusCode).toBe(400);
@@ -175,14 +175,14 @@ describe('[Integración] POST /api/v1/proyectos', () => {
     });
 
     test('Devuelve 400 si "fecha_inicio" tiene formato incorrecto', async () => {
-        const res = await request(app).post('/api/v1/proyectos').send({
+        const res = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Test', tipo: 'single', estado: 'nuevo', fecha_inicio: '01-01-2026'
         });
         expect(res.statusCode).toBe(400);
     });
 
     test('Devuelve 400 si "precio_por_hora" es negativo', async () => {
-        const res = await request(app).post('/api/v1/proyectos').send({
+        const res = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Test', tipo: 'single', estado: 'nuevo',
             fecha_inicio: '2026-01-01', precio_por_hora: -500
         });
@@ -190,14 +190,14 @@ describe('[Integración] POST /api/v1/proyectos', () => {
     });
 });
 
-describe('[Integración] PUT /api/v1/proyectos/:id', () => {
+describe('[Integración] PUT /api/v2/proyectos/:id', () => {
 
     test('Actualiza campos parcialmente y devuelve 200', async () => {
-        const created = await request(app).post('/api/v1/proyectos').send({
+        const created = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Proyecto para actualizar', tipo: 'EP', estado: 'nuevo', fecha_inicio: '2026-02-01'
         });
         const id = created.body.id;
-        const res = await request(app).put(`/api/v1/proyectos/${id}`).send({
+        const res = await request(app).put(`/api/v2/proyectos/${id}`).send({
             estado: 'mezcla', cantidad_horas: 50
         });
         expect(res.statusCode).toBe(200);
@@ -207,55 +207,55 @@ describe('[Integración] PUT /api/v1/proyectos/:id', () => {
     });
 
     test('Devuelve 404 para ID inexistente', async () => {
-        const res = await request(app).put('/api/v1/proyectos/999999').send({ estado: 'listo' });
+        const res = await request(app).put('/api/v2/proyectos/999999').send({ estado: 'listo' });
         expect(res.statusCode).toBe(404);
     });
 
     test('Devuelve 400 si el campo enviado es inválido', async () => {
-        const created = await request(app).post('/api/v1/proyectos').send({
+        const created = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Proyecto PUT inválido', tipo: 'single', estado: 'nuevo', fecha_inicio: '2026-01-01'
         });
         const id = created.body.id;
-        const res = await request(app).put(`/api/v1/proyectos/${id}`).send({ precio_por_hora: -999 });
+        const res = await request(app).put(`/api/v2/proyectos/${id}`).send({ precio_por_hora: -999 });
         expect(res.statusCode).toBe(400);
     });
 });
 
-describe('[Integración] DELETE /api/v1/proyectos/:id', () => {
+describe('[Integración] DELETE /api/v2/proyectos/:id', () => {
 
     test('Elimina un proyecto existente y devuelve 204', async () => {
-        const created = await request(app).post('/api/v1/proyectos').send({
+        const created = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Proyecto a eliminar', tipo: 'beat', estado: 'nuevo', fecha_inicio: '2026-05-01'
         });
         const id = created.body.id;
-        const res = await request(app).delete(`/api/v1/proyectos/${id}`);
+        const res = await request(app).delete(`/api/v2/proyectos/${id}`);
         expect(res.statusCode).toBe(204);
     });
 
     test('Después de eliminar, GET por ese ID devuelve 404', async () => {
-        const created = await request(app).post('/api/v1/proyectos').send({
+        const created = await request(app).post('/api/v2/proyectos').send({
             nombre: 'Proyecto eliminado verificación', tipo: 'single', estado: 'nuevo', fecha_inicio: '2026-05-01'
         });
         const id = created.body.id;
-        await request(app).delete(`/api/v1/proyectos/${id}`);
-        const res = await request(app).get(`/api/v1/proyectos/${id}`);
+        await request(app).delete(`/api/v2/proyectos/${id}`);
+        const res = await request(app).get(`/api/v2/proyectos/${id}`);
         expect(res.statusCode).toBe(404);
     });
 
     test('Devuelve 404 para ID inexistente', async () => {
-        const res = await request(app).delete('/api/v1/proyectos/999999');
+        const res = await request(app).delete('/api/v2/proyectos/999999');
         expect(res.statusCode).toBe(404);
     });
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TESTS DE SEGURIDAD BÁSICA — /api/v1/proyectos
+// TESTS DE SEGURIDAD BÁSICA — /api/v2/proyectos
 // ─────────────────────────────────────────────────────────────────────────────
-describe('[Seguridad] /api/v1/proyectos', () => {
+describe('[Seguridad] /api/v2/proyectos', () => {
 
     test('Payload muy largo en nombre no rompe el servidor (devuelve 400 o 201)', async () => {
         const nombreLargo = 'A'.repeat(10000);
-        const res = await request(app).post('/api/v1/proyectos').send({
+        const res = await request(app).post('/api/v2/proyectos').send({
             nombre: nombreLargo, tipo: 'single', estado: 'nuevo', fecha_inicio: '2026-01-01'
         });
         // El servidor no debe devolver 500. Acepta o rechaza, pero no se rompe.
@@ -263,23 +263,23 @@ describe('[Seguridad] /api/v1/proyectos', () => {
     });
 
     test('Intento de SQL injection en el nombre no rompe el servidor', async () => {
-        const res = await request(app).post('/api/v1/proyectos').send({
+        const res = await request(app).post('/api/v2/proyectos').send({
             nombre: "'; DROP TABLE proyectos; --",
             tipo: 'single', estado: 'nuevo', fecha_inicio: '2026-01-01'
         });
         expect(res.statusCode).not.toBe(500);
         // La tabla debe seguir funcionando
-        const lista = await request(app).get('/api/v1/proyectos');
+        const lista = await request(app).get('/api/v2/proyectos');
         expect(lista.statusCode).toBe(200);
     });
 
     test('Body completamente vacío devuelve 400 y no 500', async () => {
-        const res = await request(app).post('/api/v1/proyectos').send({});
+        const res = await request(app).post('/api/v2/proyectos').send({});
         expect(res.statusCode).toBe(400);
     });
 
     test('ID con caracteres especiales devuelve 404 y no 500', async () => {
-        const res = await request(app).get('/api/v1/proyectos/abc!@#');
+        const res = await request(app).get('/api/v2/proyectos/abc!@#');
         expect(res.statusCode).toBe(404);
     });
 });

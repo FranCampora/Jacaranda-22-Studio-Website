@@ -32,19 +32,19 @@ describe('Servidor base', () => {
     });
 
     test('GET a un endpoint inexistente devuelve 404 con el formato de error correcto', async () => {
-        const res = await request(app).get('/api/v1/no-existe');
+        const res = await request(app).get('/api/v2/no-existe');
         expect(res.statusCode).toBe(404);
         expect(res.body).toEqual({
             status: 'Error',
             error: 'Endpoint no encontrado',
             metodo: 'GET',
-            ruta: '/api/v1/no-existe'
+            ruta: '/api/v2/no-existe'
         });
     });
 
     test('POST con JSON inválido devuelve 400 con mensaje claro', async () => {
         const res = await request(app)
-            .post('/api/v1/proyectos')
+            .post('/api/v2/proyectos')
             .set('Content-Type', 'application/json')
             .send('{ "nombre": "falta cerrar');
         expect(res.statusCode).toBe(400);

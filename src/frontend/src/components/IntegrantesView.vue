@@ -22,7 +22,7 @@ const integranteSeleccionado = ref(null);
 
 //funciones CRUD
 
-// Carga la lista de integrantes desde el endpoint GET /api/v1/integrantes
+// Carga la lista de integrantes desde el endpoint GET /api/v2/integrantes
 async function cargarIntegrantes() {
   cargando.value = true;
   mensajeError.value = '';

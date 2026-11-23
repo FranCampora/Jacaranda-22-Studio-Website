@@ -1,4 +1,14 @@
-# Documentación de Endpoints - Jacaranda 22 Studio API
+# Documentación de Endpoints - Jacaranda 22 Studio API (v2)
+
+> **Versión 2 (v2)**  
+> **Fecha de lanzamiento:** Lunes 23/11/2026  
+> **Novedades en v2:**  
+> - Migración completa del versionado base de la API a `/api/v2/`.
+> - Incorporación de Rate Limiting (100 peticiones / 60 min por IP).
+> - Restricción de CORS para dominios autorizados.
+> - Sanitización y prevención contra inyección XSS en persistencia de datos.
+> - Límite estricto de tamaño de payload JSON (`MAX_BODY_SIZE`).
+> - Ocultamiento de cabecera `X-Powered-By`.
 
 # Endpoints:
 
@@ -16,9 +26,9 @@
 
 ---
 
-## Proyectos (`/api/v1/proyectos`)
+## Proyectos (`/api/v2/proyectos`)
 
-* **GET `/api/v1/proyectos`** -> Lista todos los proyectos registrados, ordenados del más nuevo al más viejo por ID.
+* **GET `/api/v2/proyectos`** -> Lista todos los proyectos registrados, ordenados del más nuevo al más viejo por ID.
   - **Respuesta 200:**
     ```json
     [
@@ -38,7 +48,7 @@
     ]
     ```
 
-* **GET `/api/v1/proyectos/:id`** -> Obtiene el detalle de un proyecto por su ID, incluyendo el listado de sus integrantes asignados.
+* **GET `/api/v2/proyectos/:id`** -> Obtiene el detalle de un proyecto por su ID, incluyendo el listado de sus integrantes asignados.
   - **Respuesta 200:**
     ```json
     {
@@ -73,7 +83,7 @@
     }
     ```
 
-* **POST `/api/v1/proyectos`** -> Crea un nuevo proyecto. Campos obligatorios: `nombre`, `tipo`, `estado`, `fecha_inicio`.
+* **POST `/api/v2/proyectos`** -> Crea un nuevo proyecto. Campos obligatorios: `nombre`, `tipo`, `estado`, `fecha_inicio`.
   - **Body ejemplo:**
     ```json
     {
@@ -116,7 +126,7 @@
     }
     ```
 
-* **PUT `/api/v1/proyectos/:id`** -> Actualiza datos de un proyecto existente (campos opcionales).
+* **PUT `/api/v2/proyectos/:id`** -> Actualiza datos de un proyecto existente (campos opcionales).
   - **Body ejemplo:**
     ```json
     {
@@ -144,15 +154,15 @@
   - **Error 400:** Datos de entrada inválidos
   - **Error 404:** Proyecto no encontrado
 
-* **DELETE `/api/v1/proyectos/:id`** -> Elimina un proyecto por ID y elimina automáticamente todas las asignaciones de integrantes vinculadas a él.
+* **DELETE `/api/v2/proyectos/:id`** -> Elimina un proyecto por ID y elimina automáticamente todas las asignaciones de integrantes vinculadas a él.
   - **Respuesta 204:** Proyecto eliminado
   - **Error 404:** Proyecto no encontrado
 
 ---
 
-## Integrantes en Proyectos (`/api/v1/proyectos/:id/integrantes`)
+## Integrantes en Proyectos (`/api/v2/proyectos/:id/integrantes`)
 
-* **GET `/api/v1/proyectos/:id/integrantes`** -> Lista los integrantes asignados al proyecto especificado, ordenados por nombre.
+* **GET `/api/v2/proyectos/:id/integrantes`** -> Lista los integrantes asignados al proyecto especificado, ordenados por nombre.
   - **Respuesta 200:**
     ```json
     [
@@ -168,7 +178,7 @@
     ```
   - **Error 404:** Proyecto no encontrado
 
-* **POST `/api/v1/proyectos/:id/integrantes`** -> Asigna un integrante existente a un proyecto o actualiza su `rol_en_proyecto`.
+* **POST `/api/v2/proyectos/:id/integrantes`** -> Asigna un integrante existente a un proyecto o actualiza su `rol_en_proyecto`.
   - **Body ejemplo:**
     ```json
     {
@@ -186,15 +196,15 @@
   - **Error 400:** Falta el campo obligatorio `integrante_id`
   - **Error 404:** Proyecto no encontrado o Integrante no encontrado
 
-* **DELETE `/api/v1/proyectos/:id/integrantes/:integranteId`** -> Desvincula a un integrante del proyecto (no borra al integrante del sistema).
+* **DELETE `/api/v2/proyectos/:id/integrantes/:integranteId`** -> Desvincula a un integrante del proyecto (no borra al integrante del sistema).
   - **Respuesta 204:** Integrante desvinculado
   - **Error 404:** Proyecto no encontrado o el integrante no estaba asignado al proyecto
 
 ---
 
-## Integrantes (`/api/v1/integrantes`)
+## Integrantes (`/api/v2/integrantes`)
 
-* **GET `/api/v1/integrantes`** -> Devuelve la lista completa de integrantes, ordenados por ID.
+* **GET `/api/v2/integrantes`** -> Devuelve la lista completa de integrantes, ordenados por ID.
   - **Respuesta 200:**
     ```json
     [
@@ -208,7 +218,7 @@
     ]
     ```
 
-* **GET `/api/v1/integrantes/:id`** -> Devuelve un integrante por su ID junto con el listado de proyectos en los que participa.
+* **GET `/api/v2/integrantes/:id`** -> Devuelve un integrante por su ID junto con el listado de proyectos en los que participa.
   - **Respuesta 200:**
     ```json
     {
@@ -237,7 +247,7 @@
     ```
   - **Error 404:** Integrante no encontrado
 
-* **POST `/api/v1/integrantes`** -> Crea un nuevo integrante. Campos obligatorios: `nombre`, `rol`.
+* **POST `/api/v2/integrantes`** -> Crea un nuevo integrante. Campos obligatorios: `nombre`, `rol`.
   - **Body ejemplo:**
     ```json
     {
@@ -268,7 +278,7 @@
     }
     ```
 
-* **PUT `/api/v1/integrantes/:id`** -> Actualiza los datos de un integrante específico por su ID.
+* **PUT `/api/v2/integrantes/:id`** -> Actualiza los datos de un integrante específico por su ID.
   - **Body ejemplo:**
     ```json
     {
@@ -289,15 +299,15 @@
   - **Error 400:** Datos de entrada inválidos
   - **Error 404:** Integrante no encontrado
 
-* **DELETE `/api/v1/integrantes/:id`** -> Elimina un integrante por su ID (también elimina sus asignaciones en proyectos).
+* **DELETE `/api/v2/integrantes/:id`** -> Elimina un integrante por su ID (también elimina sus asignaciones en proyectos).
   - **Respuesta 204:** Integrante eliminado
   - **Error 404:** Integrante no encontrado
 
 ---
 
-## Reportes (`/api/v1/reportes`)
+## Reportes (`/api/v2/reportes`)
 
-* **GET `/api/v1/reportes`** -> Devuelve reportes analíticos de los proyectos según el parámetro `?tipo=` (`general` por defecto, `estado`, `genero`, `financiero`).
+* **GET `/api/v2/reportes`** -> Devuelve reportes analíticos de los proyectos según el parámetro `?tipo=` (`general` por defecto, `estado`, `genero`, `financiero`).
 
   - **Consulta General (`?tipo=general` o sin parámetro):**
     - **Respuesta 200:**

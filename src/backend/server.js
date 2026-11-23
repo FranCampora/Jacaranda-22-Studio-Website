@@ -87,11 +87,11 @@ app.get('/health', (req, res) => {
     });
 });
 
-// Rutas de la API versionada - endpoints de los recursos
+// Rutas de la API versionada - endpoints de los recursos (v2)
 //Aca se va redirigiendo en las peticiones a los distintos routers de la API, que estan en la carpeta routes
-app.use('/api/v1/proyectos', proyectosRouter);
-app.use('/api/v1/integrantes', integrantesRouter);
-app.use('/api/v1/reportes', reportesRouter);
+app.use('/api/v2/proyectos', proyectosRouter);
+app.use('/api/v2/integrantes', integrantesRouter);
+app.use('/api/v2/reportes', reportesRouter);
 
 //si no entro en ningun router, empieza a chekear errores. 
 // Primero el 404 y luego el 500. Si no entra en ninguno de estos, es que todo esta bien y se ejecuta la peticion

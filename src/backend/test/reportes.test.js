@@ -1,6 +1,6 @@
 /**
  * =============================================================================
- * TESTS DE INTEGRACIÓN + UNITARIOS — Reportes (/api/v1/reportes)
+ * TESTS DE INTEGRACIÓN + UNITARIOS — Reportes (/api/v2/reportes)
  * =============================================================================
  *
  * Tests de integración: flujo completo HTTP con supertest.
@@ -100,18 +100,18 @@ describe('[Unitario] reportesService.generar()', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TESTS DE INTEGRACIÓN — /api/v1/reportes
+// TESTS DE INTEGRACIÓN — /api/v2/reportes
 // ─────────────────────────────────────────────────────────────────────────────
-describe('[Integración] GET /api/v1/reportes', () => {
+describe('[Integración] GET /api/v2/reportes', () => {
 
     test('Sin parámetro devuelve 200 con tipo "general"', async () => {
-        const res = await request(app).get('/api/v1/reportes');
+        const res = await request(app).get('/api/v2/reportes');
         expect(res.statusCode).toBe(200);
         expect(res.body.tipo).toBe('general');
     });
 
     test('?tipo=general devuelve 200 con la estructura completa', async () => {
-        const res = await request(app).get('/api/v1/reportes?tipo=general');
+        const res = await request(app).get('/api/v2/reportes?tipo=general');
         expect(res.statusCode).toBe(200);
         expect(res.body).toHaveProperty('finanzas');
         expect(res.body).toHaveProperty('distribucionEstados');
@@ -120,7 +120,7 @@ describe('[Integración] GET /api/v1/reportes', () => {
     });
 
     test('?tipo=estado devuelve 200 con array de datos', async () => {
-        const res = await request(app).get('/api/v1/reportes?tipo=estado');
+        const res = await request(app).get('/api/v2/reportes?tipo=estado');
         expect(res.statusCode).toBe(200);
         expect(res.body.tipo).toBe('estado');
         expect(Array.isArray(res.body.datos)).toBe(true);
@@ -128,14 +128,14 @@ describe('[Integración] GET /api/v1/reportes', () => {
     });
 
     test('?tipo=genero devuelve 200 con array de datos', async () => {
-        const res = await request(app).get('/api/v1/reportes?tipo=genero');
+        const res = await request(app).get('/api/v2/reportes?tipo=genero');
         expect(res.statusCode).toBe(200);
         expect(res.body.tipo).toBe('genero');
         expect(Array.isArray(res.body.datos)).toBe(true);
     });
 
     test('?tipo=financiero devuelve 200 con métricas numéricas', async () => {
-        const res = await request(app).get('/api/v1/reportes?tipo=financiero');
+        const res = await request(app).get('/api/v2/reportes?tipo=financiero');
         expect(res.statusCode).toBe(200);
         expect(res.body.tipo).toBe('financiero');
         expect(res.body.datos).toHaveProperty('total_proyectos');
@@ -143,7 +143,7 @@ describe('[Integración] GET /api/v1/reportes', () => {
     });
 
     test('?tipo=invalido devuelve 400 con lista de tipos válidos', async () => {
-        const res = await request(app).get('/api/v1/reportes?tipo=invalido');
+        const res = await request(app).get('/api/v2/reportes?tipo=invalido');
         expect(res.statusCode).toBe(400);
         expect(res.body).toHaveProperty('error');
         expect(res.body).toHaveProperty('tiposValidos');
@@ -152,25 +152,25 @@ describe('[Integración] GET /api/v1/reportes', () => {
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// TESTS DE SEGURIDAD BÁSICA — /api/v1/reportes
+// TESTS DE SEGURIDAD BÁSICA — /api/v2/reportes
 // ─────────────────────────────────────────────────────────────────────────────
-describe('[Seguridad] /api/v1/reportes', () => {
+describe('[Seguridad] /api/v2/reportes', () => {
 
     test('Parámetro ?tipo con SQL injection devuelve 400 y no 500', async () => {
-        const res = await request(app).get("/api/v1/reportes?tipo=' OR 1=1--");
+        const res = await request(app).get("/api/v2/reportes?tipo=' OR 1=1--");
         expect(res.statusCode).toBe(400);
         expect(res.statusCode).not.toBe(500);
     });
 
     test('Parámetro ?tipo muy largo devuelve 400 y no 500', async () => {
         const tipoLargo = 'x'.repeat(5000);
-        const res = await request(app).get(`/api/v1/reportes?tipo=${tipoLargo}`);
+        const res = await request(app).get(`/api/v2/reportes?tipo=${tipoLargo}`);
         expect(res.statusCode).toBe(400);
         expect(res.statusCode).not.toBe(500);
     });
 
     test('Reportes no acepta POST (devuelve 404)', async () => {
-        const res = await request(app).post('/api/v1/reportes').send({});
+        const res = await request(app).post('/api/v2/reportes').send({});
         expect(res.statusCode).toBe(404);
     });
 });

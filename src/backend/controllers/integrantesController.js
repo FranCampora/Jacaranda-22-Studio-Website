@@ -29,7 +29,7 @@ function crear(req, res) {
     const nuevoIntegrante = integrantesService.crear(req.body);
     return res
         .status(201)
-        .location(`/api/v1/integrantes/${nuevoIntegrante.id}`)
+        .location(`/api/v2/integrantes/${nuevoIntegrante.id}`)
         .json(nuevoIntegrante);
 }
 

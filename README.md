@@ -14,7 +14,7 @@ Horario: Jueves 19:00hs sincrónico
 El proyecto esta dividido en backend y frontend, dentro del directorio src/
 
 ### Backend 
-Contiene la API REST de nivel 2 según Richardson, desarrollada en JavaScript utilizando le framework Express.js
+Contiene la API REST de nivel 2 según Richardson, desarrollada en JavaScript utilizando le framework Express.js (Versionada en **`/api/v2/`** desde el **Lunes 23/11/2026**).
 Utilizamos una estructura dividida en capas:
 
 * Routes -> Mapeo de los endpoints
