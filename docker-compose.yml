@@ -20,6 +20,8 @@ services:
       dockerfile: Dockerfile
       target: development
     container_name: jacaranda-frontend
+    # En desarrollo local con volumen montado, se ejecuta como root (o user del host) para evitar conflictos EACCES con Vite
+    user: "root"
     ports:
       - "5173:5173"
     environment:

@@ -21,8 +21,13 @@ CMD ["echo", "Frontend tests/build check completado exitosamente"]
 FROM build AS development
 
 # =============================================================================
-# SEGURIDAD: USUARIO NO-ROOT
+# SEGURIDAD & PERMISOS EN DESARROLLO
 # =============================================================================
+# Vite necesita escribir carpetas temporales y caché (.vite-temp, .vite) en /app/node_modules.
+# Aseguramos la existencia y propiedad para el usuario 'node'.
+RUN mkdir -p /app/node_modules/.vite-temp /app/node_modules/.vite && \
+    chown -R node:node /app
+
 # Para ejecutar como usuario seguro (no-root): dejar activa la línea 'USER node'.
 # Para volver a ejecutar como root: comentar 'USER node' (o colocar 'USER root').
 USER node
