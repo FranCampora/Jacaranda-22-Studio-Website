@@ -33,34 +33,34 @@ onMounted(() => {
     <h2>Reportes del Estudio Jacaranda 22</h2>
 
     <!-- seleccionar el tipo de reporte -->
-    <div style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+    <div class="filtros-reportes" style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
       <button
         type="button"
-        :class="{ 'boton-primario': tipoSeleccionado === 'general' }"
+        :class="['boton-filtro', { 'boton-primario': tipoSeleccionado === 'general' }]"
         @click="cargarReporte('general')"
       >
         Reporte General
       </button>
       <button
         type="button"
-        :class="{ 'boton-primario': tipoSeleccionado === 'financiero' }"
+        :class="['boton-filtro', { 'boton-primario': tipoSeleccionado === 'financiero' }]"
         @click="cargarReporte('financiero')"
       >
         Financiero y Horas
       </button>
       <button
         type="button"
-        :class="{ 'boton-primario': tipoSeleccionado === 'estado' }"
+        :class="['boton-filtro', { 'boton-primario': tipoSeleccionado === 'estado' }]"
         @click="cargarReporte('estado')"
       >
         Por Estado
       </button>
       <button
         type="button"
-        :class="{ 'boton-primario': tipoSeleccionado === 'genero' }"
+        :class="['boton-filtro', { 'boton-primario': tipoSeleccionado === 'genero' }]"
         @click="cargarReporte('genero')"
       >
-        Por genero musical
+        Por género musical
       </button>
     </div>
 
