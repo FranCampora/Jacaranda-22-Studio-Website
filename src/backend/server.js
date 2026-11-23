@@ -4,6 +4,7 @@ const cors = require('cors');
 
 const app = express();
 app.set('etag', false); /* Desactiva las Etags que lee el navegador para ver si un recurso cambió*/
+app.disable('x-powered-by'); /* Seguridad: oculta que el server corre Express para evitar fingerprinting */
 const PORT = process.env.PORT || 3000;
 
 // Importación de routers
@@ -73,8 +74,14 @@ app.use((err, req, res, next) => {
     });
 });
 
+// Iniciar el servidor solo si este archivo es ejecutado directamente, y no en jest
+if (require.main === module) {
+    app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
+}
+
+/*
 app.listen(PORT, () => {
     console.log(`Servidor escuchando en http://localhost:${PORT}`);
-});
+});*/
 
 module.exports = app;

@@ -29,6 +29,26 @@ services:
     depends_on:
       - backend
 
+  # ===========================================================================
+  # PERFIL DE TESTS (Solo se corre cuando explícitamente se pide --profile test)
+  # No arranca con 'docker compose up', no ocupa puertos y se autodestruye al terminar.
+  # ===========================================================================
+  backend-test:
+    profiles: ["test"]
+    build:
+      context: ./src/backend
+      dockerfile: Dockerfile
+      target: test
+    container_name: jacaranda-backend-test
+
+  frontend-test:
+    profiles: ["test"]
+    build:
+      context: ./src/frontend
+      dockerfile: Dockerfile
+      target: test
+    container_name: jacaranda-frontend-test
+
 
 networks:
   default:

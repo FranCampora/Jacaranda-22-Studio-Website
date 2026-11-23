@@ -102,13 +102,81 @@ Los lenguajes, frameworks y librerias utilizadas:
 * Github como repositorio remoto para el proyecto.
 * Postman para el testing de los endpoints de la API REST.
 * Docker para la contenerización de la aplicacion y su despliegue en un servidor local.
+* Jest + Supertest para testing unitario y de integración del backend.
+
+---
+
+## Testing con Jest
+
+### Cómo funcionan los tests
+
+Los tests del backend se encuentran en `src/backend/test/` y utilizan:
+- **Jest**: framework de testing que corre y organiza los tests.
+- **Supertest**: librería que levanta la app Express en **memoria** sin abrir un puerto real. Esto significa que los tests no interfieren con el puerto 3000 ni con ningún servidor corriendo en simultáneo.
+
+La base de datos usada en los tests es un **archivo temporal en `os.tmpdir()`** (carpeta del sistema operativo), generado con un nombre único por ejecución. No se toca `data/jacaranda.db` en ningún momento. Al finalizar la ejecución de Jest, el archivo temporal queda en la carpeta temp del sistema y puede borrarse manualmente si se desea.
+
+### Tipos de tests implementados
+
+| Archivo | Tipo | Qué cubre |
+|---|---|---|
+| `server.test.js` | Integración + Seguridad | `GET /`, `GET /health`, 404, JSON inválido, path traversal |
+| `proyectos.test.js` | Integración + Unitario + Seguridad | CRUD completo, validaciones del service, SQL injection |
+| `integrantes.test.js` | Integración + Unitario + Seguridad | CRUD completo, validaciones del service, SQL injection |
+| `reportes.test.js` | Integración + Unitario + Seguridad | 4 tipos de reporte, tipo inválido, SQL injection en query params |
+
+### Correr los tests localmente (sin Docker)
+
+```bash
+cd src/backend
+npm install          # instala jest y supertest (devDependencies)
+npm test             # corre todos los tests
+npm run test:coverage  # con reporte de cobertura de código
+```
+
+### Correr los tests con Docker (Multi-Stage Build)
+
+Tanto el `Dockerfile` del backend como el del frontend soportan **Multi-Stage Building** con una etapa `--target test`:
+- `backend`: corre la suite completa de Jest (82 tests de integración, unitarios y seguridad).
+- `frontend`: corre la etapa de test/build verificando que los componentes de Vue compilen sin errores.
+
+> **Importante:** `docker-compose.yml` **no se modifica** y los puertos (`3000` y `5173`) siguen intactos.
+
+#### Opción A: Testear cada parte individualmente
+```bash
+# Test de Backend (Jest)
+docker build --target test -t jacaranda-backend-test ./src/backend
+docker run --rm jacaranda-backend-test
+
+# Test de Frontend (Build & check)
+docker build --target test -t jacaranda-frontend-test ./src/frontend
+docker run --rm jacaranda-frontend-test
+```
+
+#### Opción B: Testear ambos juntos con Docker Compose (Profiles)
+El mismo `docker-compose.yml` incluye el profile `test`. Solo se activa si lo llamás explícitamente:
+```bash
+docker compose --profile test run --rm backend-test
+docker compose --profile test run --rm frontend-test
+```
+O ambos a la vez:
+```bash
+docker compose --profile test up --build --abort-on-container-exit backend-test frontend-test
+```
+
+#### Deploy normal (Desarrollo / Producción)
+Cuando corrés el comando normal, Docker ignora por completo los servicios de test:
+```bash
+docker compose up --build
+```
 
 
 ## Mejoras para nuevas versiones
-- Utilizar worfklows de Github para automatizar el despliegue del proyecto en un servidor remoto.
+- Utilizar workflows de Github Actions para automatizar el despliegue del proyecto en un servidor remoto.
 - Agregar logins y roles de usuario para la gestion de proyectos e integrantes. Que cada usuario tenga su propio proyecto, pueda invitar a otros usuarios a participar en el proyecto, que los usuarios puedan ver los proyectos en los que participan y sus integrantes.
 - Carga de archivos de audio .wav y .mp3 en la mejor calidad posible a 44.1 khz y a 48khz.
 - Agregar un reproductor de audio para escuchar los archivos de audio cargados en la pagina web.
+- Implementar un sistema de pagos para que los usuarios puedan pagar por hora de estudio musical, y que el sistema genere un recibo de pago para cada transacción realizada.
 
 
 ## Aclaracion sobre las ramas

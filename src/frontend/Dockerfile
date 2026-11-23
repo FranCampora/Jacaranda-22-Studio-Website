@@ -1,18 +1,23 @@
-#build
+# =============================================================================
+# MULTI-STAGE BUILD — Frontend Jacaranda 22 Studio (Vue 3 + Vite)
+# =============================================================================
+
+# Etapa 1: Dependencias y código base
 FROM node:lts-alpine AS build
 WORKDIR /app
 
-#copio solo dependencias en package.json y package-lock.json para que no se reinstalen dependencias si solo cambio el código
 COPY package*.json ./
 RUN npm ci
-#ci es mejor que install porque instala exactamente las dependencias que están en package-lock.json
 
-#copio el resto del code
 COPY . .
 
+# Etapa 2: Desarrollo / Ejecución normal (usada por Docker Compose por defecto)
+FROM build AS development
 EXPOSE 5173
-
-# Levantar con --host para permitir conexiones fuera del contenedor
 CMD ["npm", "run", "dev", "--", "--host"]
 
-#falta terminar este dockerfile
+# Etapa 3: Stage de test / verificación (para build --target test)
+FROM build AS test
+# Valida la compilación del bundle para certificar que no haya errores de sintaxis o imports
+RUN npm run build
+CMD ["echo", "Frontend tests/build check completado exitosamente"]
