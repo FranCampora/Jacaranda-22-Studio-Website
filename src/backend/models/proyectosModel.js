@@ -1,6 +1,7 @@
 const db = require('./db');
 
 function obtenerTodos() {
+<<<<<<< HEAD
     return db.prepare('SELECT * FROM proyectos ORDER BY id DESC').all();
 }
 
@@ -8,10 +9,22 @@ function obtenerPorId(id) {
     const n = Number(id);
     if (!Number.isInteger(n)) return undefined;
 
+=======
+    return db.prepare('SELECT * FROM proyectos ORDER BY id').all();
+}
+
+// devuelve el proyecto, o undefined si no existe
+function obtenerPorId(id) {
+    const n = Number(id);
+    if (!Number.isInteger(n)) {
+        return undefined;
+    }
+>>>>>>> c929ec0690a35226130180262185f063947eb3f1
     return db.prepare('SELECT * FROM proyectos WHERE id = ?').get(n);
 }
 
 function crear(datos) {
+<<<<<<< HEAD
     const stmt = db.prepare(`
         INSERT INTO proyectos (
             nombre, tipo, estado, fecha_inicio, fecha_fin_estimada,
@@ -131,6 +144,55 @@ function resumenFinanciero() {
             ROUND(AVG(precio_por_hora), 2) AS promedio_precio_hora
         FROM proyectos
     `).get();
+=======
+    const info = db.prepare(`
+        INSERT INTO proyectos (nombre, tipo, estado, fecha_inicio, fecha_fin_estimada, fecha_fin, genero, descripcion)
+        VALUES (@nombre, @tipo, @estado, @fecha_inicio, @fecha_fin_estimada, @fecha_fin, @genero, @descripcion)
+    `).run(datos);
+    return obtenerPorId(info.lastInsertRowid);
+}
+
+// devuelve el proyecto actualizado, o undefined si no existe
+function actualizar(id, datos) {
+    const n = Number(id);
+    if (!Number.isInteger(n)) {
+        return undefined;
+    }
+    const info = db.prepare(`
+        UPDATE proyectos
+        SET nombre = @nombre, tipo = @tipo, estado = @estado, fecha_inicio = @fecha_inicio,
+            fecha_fin_estimada = @fecha_fin_estimada, fecha_fin = @fecha_fin,
+            genero = @genero, descripcion = @descripcion
+        WHERE id = @id
+    `).run({ ...datos, id: n });
+    if (info.changes === 0) {
+        return undefined;
+    }
+    return obtenerPorId(n);
+}
+
+// devuelve true si lo borró, false si no existía
+function eliminar(id) {
+    const n = Number(id);
+    if (!Number.isInteger(n)) {
+        return false;
+    }
+    return db.prepare('DELETE FROM proyectos WHERE id = ?').run(n).changes > 0;
+}
+
+// ---- Para los reportes ----
+function contarPorEstado() {
+    return db.prepare('SELECT estado, COUNT(*) AS cantidad FROM proyectos GROUP BY estado').all();
+}
+
+function contarPorGenero() {
+    return db.prepare(`
+        SELECT COALESCE(genero, 'sin_genero') AS genero, COUNT(*) AS cantidad
+        FROM proyectos
+        GROUP BY COALESCE(genero, 'sin_genero')
+        ORDER BY cantidad DESC, genero
+    `).all();
+>>>>>>> c929ec0690a35226130180262185f063947eb3f1
 }
 
 module.exports = {
@@ -140,6 +202,11 @@ module.exports = {
     actualizar,
     eliminar,
     contarPorEstado,
+<<<<<<< HEAD
     contarPorGenero,
     resumenFinanciero
 };
+=======
+    contarPorGenero
+};
+>>>>>>> c929ec0690a35226130180262185f063947eb3f1

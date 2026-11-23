@@ -1,6 +1,11 @@
 Tiene los datos y la logica
+<<<<<<< HEAD
 Valida todos los datos y arma los objetos.
 
 Se conecta con varios models que acceden a la BBDD para las validaciones y todas las logicas.
+=======
+Hasta que no se creé la BBDD los datos const (constantes) estan aca
+y todos los arrays
+>>>>>>> c929ec0690a35226130180262185f063947eb3f1
 
 reportesServices.js : cuenta los proyectos por el estado que tienen
