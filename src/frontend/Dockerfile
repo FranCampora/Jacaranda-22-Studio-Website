@@ -11,13 +11,13 @@ RUN npm ci
 
 COPY . .
 
-# Etapa 2: Desarrollo / Ejecución normal (usada por Docker Compose por defecto)
-FROM build AS development
-EXPOSE 5173
-CMD ["npm", "run", "dev", "--", "--host"]
-
-# Etapa 3: Stage de test / verificación (para build --target test)
+# Etapa 2: Stage de test / verificación (para build --target test)
 FROM build AS test
 # Valida la compilación del bundle para certificar que no haya errores de sintaxis o imports
 RUN npm run build
 CMD ["echo", "Frontend tests/build check completado exitosamente"]
+
+# Etapa 3: Desarrollo / Ejecución normal (al estar al final, es la etapa por defecto)
+FROM build AS development
+EXPOSE 5173
+CMD ["npm", "run", "dev", "--", "--host"]

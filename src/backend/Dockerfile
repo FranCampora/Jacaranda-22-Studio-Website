@@ -33,7 +33,25 @@ RUN npm ci --omit=dev
 COPY . .
 
 # -----------------------------------------------------------------------------
-# Etapa 2 — production: imagen final liviana lista para servir la API REST
+# Etapa 2 — test: imagen con devDependencies (jest + supertest) para correr tests
+#
+# Esta etapa NO es usada por defecto por docker-compose up. Es exclusiva para
+# verificación manual o cuando se selecciona target test.
+# -----------------------------------------------------------------------------
+FROM build AS test
+WORKDIR /app
+
+ENV NODE_ENV=test
+
+# Reinstalar incluyendo devDependencies (jest, supertest, nodemon)
+RUN npm ci
+
+CMD ["npm", "test"]
+
+# -----------------------------------------------------------------------------
+# Etapa 3 — production: imagen final liviana lista para servir la API REST
+#
+# Al estar al final del archivo, es la etapa por defecto si no se especifica target.
 # -----------------------------------------------------------------------------
 FROM node:lts-alpine AS production
 WORKDIR /app
@@ -50,21 +68,3 @@ RUN npm cache clean --force
 EXPOSE 3000
 
 CMD ["node", "server.js"]
-
-# -----------------------------------------------------------------------------
-# Etapa 3 — test: imagen con devDependencies (jest + supertest) para correr tests
-#
-# Esta etapa NO es usada por docker-compose.yml. Es exclusiva para verificación
-# manual o pipelines de CI/CD. Parte del stage "build" (que ya tiene el código)
-# y agrega las devDependencies reinstalando con npm ci (sin --omit=dev).
-# -----------------------------------------------------------------------------
-FROM build AS test
-WORKDIR /app
-
-ENV NODE_ENV=test
-
-# Reinstalar incluyendo devDependencies (jest, supertest, nodemon)
-# El stage "build" usó --omit=dev, así que reinstalamos todo
-RUN npm ci
-
-CMD ["npm", "test"]

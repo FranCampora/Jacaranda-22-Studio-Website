@@ -3,6 +3,7 @@ services:
     build:
       context: ./src/backend
       dockerfile: Dockerfile
+      target: production
     container_name: jacaranda-backend
     ports:
       - "3000:3000"
@@ -17,6 +18,7 @@ services:
     build:
       context: ./src/frontend
       dockerfile: Dockerfile
+      target: development
     container_name: jacaranda-frontend
     ports:
       - "5173:5173"
