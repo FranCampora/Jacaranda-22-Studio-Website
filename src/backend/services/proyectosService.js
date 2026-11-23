@@ -5,6 +5,8 @@ const integrantesModel = require('../models/integrantesModel');
 
 
 const REGEX_FECHA = /^\d{4}-\d{2}-\d{2}$/;//Año, mes, dia. Valida.
+// Regex para detectar posibles inyecciones de código HTML/JavaScript (XSS)
+const REGEX_HTML_TAGS = /<[^>]*>/g;
 
 //Se implementa logica, validadicones y reglas
 //Checke todos los errores posibles y los junta en el array errores. 
@@ -15,19 +17,33 @@ function validar(body, esActualizacion = false) {
     if (!esActualizacion || body.nombre !== undefined) {
         if (!body.nombre || typeof body.nombre !== 'string' || body.nombre.trim() === '') {
             errores.push('El campo "nombre" es obligatorio y debe ser una cadena no vacía.');
+        } else if (REGEX_HTML_TAGS.test(body.nombre)) {
+            errores.push('El campo "nombre" no puede contener etiquetas HTML o scripts.');
         }
     }
 
     if (!esActualizacion || body.tipo !== undefined) {
         if (!body.tipo || typeof body.tipo !== "string" || body.tipo.trim() === "") {
             errores.push('El campo "tipo" es obligatorio y debe ser una cadena no vacía.');
+        } else if (REGEX_HTML_TAGS.test(body.tipo)) {
+            errores.push('El campo "tipo" no puede contener etiquetas HTML o scripts.');
         }
     }
 
     if (!esActualizacion || body.estado !== undefined) {
         if (!body.estado || typeof body.estado !== "string" || body.estado.trim() === "") {
             errores.push('El campo "estado" es obligatorio y debe ser una cadena no vacía.');
+        } else if (REGEX_HTML_TAGS.test(body.estado)) {
+            errores.push('El campo "estado" no puede contener etiquetas HTML o scripts.');
         }
+    }
+
+    if (body.genero !== undefined && body.genero !== null && typeof body.genero === 'string' && REGEX_HTML_TAGS.test(body.genero)) {
+        errores.push('El campo "genero" no puede contener etiquetas HTML o scripts.');
+    }
+
+    if (body.descripcion !== undefined && body.descripcion !== null && typeof body.descripcion === 'string' && REGEX_HTML_TAGS.test(body.descripcion)) {
+        errores.push('El campo "descripcion" no puede contener etiquetas HTML o scripts.');
     }
 
     if (!esActualizacion || body.fecha_inicio !== undefined) {

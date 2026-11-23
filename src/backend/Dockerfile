@@ -65,6 +65,17 @@ COPY --from=build /app ./
 # Limpiar cache de npm para minimizar peso de la imagen
 RUN npm cache clean --force
 
+# Crear directorio de datos y otorgar permisos al usuario no-root 'node'
+# 'node' es un usuario estándar preconfigurado en las imágenes oficiales de Node Alpine.
+RUN mkdir -p /app/data && chown -R node:node /app
+
+# =============================================================================
+# SEGURIDAD: USUARIO NO-ROOT
+# =============================================================================
+# Para ejecutar como usuario seguro (no-root): dejar activa la línea 'USER node'.
+# Para volver a ejecutar como root: comentar 'USER node' (o colocar 'USER root').
+USER node
+
 EXPOSE 3000
 
 CMD ["node", "server.js"]

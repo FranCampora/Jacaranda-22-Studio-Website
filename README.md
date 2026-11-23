@@ -170,6 +170,24 @@ Cuando corrés el comando normal, Docker ignora por completo los servicios de te
 docker compose up --build
 ```
 
+---
+
+## Medidas de Seguridad Implementadas
+
+1. **Ocultamiento de información del servidor (`X-Powered-By`)**: Desactivado para prevenir ataques de fingerprinting.
+2. **Rate Limiting**: Configurado en `server.js` con una ventana de 100 peticiones cada 60 minutos por IP (`express-rate-limit`), con variables fácilmente ajustables (`RATE_LIMIT_WINDOW_MS` y `RATE_LIMIT_MAX_REQUESTS`).
+3. **Límite de tamaño de Payload**: Restringido mediante la variable `MAX_BODY_SIZE` (por defecto `50kb` o configurable por variable de entorno) en `express.json()`.
+4. **CORS Restringido**: Configurado mediante un array de orígenes autorizados (`ALLOWED_ORIGINS` en `server.js`). Para sumar nuevos dominios solo se debe agregar el string al array.
+5. **Protección contra XSS en Base de Datos**: Validación en los services de proyectos e integrantes que rechaza la persistencia de etiquetas HTML y scripts maliciosos.
+6. **Ejecución como usuario no-root en Docker (`node`)**:
+   - Por defecto, los contenedores corren bajo el usuario seguro no privilegiado `node` mediante la directiva `USER node`.
+   - **¿Cómo alternar entre usuario `root` y `node`?**
+     - **Modo seguro (no-root - por defecto):** Dejar la directiva `USER node` activa en `src/backend/Dockerfile` y `src/frontend/Dockerfile`.
+     - **Modo root (para tareas de mantenimiento/instalación de paquetes del SO):** Comentar la línea `# USER node` o especificar `USER root` en el Dockerfile. También se puede sobreescribir al ejecutar con Docker:
+       ```bash
+       docker compose exec --user root backend sh
+       ```
+
 
 ## Mejoras para nuevas versiones
 - Utilizar workflows de Github Actions para automatizar el despliegue del proyecto en un servidor remoto.

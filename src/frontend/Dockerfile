@@ -19,5 +19,13 @@ CMD ["echo", "Frontend tests/build check completado exitosamente"]
 
 # Etapa 3: Desarrollo / Ejecución normal (al estar al final, es la etapa por defecto)
 FROM build AS development
+
+# =============================================================================
+# SEGURIDAD: USUARIO NO-ROOT
+# =============================================================================
+# Para ejecutar como usuario seguro (no-root): dejar activa la línea 'USER node'.
+# Para volver a ejecutar como root: comentar 'USER node' (o colocar 'USER root').
+USER node
+
 EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host"]

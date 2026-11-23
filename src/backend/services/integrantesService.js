@@ -5,6 +5,8 @@ const proyectoIntegrantesModel = require('../models/proyectoIntegrantesModel');
 [caracteres] + @ + [caracteres] + . + [caracteres]
 */
 const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// Regex para detectar posibles inyecciones de código HTML/JavaScript (XSS)
+const REGEX_HTML_TAGS = /<[^>]*>/g;
 
 function validar(body, esActualizacion = false) {
     const errores = [];
@@ -13,6 +15,8 @@ function validar(body, esActualizacion = false) {
     if (!esActualizacion || body.nombre !== undefined) {
         if (!body.nombre || typeof body.nombre !== 'string' || body.nombre.trim() === '') {
             errores.push('El campo "nombre" es obligatorio y debe ser una cadena no vacía.');
+        } else if (REGEX_HTML_TAGS.test(body.nombre)) {
+            errores.push('El campo "nombre" no puede contener etiquetas HTML o scripts.');
         }
     }
 
@@ -20,7 +24,14 @@ function validar(body, esActualizacion = false) {
     if (!esActualizacion || body.rol !== undefined) {
         if (!body.rol || typeof body.rol !== 'string' || body.rol.trim() === '') {
             errores.push('El campo "rol" es obligatorio y debe ser una cadena no vacía (ej: artista, productor, sesionista, apoyo moral, etc.).');
+        } else if (REGEX_HTML_TAGS.test(body.rol)) {
+            errores.push('El campo "rol" no puede contener etiquetas HTML o scripts.');
         }
+    }
+
+    // Validar telefono
+    if (body.telefono !== undefined && body.telefono !== null && typeof body.telefono === 'string' && REGEX_HTML_TAGS.test(body.telefono)) {
+        errores.push('El campo "telefono" no puede contener etiquetas HTML o scripts.');
     }
 
     // Validar email
