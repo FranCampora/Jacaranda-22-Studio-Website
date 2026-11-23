@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 services:
   backend:
     build:
@@ -56,36 +55,3 @@ services:
 networks:
   default:
     name: jacaranda-network
-=======
-
-
-services:
-  #frontend:
-    # Construye la imagen del frontend desde la carpeta 'frontend'
-  #  build:
-  #    context: ./src/frontend
-  #    dockerfile: Dockerfile
-  #  container_name: jacaranda-frontend
-    # Mapea el puerto 80 del contenedor al puerto 3000 del host
-  #  ports:
-  #    - "8080:80"
-    # El frontend depende del backend, así que lo iniciará primero
-  #  depends_on:
-  #    - backend
-
-  backend:
-    # Construye la imagen del backend desde la carpeta 'backend'
-    build:
-      context: ./src/backend
-      dockerfile: Dockerfile
-    container_name: jacaranda-backend
-    ports:
-      - "3000:3000"
-    #volumes:
-    #  - ./backend/db:/app/db
-
-# Definimos una red para que ambos servicios puedan comunicarse
-networks:
-  default:
-    name: jacaranda-network
->>>>>>> c929ec0690a35226130180262185f063947eb3f1

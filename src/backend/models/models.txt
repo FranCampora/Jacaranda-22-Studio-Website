@@ -1,6 +1,2 @@
-<<<<<<< HEAD
 Esta subcarpeta es la encargada de hablar con la BBDD
 el file db tambien incializa la BBDD con datos
-=======
-Esta subcarpeta es la encargada de hablar con la BBDD
->>>>>>> c929ec0690a35226130180262185f063947eb3f1

@@ -1,5 +1,4 @@
 const integrantesModel = require('../models/integrantesModel');
-<<<<<<< HEAD
 const proyectoIntegrantesModel = require('../models/proyectoIntegrantesModel');
 
 /*Expresion regular para validar que el mail ingresado sea correcto
@@ -44,17 +43,10 @@ function validar(body, esActualizacion = false) {
 
     return errores;
 }
-=======
-
-const ROLES = ['artista', 'feat', 'productor', 'banda', 'sesionista'];
-
-function validar(body) { /* nombre y rol obligatorios, email con formato válido */ }
->>>>>>> c929ec0690a35226130180262185f063947eb3f1
 
 function obtenerTodos() {
     return integrantesModel.obtenerTodos();
 }
-<<<<<<< HEAD
 
 function obtenerPorId(id) {
     const integrante = integrantesModel.obtenerPorId(id);
@@ -111,8 +103,3 @@ module.exports = {
     actualizar,
     eliminar
 };
-=======
-// + obtenerPorId, crear, actualizar, eliminar
-
-module.exports = { obtenerTodos };
->>>>>>> c929ec0690a35226130180262185f063947eb3f1
