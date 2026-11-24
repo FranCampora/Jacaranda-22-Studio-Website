@@ -1,0 +1,75 @@
+name: Docker Image CI Build
+
+on:
+    #pull_request:
+    #    branches: [ "main" ] #en PR contruye pero no publica en main
+    push:
+        branches: [ "*" ]
+    workflow_dispatch:
+
+
+jobs:
+    #build_pr:
+    #    if: github.event_name == 'pull_request'
+    #    name: Build Docker Image for PR
+    #    runs-on: ubuntu-latest
+    #    steps:
+    #        
+    #    - name: Checkout repository
+    #      uses: actions/checkout@v3 #esta version a que refiere?
+    #    
+    #    
+    #    - name: Set up Docker Buildx
+    #      uses: docker/setup-buildx-action@v3
+    #    
+    #    - name: Build backend image (no push)
+    #      uses: docker/build-push-action@v6
+    #      with:
+    #        context: ./backend
+    #        file: ./backend/Dockerfile
+    #        push: false
+    #        tags: jacaranda22/backend:pr-${{ github.event.pull_request.number }}
+
+    #    - name: Build frontend image (no push)
+    #      uses: docker/build-push-action@v6
+    #      with:
+    #        context: ./frontend
+    #        file: ./frontend/Dockerfile
+    #        push: false
+    #        tags: jacaranda22/frontend:pr-${{ github.event.pull_request.number }}
+
+
+
+    publish_build_main:
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        name: Build and Publish Docker Image for Main
+        runs-on: ubuntu-latest
+        steps:
+            
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v3
+
+#        - name: Log in to DockerHub
+#          uses: docker/login-action@v2
+#          with:
+#            username: ${{ secrets.DOCKER_USERNAME }}
+#            password: ${{ secrets.DOCKER_PASSWORD }}
+
+        - name: Build and push backend image
+          uses: docker/build-push-action@v6
+          with:
+            context: ./backend
+            file: ./backend/Dockerfile
+            push: true
+            tags: jacaranda22/backend:${{ github.sha }}
+
+        - name: Build and push frontend image
+          uses: docker/build-push-action@v6
+          with:
+            context: ./frontend
+            file: ./frontend/Dockerfile
+            push: true
+            tags: jacaranda22/frontend:${{ github.sha }}

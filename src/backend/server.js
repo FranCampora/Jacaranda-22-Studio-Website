@@ -52,7 +52,7 @@ const reportesRouter = require('./routes/reportes');
 app.use(cors({
     origin: function (origin, callback) {
         // Permitir solicitudes sin origen (como clientes REST locales, curl, tests o Postman)
-        if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+        if (!origin || ALLOWED_ORIGINS.includes(origin)) {//la var ALLOWED_ORIGINS es un array de strings con los dominios permitidos, esta más arriba
             return callback(null, true);
         }
         return callback(new Error('Bloqueado por política de CORS: origen no permitido.'));

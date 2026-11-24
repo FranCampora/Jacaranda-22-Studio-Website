@@ -45,7 +45,7 @@ function cambiarSeccion(nuevaSeccion) {
           :class="['pestaña', { activa: seccionActual === 'reportes' }]"
           @click="cambiarSeccion('reportes')"
         >
-          <span>📊</span> Métricas & Costos
+          <span>📊</span> Reportes & Métricas
         </button>
       </nav>
     </header>
@@ -58,8 +58,8 @@ function cambiarSeccion(nuevaSeccion) {
     </main>
 
     <footer class="footer-estudio">
-      <span>Jacarandá 22 Studio · Sistema de Operaciones & Producción Musical</span>
-      <span>48kHz / 24-bit Analog Console Master</span>
+      <span>Jacarandá 22 Studio</span>
+      <span>Panel</span>
     </footer>
   </div>
 </template>

@@ -1,0 +1,33 @@
+name: Frontend Vue CI/CD
+
+on:
+    push:
+        branches: [ "main", "dev_Fran" ]
+        paths: 
+            - 'frontend/**'
+            - '.github/workflows/frontend-vue.yml'
+        
+    jobs:
+        build:
+            runs-on: ubuntu-latest
+            defaults:
+                run:
+                    working-directory: ./frontend
+            steps:
+                - name: Checkout repository
+                  uses: actions/checkout@v4
+                
+                - name: Set up Node.js
+                  uses: actions/setup-node@v4
+                  with:
+                    node-version: '21'
+                    cache: 'npm'
+                    cache-dependency-path: ./frontend/package-lock.json
+
+                - name: Install dependencies
+                  run: npm ci
+                  working-directory: ./frontend
+
+                - name: Run tests
+                  run: npm test -- --ci
+                  working-directory: ./frontend/test

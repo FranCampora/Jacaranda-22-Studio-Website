@@ -1,0 +1,33 @@
+name: Backend Node Express CI/CD
+
+on:
+    push:
+        branches: [ "main", "dev_Fran" ]
+        paths: 
+            - 'backend/**'
+            - '.github/workflows/backend-node-express.yml'
+        
+    jobs:
+        test:
+            runs-on: ubuntu-latest
+            defaults:
+                run:
+                    working-directory: ./backend
+            steps:
+                - name: Checkout repository
+                  uses: actions/checkout@v4
+                
+                - name: Set up Node.js
+                  uses: actions/setup-node@v4
+                  with:
+                    node-version: '21'
+                    cache: 'npm'
+                    cache-dependency-path: ./backend/package-lock.json
+
+                - name: Install dependencies
+                  run: npm ci
+                  working-directory: ./backend
+
+                - name: Run tests
+                  run: npm test -- --ci
+                  working-directory: ./backend/test
