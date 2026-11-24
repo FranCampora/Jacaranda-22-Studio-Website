@@ -5,28 +5,35 @@
    ============================================================================= */
 
 :root {
+  /* Tipografías con carácter de estudio boutique & consola analógica */
+  --font-brand: 'Cinzel', serif;
+  --font-heading: 'Syne', -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
   /* Fondo acústico y superficies tipo chasis / rack */
   --bg-app: #0e0d0c;
-  --bg-card: #181614;
-  --bg-card-hover: #211e1a;
-  --bg-input: #121110;
-  --bg-elevated: #24201b;
+  --bg-card: #171513;
+  --bg-card-hover: #1f1c19;
+  --bg-input: #12100e;
+  --bg-elevated: #23201c;
 
   /* Bordes de consola y ranuras */
-  --border-color: #2b2620;
-  --border-subtle: #1e1b17;
+  --border-color: #2e2822;
+  --border-subtle: #221d18;
   --border-focus: #e5983b;
 
   /* Tipografía cálida (cream on dark charcoal) */
   --text-main: #f5ece1;
-  --text-muted: #a69a8b;
-  --text-dim: #71675a;
+  --text-muted: #a89c8d;
+  --text-dim: #73685a;
 
   /* Acento Ámbar / VU-meter cálido & Jacarandá sutil */
   --accent: #d97706;
   --accent-warm: #e5983b;
-  --accent-glow: rgba(229, 152, 59, 0.18);
-  --accent-hover: #b45309;
+  --accent-glow: rgba(229, 152, 59, 0.22);
+  --accent-hover: #f59e0b;
+  --accent-active: #b45309;
   --accent-light: #fef3c7;
   --accent-jacaranda: #9370db;
   --accent-jacaranda-glow: rgba(147, 112, 219, 0.15);
@@ -40,16 +47,19 @@
   --danger-border: #e11d48;
   --danger-text: #fb7185;
 
-  --rec-indicator: #e11d48;
+  /* Zebra striping para filas pares */
+  --bg-row-alt: #1c1a17;
+  --bg-row-hover: rgba(229, 152, 59, 0.06);
 
+  --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
 
-  /* Sombras analógicas suaves con ligera calidez */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 20px var(--accent-glow);
+  /* Sombras y biselados analógicos de consola */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.45);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 0 16px var(--accent-glow);
 }
 
 * {
@@ -64,7 +74,7 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-family: var(--font-body);
   color: var(--text-main);
   background-color: var(--bg-app);
   line-height: 1.5;
@@ -91,14 +101,14 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 /* =============================================================================
-   BARRA SUPERIOR (HEADER DE CONSOLA ANALÓGICA)
+   BARRA SUPERIOR & NAVEGACIÓN
    ============================================================================= */
 .barra-superior {
-  background-color: rgba(20, 18, 16, 0.92);
+  background-color: rgba(20, 18, 16, 0.94);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-color);
-  padding: 0.9rem 2rem;
+  padding: 0.85rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -115,7 +125,7 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .logo {
-  height: 42px;
+  height: 40px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -133,73 +143,48 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .titulo-sitio {
-  font-size: 1.2rem;
+  font-family: var(--font-brand);
+  font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-main);
-  letter-spacing: -0.2px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .subtitulo-sitio {
-  font-size: 0.72rem;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
+  letter-spacing: 1.8px;
   color: var(--text-muted);
-  font-weight: 600;
-}
-
-/* Indicador Analógico de Sesión Activa / REC */
-.indicador-estudio {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  padding: 0.35rem 0.75rem;
-  border-radius: 9999px;
-  background-color: rgba(24, 22, 20, 0.9);
-  border: 1px solid var(--border-color);
-  letter-spacing: 0.5px;
-}
-
-.luz-rec {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--rec-indicator);
-  box-shadow: 0 0 8px rgba(225, 29, 72, 0.8);
-  animation: pulso-rec 2s infinite ease-in-out;
-}
-
-@keyframes pulso-rec {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.45; transform: scale(0.9); }
+  font-weight: 500;
 }
 
 .navegacion {
   display: flex;
-  gap: 0.5rem;
-  background-color: #121110;
-  padding: 0.25rem;
+  gap: 0.35rem;
+  background-color: #12100e;
+  padding: 0.3rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
 }
 
 .pestaña {
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   color: var(--text-muted);
-  padding: 0.55rem 1.15rem;
-  font-size: 0.88rem;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.86rem;
   font-weight: 500;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all 0.18s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.5rem;
+  font-family: inherit;
 }
 
 .pestaña:hover {
@@ -208,11 +193,11 @@ body::-webkit-scrollbar-thumb:hover {
 }
 
 .pestaña.activa {
-  color: var(--text-main);
-  background-color: var(--bg-card);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-  font-weight: 600;
-  border-bottom: 2px solid var(--accent-warm);
+  color: #110e0a;
+  background: linear-gradient(180deg, #f5a847 0%, #d97706 100%);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.35);
+  border-color: #f5a847;
 }
 
 /* =============================================================================
@@ -226,152 +211,84 @@ body::-webkit-scrollbar-thumb:hover {
 
 .contenido-principal {
   flex: 1;
-  max-width: 1380px;
+  max-width: 1400px;
   width: 100%;
   margin: 0 auto;
-  padding: 2.2rem 2rem 4rem 2rem;
+  padding: 2rem 2rem 4rem 2rem;
 }
 
-/* Header editorial de bienvenida al estudio */
-.banner-estudio {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1.75rem;
-  margin-bottom: 2.25rem;
-  gap: 1.5rem;
-}
-
-.banner-estudio h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  margin: 0 0 0.4rem 0;
+.contenido-principal h2 {
+  font-family: var(--font-heading);
+  font-size: 1.65rem;
+  font-weight: 800;
   letter-spacing: -0.5px;
   color: var(--text-main);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.banner-estudio p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  max-width: 650px;
-}
-
-.stats-rapidas {
-  display: flex;
-  gap: 1.25rem;
-}
-
-.stat-pill {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 0.6rem 1.1rem;
-  display: flex;
-  flex-direction: column;
-  min-width: 120px;
-}
-
-.stat-numero {
-  font-size: 1.35rem;
+.contenido-principal h3 {
+  font-family: var(--font-heading);
+  font-size: 1.22rem;
   font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: var(--accent-warm);
+  letter-spacing: -0.3px;
+  color: var(--text-main);
+  margin-top: 1.5rem;
+  margin-bottom: 0.9rem;
 }
 
-.stat-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--text-dim);
+.contenido-principal h4 {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
   font-weight: 600;
+  color: var(--accent-warm);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
 }
 
 /* =============================================================================
-   ESTRUCTURA DE DOS COLUMNAS (OPERACIÓN & CONSOLA)
+   FORMULARIOS Y ENTRADAS (ESTILO CONSOLA)
    ============================================================================= */
-.dos-columnas {
-  display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 2rem;
-  align-items: start;
-}
-
-@media (max-width: 1060px) {
-  .dos-columnas {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* =============================================================================
-   TARJETAS Y MÓDULOS DE RACK
-   ============================================================================= */
-.modulo-rack,
-.tarjeta-formulario,
-.tarjeta-lista {
+form {
   background: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
+  padding: 1.6rem;
   box-shadow: var(--shadow-sm);
-  overflow: hidden;
+  margin-bottom: 2rem;
 }
 
-.modulo-cabecera {
-  padding: 1.15rem 1.4rem;
-  border-bottom: 1px solid var(--border-color);
-  background-color: rgba(0, 0, 0, 0.15);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.fila-formulario {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.15rem;
+  margin-bottom: 1.15rem;
 }
 
-.modulo-cabecera h2,
-.modulo-cabecera h3 {
-  margin: 0;
-  font-size: 1.08rem;
-  font-weight: 600;
-  color: var(--text-main);
-  letter-spacing: -0.2px;
-}
-
-.modulo-cuerpo {
-  padding: 1.4rem;
-}
-
-/* =============================================================================
-   FORMULARIOS Y ENTRADAS DE CONTROL
-   ============================================================================= */
-.formulario {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-}
-
-.campo-formulario {
+.campo {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
 }
 
-.campo-formulario label {
-  font-size: 0.8rem;
+.campo label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   color: var(--text-muted);
-}
-
-.fila-formulario {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
 }
 
 input[type="text"],
 input[type="number"],
 input[type="date"],
 input[type="email"],
+input[type="tel"],
 select,
 textarea {
   background-color: var(--bg-input);
@@ -381,7 +298,7 @@ textarea {
   padding: 0.65rem 0.85rem;
   font-size: 0.92rem;
   font-family: inherit;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
   width: 100%;
 }
 
@@ -402,76 +319,144 @@ select {
   cursor: pointer;
 }
 
-/* =============================================================================
-   BOTONES ANALÓGICOS & CONTROLES
-   ============================================================================= */
-.botones-formulario {
+.acciones-formulario {
   display: flex;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
+  gap: 0.85rem;
+  margin-top: 1.4rem;
+  align-items: center;
 }
 
-.btn {
+/* =============================================================================
+   BOTONES ANALÓGICOS REDISEÑADOS (VINTAGE CONSOLE HARDWARE BUTTONS)
+   Aspecto de hardware premium: degradé de aluminio anodizado/baquelita,
+   borde con relieve sutil y respuesta física activa.
+   ============================================================================= */
+button,
+.btn,
+.boton-primario,
+.boton-secundario,
+.boton-peligro,
+.boton-filtro {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.45rem;
-  font-size: 0.88rem;
+  font-family: inherit;
+  font-size: 0.84rem;
   font-weight: 600;
-  padding: 0.65rem 1.2rem;
+  letter-spacing: 0.3px;
+  padding: 0.58rem 1.15rem;
   border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.15s ease;
   border: 1px solid transparent;
-  font-family: inherit;
+  transition: all 0.15s cubic-bezier(0.16, 1, 0.3, 1);
   text-decoration: none;
+  user-select: none;
 }
 
+/* 1. Botón Primario: Acento Ámbar / Switch de Consola iluminado */
+.boton-primario,
 .btn-primario {
-  background-color: var(--accent-warm);
-  color: #12100d;
-  border-color: #c97e27;
+  background: linear-gradient(180deg, #f5a847 0%, #d97706 100%);
+  color: #120e0a;
+  border: 1px solid #f5a847;
+  border-bottom-color: #b45309;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
+.boton-primario:hover,
 .btn-primario:hover {
-  background-color: #f59e0b;
-  box-shadow: var(--shadow-glow);
+  background: linear-gradient(180deg, #fbbf24 0%, #ea580c 100%);
+  box-shadow: 0 3px 12px rgba(217, 119, 6, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-1px);
 }
 
+.boton-primario:active,
+.btn-primario:active {
+  background: #d97706;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  transform: translateY(1px);
+}
+
+/* 2. Botón Secundario: Módulo de chasis oscuro con borde biselado */
+.boton-secundario,
 .btn-secundario {
-  background-color: var(--bg-elevated);
+  background: linear-gradient(180deg, #28241f 0%, #1e1b17 100%);
   color: var(--text-main);
-  border-color: var(--border-color);
+  border: 1px solid #3d352b;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
+.boton-secundario:hover,
 .btn-secundario:hover {
-  background-color: var(--bg-card-hover);
+  background: linear-gradient(180deg, #332e27 0%, #25211c 100%);
+  border-color: var(--accent-warm);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.boton-secundario:active,
+.btn-secundario:active {
+  background: #181512;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: translateY(1px);
+}
+
+/* 3. Botón Peligro: Indicador Mute / Corte analógico */
+.boton-peligro,
+.btn-peligro {
+  background: linear-gradient(180deg, #2d161b 0%, #221014 100%);
+  color: #fb7185;
+  border: 1px solid #571e28;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.boton-peligro:hover,
+.btn-peligro:hover {
+  background: linear-gradient(180deg, #e11d48 0%, #be123c 100%);
+  color: #ffffff;
+  border-color: #f43f5e;
+  box-shadow: 0 2px 8px rgba(225, 29, 72, 0.4);
+  transform: translateY(-1px);
+}
+
+.boton-peligro:active,
+.btn-peligro:active {
+  background: #9f1239;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
+  transform: translateY(1px);
+}
+
+/* 4. Botones de Filtro (Reportes) */
+.boton-filtro {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  color: var(--text-muted);
+  padding: 0.5rem 1rem;
+}
+
+.boton-filtro:hover {
+  color: var(--text-main);
   border-color: var(--text-muted);
 }
 
-.btn-peligro {
-  background-color: var(--danger-bg);
-  color: var(--danger-text);
-  border-color: rgba(225, 29, 72, 0.3);
-}
-
-.btn-peligro:hover {
-  background-color: rgba(225, 29, 72, 0.25);
-  border-color: var(--danger-border);
-}
-
-.btn-sm {
-  padding: 0.4rem 0.75rem;
-  font-size: 0.8rem;
-}
-
 /* =============================================================================
-   TABLAS Y LISTADOS TIPO CHANNEL STRIP
+   TABLAS EN COLUMNAS CON ZEBRA STRIPING PARA FILAS PARES
+   Filas pares (`tbody tr:nth-child(even)`) con tonalidad diferenciada para
+   máxima legibilidad y contraste visual tipo hoja de cálculo/consola técnica.
    ============================================================================= */
 .contenedor-tabla {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
   overflow-x: auto;
+  box-shadow: var(--shadow-sm);
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
+table,
 .tabla-datos {
   width: 100%;
   border-collapse: separate;
@@ -479,95 +464,151 @@ select {
   text-align: left;
 }
 
-.tabla-datos th {
-  background-color: rgba(0, 0, 0, 0.25);
-  padding: 0.85rem 1rem;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
+thead th {
+  font-family: var(--font-mono);
+  background-color: #141210;
   color: var(--text-muted);
+  font-size: 0.72rem;
   font-weight: 600;
-  border-bottom: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.85rem 1rem;
+  border-bottom: 2px solid var(--border-color);
+  border-right: 1px solid var(--border-subtle);
+  white-space: nowrap;
 }
 
-.tabla-datos td {
-  padding: 0.95rem 1rem;
-  border-bottom: 1px solid var(--border-subtle);
-  font-size: 0.92rem;
+thead th:last-child {
+  border-right: none;
+}
+
+tbody td {
+  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
   color: var(--text-main);
+  border-bottom: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
   vertical-align: middle;
 }
 
-.tabla-datos tr:last-child td {
-  border-bottom: none;
+tbody td:last-child {
+  border-right: none;
 }
 
-.tabla-datos tbody tr {
-  transition: background-color 0.15s ease;
+/* FILAS IMPARES: Color base del chasis */
+tbody tr:nth-child(odd) {
+  background-color: #171513;
 }
 
-.tabla-datos tbody tr:hover {
-  background-color: rgba(229, 152, 59, 0.035);
+/* FILAS PARES (ZEBRA-STRIPING): Tonalidad ligeramente más clara del mismo matiz */
+tbody tr:nth-child(even) {
+  background-color: var(--bg-row-alt); /* #1c1a17 */
 }
 
-.fila-activa {
-  background-color: rgba(229, 152, 59, 0.07) !important;
+/* Hover en cualquier fila */
+tbody tr:hover {
+  background-color: var(--bg-row-hover) !important;
 }
 
-/* Tags de estados y géneros musicales */
-.badge-estado {
-  display: inline-flex;
+/* Acciones dentro de las celdas de la tabla */
+.acciones-tabla {
+  display: flex;
+  gap: 0.45rem;
   align-items: center;
-  padding: 0.25rem 0.65rem;
-  border-radius: 9999px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: capitalize;
+  flex-wrap: nowrap;
 }
 
-.badge-en-proceso,
-.badge-grabando {
-  background-color: rgba(229, 152, 59, 0.15);
-  color: var(--accent-warm);
-  border: 1px solid rgba(229, 152, 59, 0.3);
+.acciones-tabla button {
+  padding: 0.38rem 0.7rem;
+  font-size: 0.78rem;
+  border-radius: var(--radius-xs);
+  background: linear-gradient(180deg, #26221c 0%, #1a1714 100%);
+  border: 1px solid #383228;
+  color: var(--text-main);
 }
 
-.badge-finalizado,
-.badge-masterizado {
-  background-color: var(--success-bg);
-  color: var(--success-text);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+.acciones-tabla button:hover {
+  border-color: var(--accent-warm);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
-.badge-pausado,
-.badge-pendiente {
-  background-color: rgba(255, 255, 255, 0.06);
-  color: var(--text-muted);
+.acciones-tabla button.boton-peligro {
+  background: linear-gradient(180deg, #2d161b 0%, #200f13 100%);
+  border-color: #4d1c24;
+  color: #fb7185;
+}
+
+.acciones-tabla button.boton-peligro:hover {
+  background: linear-gradient(180deg, #e11d48 0%, #be123c 100%);
+  border-color: #f43f5e;
+  color: #ffffff;
+}
+
+/* =============================================================================
+   PANEL DE DETALLE / DRAWER
+   ============================================================================= */
+.panel-detalle {
+  background: #1c1916;
   border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow-md);
 }
 
-.badge-genero {
-  background-color: rgba(147, 112, 219, 0.14);
-  color: #d8b4fe;
-  border: 1px solid rgba(147, 112, 219, 0.25);
-  padding: 0.2rem 0.55rem;
-  border-radius: 4px;
-  font-size: 0.72rem;
-  font-weight: 500;
+.panel-detalle h3 {
+  margin-top: 0;
+  color: var(--text-main);
 }
 
-/* Números tabulares para costos y métricas */
-.tabular {
+.panel-detalle p {
+  margin: 0.45rem 0;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.panel-detalle p strong {
+  color: var(--text-main);
+}
+
+/* =============================================================================
+   MÉTRICAS Y TARJETAS DE REPORTES
+   ============================================================================= */
+.tarjetas-resumen {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.15rem;
+  margin-top: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.tarjeta {
+  background: #151311;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.tarjeta-valor {
+  font-family: var(--font-mono);
+  font-size: 1.65rem;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
-  font-weight: 600;
+  color: var(--accent-warm);
 }
 
-/* Alertas de sistema */
+/* =============================================================================
+   ALERTAS Y ESTADOS
+   ============================================================================= */
 .alerta {
   padding: 0.85rem 1.15rem;
   border-radius: var(--radius-sm);
-  margin-bottom: 1.25rem;
+  margin-bottom: 1.3rem;
   font-size: 0.9rem;
   display: flex;
   align-items: center;
@@ -584,39 +625,6 @@ select {
   background-color: var(--danger-bg);
   border: 1px solid var(--danger-border);
   color: var(--danger-text);
-}
-
-/* Estado de carga */
-.cargando-estado {
-  padding: 3rem 1rem;
-  text-align: center;
-  color: var(--text-muted);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.spinner-audio {
-  width: 28px;
-  height: 28px;
-  border: 3px solid var(--border-color);
-  border-top-color: var(--accent-warm);
-  border-radius: 50%;
-  animation: girar 0.8s linear infinite;
-}
-
-@keyframes girar {
-  to { transform: rotate(360deg); }
-}
-
-/* Detalle / Drawer de proyecto */
-.detalle-lateral {
-  margin-top: 1.5rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.4rem;
 }
 
 .footer-estudio {

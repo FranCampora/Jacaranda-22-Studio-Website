@@ -24,12 +24,6 @@ function cambiarSeccion(nuevaSeccion) {
         </div>
       </div>
 
-      <!-- Indicador de señal de estudio / sesión activa -->
-      <div class="indicador-estudio">
-        <span class="luz-rec"></span>
-        <span>CONSOLE ON AIR</span>
-      </div>
-
       <!-- Navegación por consolas/módulos -->
       <nav class="navegacion" aria-label="Consola de navegación">
         <button
