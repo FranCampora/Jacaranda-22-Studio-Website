@@ -17,10 +17,12 @@ const app = require('../server');
 
 describe('Servidor base', () => {
 
-    test('GET / devuelve 200 y el mensaje de bienvenida', async () => {
+    test('GET / devuelve 200', async () => {
         const res = await request(app).get('/');
         expect(res.statusCode).toBe(200);
-        expect(res.text).toContain('Jacaranda 22 Studios');
+        // Si existe frontend/dist servirá index.html, de lo contrario servirá el mensaje en texto plano
+        const esHtmlOTexto = res.text.includes('Jacaranda 22') || res.text.includes('Jacarandá 22');
+        expect(esHtmlOTexto).toBe(true);
     });
 
     test('GET /health devuelve 200 con status OK', async () => {

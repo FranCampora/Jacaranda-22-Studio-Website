@@ -21,16 +21,15 @@ CMD ["echo", "Frontend tests/build check completado exitosamente"]
 FROM build AS development
 
 # =============================================================================
-# SEGURIDAD & PERMISOS EN DESARROLLO
+# PERMISOS EN DESARROLLO
 # =============================================================================
-# Vite necesita escribir carpetas temporales y caché (.vite-temp, .vite) en /app/node_modules.
-# Aseguramos la existencia y propiedad para el usuario 'node'.
-RUN mkdir -p /app/node_modules/.vite-temp /app/node_modules/.vite && \
-    chown -R node:node /app
+# 1. Damos permisos recursivos a node_modules para el usuario node
+RUN mkdir -p /app/node_modules/.vite && chown -R node:node /app/node_modules
 
-# Para ejecutar como usuario seguro (no-root): dejar activa la línea 'USER node'.
-# Para volver a ejecutar como root: comentar 'USER node' (o colocar 'USER root').
-USER node
+# 2. En desarrollo con Vite se ejecuta como root (o el usuario que monta volúmenes)
+# para evitar que Vite falle al preparar dependencias en caché (error 504 / EACCES).
+# Si en algún momento se desea forzar usuario no-root en producción, descomentar:
+# USER node
 
 EXPOSE 5173
 CMD ["npm", "run", "dev", "--", "--host"]

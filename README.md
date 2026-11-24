@@ -179,13 +179,15 @@ docker compose up --build
 3. **Límite de tamaño de Payload**: Restringido mediante la variable `MAX_BODY_SIZE` (por defecto `50kb` o configurable por variable de entorno) en `express.json()`.
 4. **CORS Restringido**: Configurado mediante un array de orígenes autorizados (`ALLOWED_ORIGINS` en `server.js`). Para sumar nuevos dominios solo se debe agregar el string al array.
 5. **Protección contra XSS en Base de Datos**: Validación en los services de proyectos e integrantes que rechaza la persistencia de etiquetas HTML y scripts maliciosos.
-6. **Ejecución como usuario no-root en Docker (`node`)**:
-   - Por defecto, los contenedores corren bajo el usuario seguro no privilegiado `node` mediante la directiva `USER node`.
+6. **Gestión de permisos y usuarios en Docker**:
+   - En el backend se utiliza `USER node` para garantizar la ejecución no privilegiada.
+   - En el frontend para desarrollo con Vite, el servidor necesita escribir dependencias optimizadas y caché en `/app/node_modules/.vite`. Se aplican permisos recursivos (`chown -R node:node /app/node_modules`) y se ejecuta sin restricción `USER node` en la etapa de desarrollo local para evitar errores de permisos (`EACCES` / timeout 504) entre diferentes sistemas operativos (Windows/Linux/Mac).
    - **¿Cómo alternar entre usuario `root` y `node`?**
-     - **Modo seguro (no-root - por defecto):** Dejar la directiva `USER node` activa en `src/backend/Dockerfile` y `src/frontend/Dockerfile`.
-     - **Modo root (para tareas de mantenimiento/instalación de paquetes del SO):** Comentar la línea `# USER node` o especificar `USER root` en el Dockerfile. También se puede sobreescribir al ejecutar con Docker:
+     - Se puede descomentar o agregar `USER node` en `src/frontend/Dockerfile` si se requiere en producción estricta.
+     - Para ejecutar comandos como root en cualquier contenedor:
        ```bash
        docker compose exec --user root backend sh
+       docker compose exec --user root frontend sh
        ```
 
 
