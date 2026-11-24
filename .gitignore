@@ -38,3 +38,8 @@ comandosGit.md
 notas.md
 requirements.md
 server-ejemplo1.js
+
+# Configuración de agentes y skills locales
+.agent/
+.agents/
+.impeccable/

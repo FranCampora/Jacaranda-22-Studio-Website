@@ -1,71 +1,108 @@
 /* =============================================================================
-   JACARANDÁ 22 STUDIOS — ESTILOS GLOBALES & RESPONSIVE
-   Diseño: Modern Studio Dark/Accent Vibes — Liviano, 0 dependencias externas
+   JACARANDÁ 22 STUDIO — VINTAGE ANALOGUE WARMTH DESIGN SYSTEM
+   Inspirado en consolas de grabación legendarias, previo valvular y audio analógico.
+   Construido siguiendo las directrices de craft y jerarquía de Impeccable.
    ============================================================================= */
 
 :root {
-  --bg-app: #0e0f13;
-  --bg-card: #181920;
-  --bg-card-hover: #1f202a;
-  --bg-input: #121318;
-  --border-color: #2b2d3a;
-  --border-focus: #7c4dff;
-  
-  --text-main: #f3f4f8;
-  --text-muted: #9699a8;
-  --text-dim: #64677a;
+  /* Fondo acústico y superficies tipo chasis / rack */
+  --bg-app: #0e0d0c;
+  --bg-card: #181614;
+  --bg-card-hover: #211e1a;
+  --bg-input: #121110;
+  --bg-elevated: #24201b;
 
-  /* Acentos de estudio / música */
-  --accent: #8b5cf6;
-  --accent-glow: rgba(139, 92, 246, 0.25);
-  --accent-hover: #7c3aed;
-  --accent-light: #ddd6fe;
+  /* Bordes de consola y ranuras */
+  --border-color: #2b2620;
+  --border-subtle: #1e1b17;
+  --border-focus: #e5983b;
 
+  /* Tipografía cálida (cream on dark charcoal) */
+  --text-main: #f5ece1;
+  --text-muted: #a69a8b;
+  --text-dim: #71675a;
+
+  /* Acento Ámbar / VU-meter cálido & Jacarandá sutil */
+  --accent: #d97706;
+  --accent-warm: #e5983b;
+  --accent-glow: rgba(229, 152, 59, 0.18);
+  --accent-hover: #b45309;
+  --accent-light: #fef3c7;
+  --accent-jacaranda: #9370db;
+  --accent-jacaranda-glow: rgba(147, 112, 219, 0.15);
+
+  /* Señales e indicadores analógicos */
   --success-bg: rgba(16, 185, 129, 0.12);
   --success-border: #10b981;
   --success-text: #34d399;
 
-  --danger-bg: rgba(239, 68, 68, 0.12);
-  --danger-border: #ef4444;
-  --danger-text: #f87171;
+  --danger-bg: rgba(225, 29, 72, 0.14);
+  --danger-border: #e11d48;
+  --danger-text: #fb7185;
+
+  --rec-indicator: #e11d48;
 
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 14px;
 
-  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.25);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-  --shadow-glow: 0 0 15px var(--accent-glow);
+  /* Sombras analógicas suaves con ligera calidez */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 20px var(--accent-glow);
 }
 
 * {
   box-sizing: border-box;
 }
 
+::selection {
+  background-color: var(--accent-warm);
+  color: #0e0d0c;
+}
+
 body {
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
   color: var(--text-main);
   background-color: var(--bg-app);
   line-height: 1.5;
   font-size: 15px;
   -webkit-font-smoothing: antialiased;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) var(--bg-app);
+}
+
+/* Custom Scrollbar */
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+body::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+body::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-sm);
+}
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--text-dim);
 }
 
 /* =============================================================================
-   BARRA SUPERIOR & NAVEGACIÓN
+   BARRA SUPERIOR (HEADER DE CONSOLA ANALÓGICA)
    ============================================================================= */
 .barra-superior {
-  background-color: rgba(24, 25, 32, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background-color: rgba(20, 18, 16, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-color);
-  padding: 0.85rem 1.5rem;
+  padding: 0.9rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.5rem;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -74,32 +111,78 @@ body {
 .marca {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.85rem;
 }
 
 .logo {
-  height: 38px;
+  height: 42px;
   width: auto;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 2px 8px rgba(139, 92, 246, 0.3));
+  filter: drop-shadow(0 2px 8px rgba(229, 152, 59, 0.25));
+  transition: transform 0.2s ease;
+}
+
+.logo:hover {
+  transform: scale(1.03);
+}
+
+.marca-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .titulo-sitio {
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 1.2rem;
+  font-weight: 700;
   color: var(--text-main);
-  letter-spacing: -0.3px;
-  background: linear-gradient(135deg, #ffffff 40%, var(--accent-light) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.2px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.subtitulo-sitio {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Indicador Analógico de Sesión Activa / REC */
+.indicador-estudio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(24, 22, 20, 0.9);
+  border: 1px solid var(--border-color);
+  letter-spacing: 0.5px;
+}
+
+.luz-rec {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--rec-indicator);
+  box-shadow: 0 0 8px rgba(225, 29, 72, 0.8);
+  animation: pulso-rec 2s infinite ease-in-out;
+}
+
+@keyframes pulso-rec {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.9); }
 }
 
 .navegacion {
   display: flex;
-  gap: 0.4rem;
-  background-color: var(--bg-input);
-  padding: 0.3rem;
+  gap: 0.5rem;
+  background-color: #121110;
+  padding: 0.25rem;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color);
 }
@@ -107,423 +190,442 @@ body {
 .pestaña {
   background: transparent;
   border: none;
-  border-radius: var(--radius-sm);
-  padding: 0.5rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
   color: var(--text-muted);
+  padding: 0.55rem 1.15rem;
+  font-size: 0.88rem;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
 }
 
 .pestaña:hover {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  background-color: rgba(255, 255, 255, 0.04);
 }
 
 .pestaña.activa {
-  color: #ffffff;
-  background-color: var(--accent);
+  color: var(--text-main);
+  background-color: var(--bg-card);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   font-weight: 600;
-  box-shadow: 0 2px 8px var(--accent-glow);
+  border-bottom: 2px solid var(--accent-warm);
 }
 
 /* =============================================================================
    CONTENEDOR PRINCIPAL
    ============================================================================= */
-.contenido-principal {
-  max-width: 1100px;
-  margin: 1.75rem auto 3rem auto;
-  padding: 0 1.25rem;
-}
-
-h2 {
-  font-size: 1.45rem;
-  margin: 0 0 1.25rem 0;
-  font-weight: 700;
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-h3 {
-  font-size: 1.15rem;
-  margin: 0 0 1rem 0;
-  font-weight: 600;
-  color: var(--text-main);
-}
-
-h4 {
-  font-size: 0.95rem;
-  margin: 1.25rem 0 0.75rem 0;
-  font-weight: 600;
-  color: var(--accent-light);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* =============================================================================
-   ALERTAS
-   ============================================================================= */
-.alerta {
-  padding: 0.75rem 1rem;
-  margin-bottom: 1.25rem;
-  font-size: 0.9rem;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  animation: fadeIn 0.3s ease;
-}
-
-.alerta-exito {
-  background-color: var(--success-bg);
-  color: var(--success-text);
-  border-color: var(--success-border);
-}
-
-.alerta-error {
-  background-color: var(--danger-bg);
-  color: var(--danger-text);
-  border-color: var(--danger-border);
-}
-
-/* =============================================================================
-   FORMULARIOS MODERNOS
-   ============================================================================= */
-form {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem;
-  margin-bottom: 1.75rem;
-  box-shadow: var(--shadow-sm);
-}
-
-.fila-formulario {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.campo {
-  flex: 1 1 200px;
+.app-contenedor {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-.campo label {
-  font-size: 0.75rem;
+.contenido-principal {
+  flex: 1;
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.2rem 2rem 4rem 2rem;
+}
+
+/* Header editorial de bienvenida al estudio */
+.banner-estudio {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1.75rem;
+  margin-bottom: 2.25rem;
+  gap: 1.5rem;
+}
+
+.banner-estudio h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.4rem 0;
+  letter-spacing: -0.5px;
+  color: var(--text-main);
+}
+
+.banner-estudio p {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  max-width: 650px;
+}
+
+.stats-rapidas {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.stat-pill {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0.6rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.stat-numero {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-warm);
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+/* =============================================================================
+   ESTRUCTURA DE DOS COLUMNAS (OPERACIÓN & CONSOLA)
+   ============================================================================= */
+.dos-columnas {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 1060px) {
+  .dos-columnas {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =============================================================================
+   TARJETAS Y MÓDULOS DE RACK
+   ============================================================================= */
+.modulo-rack,
+.tarjeta-formulario,
+.tarjeta-lista {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.modulo-cabecera {
+  padding: 1.15rem 1.4rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modulo-cabecera h2,
+.modulo-cabecera h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.2px;
+}
+
+.modulo-cuerpo {
+  padding: 1.4rem;
+}
+
+/* =============================================================================
+   FORMULARIOS Y ENTRADAS DE CONTROL
+   ============================================================================= */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.campo-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.campo-formulario label {
+  font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  margin-bottom: 0.4rem;
   color: var(--text-muted);
 }
 
-.campo input,
-.campo select,
-.campo textarea {
-  padding: 0.55rem 0.75rem;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-sm);
-  font-size: 0.9rem;
-  font-family: inherit;
-  background-color: var(--bg-input);
-  color: var(--text-main);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+.fila-formulario {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
-.campo input:focus,
-.campo select:focus,
-.campo textarea:focus {
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+select,
+textarea {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.85rem;
+  font-size: 0.92rem;
+  font-family: inherit;
+  transition: all 0.15s ease;
+  width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
   outline: none;
-  border-color: var(--border-focus);
+  border-color: var(--accent-warm);
   box-shadow: 0 0 0 3px var(--accent-glow);
 }
 
-.campo select option {
-  background-color: var(--bg-card);
-  color: var(--text-main);
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-dim);
 }
 
-.acciones-formulario {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1rem;
+select {
+  cursor: pointer;
 }
 
 /* =============================================================================
-   BOTONES
+   BOTONES ANALÓGICOS & CONTROLES
    ============================================================================= */
-button {
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-color);
-  background-color: var(--bg-card-hover);
-  color: var(--text-main);
-  cursor: pointer;
-  transition: all 0.2s ease;
+.botones-formulario {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  min-height: 38px;
-}
-
-button:hover {
-  background-color: #282a36;
-  border-color: #3d4052;
-}
-
-button:active {
-  transform: translateY(1px);
-}
-
-button.boton-primario {
-  background-color: var(--accent);
-  color: #ffffff;
-  border-color: var(--accent);
+  gap: 0.45rem;
+  font-size: 0.88rem;
   font-weight: 600;
-  box-shadow: 0 2px 8px var(--accent-glow);
+  padding: 0.65rem 1.2rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+  font-family: inherit;
+  text-decoration: none;
 }
 
-button.boton-primario:hover {
-  background-color: var(--accent-hover);
-  border-color: var(--accent-hover);
+.btn-primario {
+  background-color: var(--accent-warm);
+  color: #12100d;
+  border-color: #c97e27;
 }
 
-button.boton-secundario {
-  background-color: transparent;
-  color: var(--text-muted);
+.btn-primario:hover {
+  background-color: #f59e0b;
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-secundario {
+  background-color: var(--bg-elevated);
+  color: var(--text-main);
   border-color: var(--border-color);
 }
 
-button.boton-secundario:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
+.btn-secundario:hover {
+  background-color: var(--bg-card-hover);
+  border-color: var(--text-muted);
 }
 
-button.boton-peligro {
+.btn-peligro {
   background-color: var(--danger-bg);
   color: var(--danger-text);
-  border-color: rgba(239, 68, 68, 0.3);
+  border-color: rgba(225, 29, 72, 0.3);
 }
 
-button.boton-peligro:hover {
-  background-color: rgba(239, 68, 68, 0.25);
+.btn-peligro:hover {
+  background-color: rgba(225, 29, 72, 0.25);
   border-color: var(--danger-border);
 }
 
-/* =============================================================================
-   TABLAS RESPONSIVE & CONTENEDOR
-   ============================================================================= */
-.contenedor-tabla {
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-sm);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-  min-width: 650px; /* Asegura legibilidad y scroll horizontal si es necesario */
-}
-
-th, td {
-  padding: 0.75rem 1rem;
-  text-align: left;
-  border-bottom: 1px solid var(--border-color);
-}
-
-th {
-  background-color: rgba(0, 0, 0, 0.25);
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.5px;
-}
-
-tr:hover td {
-  background-color: rgba(255, 255, 255, 0.02);
-}
-
-.acciones-tabla {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.acciones-tabla button {
-  min-height: 32px;
-  padding: 0.35rem 0.65rem;
+.btn-sm {
+  padding: 0.4rem 0.75rem;
   font-size: 0.8rem;
 }
 
 /* =============================================================================
-   PANEL DE DETALLES
+   TABLAS Y LISTADOS TIPO CHANNEL STRIP
    ============================================================================= */
-.panel-detalle {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 1.25rem;
-  margin-bottom: 2rem;
-  box-shadow: var(--shadow-md);
-  position: relative;
-  overflow: hidden;
+.contenedor-tabla {
+  overflow-x: auto;
 }
 
-.panel-detalle::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  background: var(--accent);
+.tabla-datos {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  text-align: left;
 }
 
-.panel-detalle p {
-  margin: 0.5rem 0;
-  color: var(--text-muted);
-  line-height: 1.6;
-}
-
-.panel-detalle p strong {
-  color: var(--text-main);
-}
-
-/* =============================================================================
-   TARJETAS Y REPORTES
-   ============================================================================= */
-.tarjetas-resumen {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.tarjeta {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  padding: 1rem 1.25rem;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.tarjeta:hover {
-  transform: translateY(-2px);
-  border-color: rgba(139, 92, 246, 0.4);
-}
-
-.tarjeta > div:first-child {
+.tabla-datos th {
+  background-color: rgba(0, 0, 0, 0.25);
+  padding: 0.85rem 1rem;
   font-size: 0.75rem;
   text-transform: uppercase;
-  font-weight: 700;
+  letter-spacing: 0.7px;
+  color: var(--text-muted);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tabla-datos td {
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.92rem;
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.tabla-datos tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla-datos tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.tabla-datos tbody tr:hover {
+  background-color: rgba(229, 152, 59, 0.035);
+}
+
+.fila-activa {
+  background-color: rgba(229, 152, 59, 0.07) !important;
+}
+
+/* Tags de estados y géneros musicales */
+.badge-estado {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+}
+
+.badge-en-proceso,
+.badge-grabando {
+  background-color: rgba(229, 152, 59, 0.15);
+  color: var(--accent-warm);
+  border: 1px solid rgba(229, 152, 59, 0.3);
+}
+
+.badge-finalizado,
+.badge-masterizado {
+  background-color: var(--success-bg);
+  color: var(--success-text);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.badge-pausado,
+.badge-pendiente {
+  background-color: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.badge-genero {
+  background-color: rgba(147, 112, 219, 0.14);
+  color: #d8b4fe;
+  border: 1px solid rgba(147, 112, 219, 0.25);
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+/* Números tabulares para costos y métricas */
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+/* Alertas de sistema */
+.alerta {
+  padding: 0.85rem 1.15rem;
+  border-radius: var(--radius-sm);
+  margin-bottom: 1.25rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.alerta-exito {
+  background-color: var(--success-bg);
+  border: 1px solid var(--success-border);
+  color: var(--success-text);
+}
+
+.alerta-error {
+  background-color: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger-text);
+}
+
+/* Estado de carga */
+.cargando-estado {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spinner-audio {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--border-color);
+  border-top-color: var(--accent-warm);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+/* Detalle / Drawer de proyecto */
+.detalle-lateral {
+  margin-top: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+}
+
+.footer-estudio {
+  margin-top: auto;
+  border-top: 1px solid var(--border-color);
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: var(--text-dim);
-  letter-spacing: 0.5px;
-}
-
-.tarjeta-valor {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: #ffffff;
-  margin-top: 0.4rem;
-  letter-spacing: -0.5px;
-}
-
-/* =============================================================================
-   MEDIA QUERIES PARA MOBILE (< 768px)
-   ============================================================================= */
-@media (max-width: 768px) {
-  .barra-superior {
-    flex-direction: column;
-    align-items: stretch;
-    padding: 0.75rem 1rem;
-    gap: 0.75rem;
-  }
-
-  .marca {
-    justify-content: center;
-  }
-
-  .navegacion {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .pestaña {
-    flex: 1;
-    text-align: center;
-    padding: 0.5rem 0.4rem;
-    font-size: 0.85rem;
-  }
-
-  .contenido-principal {
-    margin: 1rem auto 2.5rem auto;
-    padding: 0 0.75rem;
-  }
-
-  .fila-formulario {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .campo {
-    flex: 1 1 100%;
-  }
-
-  .acciones-formulario {
-    flex-direction: column;
-  }
-
-  .acciones-formulario button {
-    width: 100%;
-  }
-
-  .acciones-tabla {
-    flex-direction: column;
-  }
-
-  .acciones-tabla button {
-    width: 100%;
-  }
-
-  /* Ajustes en tarjetas de métricas */
-  .tarjetas-resumen {
-    grid-template-columns: 1fr;
-  }
-
-  .filtros-reportes {
-    flex-direction: column;
-  }
-
-  .filtros-reportes .boton-filtro {
-    width: 100%;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  font-size: 0.82rem;
 }
